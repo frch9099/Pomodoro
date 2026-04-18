@@ -26,7 +26,7 @@ const Timer = memo(function Timer() {
     completeSession(phase, sessionsCompleted);
   }, [completeSession, clearTimerState]);
 
-  const { status, phase, timeRemaining, sessionsCompleted, progress, start, pause, reset, skip, setTimeRemaining, setPhase } = useTimer({
+  const { status, phase, timeRemaining, sessionsCompleted, progress, start, pause, reset, skip, setTimeRemaining } = useTimer({
     onComplete: handleComplete,
     settings,
     externalStatus: timerState.status,
@@ -40,23 +40,21 @@ const Timer = memo(function Timer() {
   });
 
   useEffect(() => {
-    if (hasRestoredRef.current) return;
-    hasRestoredRef.current = true;
-
     if (timerState.status === 'running' && timerState.lastUpdateTime) {
       const elapsed = Math.floor((Date.now() - timerState.lastUpdateTime) / 1000);
       const newTimeRemaining = Math.max(0, timerState.timeRemaining - elapsed);
 
       if (newTimeRemaining <= 0) {
         clearTimerState();
-        handleComplete(phase, sessionsCompleted);
         return;
       }
 
       setTimeRemaining(newTimeRemaining);
       start();
+    } else if (timerState.status === 'idle') {
+      hasRestoredRef.current = false;
     }
-  }, [phase, sessionsCompleted, clearTimerState, handleComplete, start, timerState.status, timerState.lastUpdateTime, timerState.timeRemaining, setTimeRemaining]);
+  }, [timerState.status, timerState.lastUpdateTime]);
 
   const handleStart = useCallback(() => {
     startSession();

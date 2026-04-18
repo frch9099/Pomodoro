@@ -118,46 +118,63 @@ function AppContent() {
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors pb-16">
       <Header />
-      <main className="pt-20 px-4">
-        <div className="max-w-5xl mx-auto">
-          {currentView === 'timer' && (
-            <>
-              <Timer />
+<main className="pt-20 px-4">        <div className="max-w-5xl mx-auto">
+          <div className={currentView === 'timer' ? 'block' : 'hidden'}>
+            <Timer />
 
-              <div className="mt-6 md:mt-8">
-                <div className="md:hidden">
-                  <div className="flex border-b border-[var(--bg-tertiary)]">
-                    <button
-                      onClick={() => setMobileTab('tasks')}
-                      className={`flex-1 py-3 text-sm font-medium text-center transition-colors ${
-                        mobileTab === 'tasks'
-                          ? 'text-[var(--accent-green)] border-b-2 border-[var(--accent-green)]'
-                          : 'text-[var(--text-secondary)]'
-                      }`}
-                    >
-                      Tasks
-                    </button>
-                    <button
-                      onClick={() => setMobileTab('tree')}
-                      className={`flex-1 py-3 text-sm font-medium text-center transition-colors ${
-                        mobileTab === 'tree'
-                          ? 'text-[var(--accent-green)] border-b-2 border-[var(--accent-green)]'
-                          : 'text-[var(--text-secondary)]'
-                      }`}
-                    >
-                      Tree
-                    </button>
-                  </div>
+            <div className="mt-6 md:mt-8">
+              <div className="md:hidden">
+                <div className="flex border-b border-[var(--bg-tertiary)]">
+                  <button
+                    onClick={() => setMobileTab('tasks')}
+                    className={`flex-1 py-3 text-sm font-medium text-center transition-colors ${
+                      mobileTab === 'tasks'
+                        ? 'text-[var(--accent-green)] border-b-2 border-[var(--accent-green)]'
+                        : 'text-[var(--text-secondary)]'
+                    }`}
+                  >
+                    Tasks
+                  </button>
+                  <button
+                    onClick={() => setMobileTab('tree')}
+                    className={`flex-1 py-3 text-sm font-medium text-center transition-colors ${
+                      mobileTab === 'tree'
+                        ? 'text-[var(--accent-green)] border-b-2 border-[var(--accent-green)]'
+                        : 'text-[var(--text-secondary)]'
+                    }`}
+                  >
+                    Tree
+                  </button>
                 </div>
+              </div>
 
-                <div className="hidden md:block">
-                  <div className="grid grid-cols-2 gap-6">
-                    <GamificationPanel
-                      totalPomodoros={stats.totalPomodoros}
-                      plantedTrees={stats.plantedTrees}
-                      currentStreak={stats.currentStreak}
-                      bestStreak={stats.bestStreak}
-                    />
+              <div className="hidden md:block">
+                <div className="grid grid-cols-2 gap-6">
+                  <GamificationPanel
+                    totalPomodoros={stats.totalPomodoros}
+                    plantedTrees={stats.plantedTrees}
+                    currentStreak={stats.currentStreak}
+                    bestStreak={stats.bestStreak}
+                  />
+                  <TaskList
+                    tasks={tasks}
+                    templates={templates}
+                    onAddTask={addTask}
+                    onUpdateTask={updateTask}
+                    onDeleteTask={deleteTask}
+                    onToggleComplete={toggleComplete}
+                    onSaveAsTemplate={saveAsTemplate}
+                    onDeleteTemplate={deleteTemplate}
+                    onCreateFromTemplate={createFromTemplate}
+                    activeTaskId={activeTaskId}
+                    onSelectTask={setActiveTaskId}
+                  />
+                </div>
+              </div>
+
+              <div className="md:hidden">
+                {mobileTab === 'tasks' ? (
+                  <div className="mt-4">
                     <TaskList
                       tasks={tasks}
                       templates={templates}
@@ -172,52 +189,32 @@ function AppContent() {
                       onSelectTask={setActiveTaskId}
                     />
                   </div>
-                </div>
-
-                <div className="md:hidden">
-                  {mobileTab === 'tasks' ? (
+                ) : (
+                  <div className="mt-4">
+                    <GamificationPanel
+                      totalPomodoros={stats.totalPomodoros}
+                      plantedTrees={stats.plantedTrees}
+                      currentStreak={stats.currentStreak}
+                      bestStreak={stats.bestStreak}
+                    />
                     <div className="mt-4">
-                      <TaskList
-                        tasks={tasks}
-                        templates={templates}
-                        onAddTask={addTask}
-                        onUpdateTask={updateTask}
-                        onDeleteTask={deleteTask}
-                        onToggleComplete={toggleComplete}
-                        onSaveAsTemplate={saveAsTemplate}
-                        onDeleteTemplate={deleteTemplate}
-                        onCreateFromTemplate={createFromTemplate}
-                        activeTaskId={activeTaskId}
-                        onSelectTask={setActiveTaskId}
-                      />
-                    </div>
-                  ) : (
-                    <div className="mt-4">
-                      <GamificationPanel
-                        totalPomodoros={stats.totalPomodoros}
+                      <ForestView
                         plantedTrees={stats.plantedTrees}
-                        currentStreak={stats.currentStreak}
-                        bestStreak={stats.bestStreak}
+                        totalPomodoros={stats.totalPomodoros}
                       />
-                      <div className="mt-4">
-                        <ForestView
-                          plantedTrees={stats.plantedTrees}
-                          totalPomodoros={stats.totalPomodoros}
-                        />
-                      </div>
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
+            </div>
 
-              <div className="hidden md:block mt-6">
-                <ForestView
-                  plantedTrees={stats.plantedTrees}
-                  totalPomodoros={stats.totalPomodoros}
-                />
-              </div>
-            </>
-          )}
+            <div className="hidden md:block mt-6">
+              <ForestView
+                plantedTrees={stats.plantedTrees}
+                totalPomodoros={stats.totalPomodoros}
+              />
+            </div>
+          </div>
 
           {currentView === 'tasks' && (
             <div className="mt-8">
