@@ -35,6 +35,14 @@ const defaultStats = {
   plantedTrees: [],
 };
 
+const defaultTimerState = {
+  status: 'idle',
+  phase: 'work',
+  timeRemaining: 25 * 60,
+  sessionsCompleted: 0,
+  lastUpdateTime: null,
+};
+
 export function AppProvider({ children }) {
   const [settings, setSettings] = useState(() => {
     const saved = localStorage.getItem('pomodoro_settings');
@@ -93,6 +101,16 @@ export function AppProvider({ children }) {
     }
   });
 
+  const [timerState, setTimerState] = useState(() => {
+    try {
+      const saved = localStorage.getItem('pomodoro_timerState');
+      if (!saved) return defaultTimerState;
+      return { ...defaultTimerState, ...JSON.parse(saved) };
+    } catch {
+      return defaultTimerState;
+    }
+  });
+
   const handleDeleteTask = useCallback((id) => {
     deleteTask(id);
     if (activeTaskId === id) {
@@ -115,6 +133,22 @@ export function AppProvider({ children }) {
       console.error('Failed to save settings to localStorage:', error);
     }
   }, [settings]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('pomodoro_timerState', JSON.stringify(timerState));
+    } catch (error) {
+      console.error('Failed to save timerState to localStorage:', error);
+    }
+  }, [timerState]);
+
+  const updateTimerState = useCallback((updates) => {
+    setTimerState((prev) => ({ ...prev, ...updates, lastUpdateTime: Date.now() }));
+  }, []);
+
+  const clearTimerState = useCallback(() => {
+    setTimerState(defaultTimerState);
+  }, []);
 
   useLayoutEffect(() => {
     if (settings.darkMode) {
@@ -257,7 +291,10 @@ export function AppProvider({ children }) {
     setCurrentView,
     activeTaskId,
     setActiveTaskId,
-  }), [settings, tasks, templates, stats, sessionStartTime, showBreakSuggestion, breakSuggestion, currentView, handleDeleteTask]);
+    timerState,
+    updateTimerState,
+    clearTimerState,
+  }), [settings, tasks, templates, stats, sessionStartTime, showBreakSuggestion, breakSuggestion, currentView, handleDeleteTask, timerState]);
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }

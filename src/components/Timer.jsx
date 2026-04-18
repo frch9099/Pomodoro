@@ -1,4 +1,4 @@
-import { useCallback, memo } from 'react';
+import { useCallback, memo, useEffect, useRef } from 'react';
 import { useTimer } from '../hooks/useTimer';
 import { useApp } from '../context/AppContext';
 import Controls from './Controls';
@@ -17,21 +17,83 @@ const STATUS_COLORS = {
 };
 
 const Timer = memo(function Timer() {
-  const { completeSession, startSession, settings } = useApp();
+  const { completeSession, startSession, settings, timerState, updateTimerState, clearTimerState } = useApp();
+
+  const hasRestoredRef = useRef(false);
 
   const handleComplete = useCallback((phase, sessionsCompleted) => {
+    clearTimerState();
     completeSession(phase, sessionsCompleted);
-  }, [completeSession]);
+  }, [completeSession, clearTimerState]);
 
-  const { status, phase, timeRemaining, sessionsCompleted, progress, start, pause, reset, skip } = useTimer({
+  const { status, phase, timeRemaining, sessionsCompleted, progress, start, pause, reset, skip, setTimeRemaining, setPhase } = useTimer({
     onComplete: handleComplete,
     settings,
+    externalStatus: timerState.status,
+    externalPhase: timerState.phase,
+    externalTimeRemaining: timerState.timeRemaining,
+    externalSessionsCompleted: timerState.sessionsCompleted,
+    onStatusChange: (newStatus) => updateTimerState({ status: newStatus }),
+    onPhaseChange: (newPhase) => updateTimerState({ phase: newPhase }),
+    onTimeRemainingChange: (newTime) => updateTimerState({ timeRemaining: newTime }),
+    onSessionsCompletedChange: (newSessions) => updateTimerState({ sessionsCompleted: newSessions }),
   });
+
+  useEffect(() => {
+    if (hasRestoredRef.current) return;
+    hasRestoredRef.current = true;
+
+    if (timerState.status === 'running' && timerState.lastUpdateTime) {
+      const elapsed = Math.floor((Date.now() - timerState.lastUpdateTime) / 1000);
+      const newTimeRemaining = Math.max(0, timerState.timeRemaining - elapsed);
+
+      if (newTimeRemaining <= 0) {
+        clearTimerState();
+        handleComplete(phase, sessionsCompleted);
+        return;
+      }
+
+      setTimeRemaining(newTimeRemaining);
+      start();
+    }
+  }, [phase, sessionsCompleted, clearTimerState, handleComplete, start, timerState.status, timerState.lastUpdateTime, timerState.timeRemaining, setTimeRemaining]);
 
   const handleStart = useCallback(() => {
     startSession();
     start();
-  }, [startSession, start]);
+    updateTimerState({
+      status: 'running',
+      phase,
+      timeRemaining,
+      sessionsCompleted,
+    });
+  }, [startSession, start, updateTimerState, phase, timeRemaining, sessionsCompleted]);
+
+  const handlePause = useCallback(() => {
+    pause();
+    updateTimerState({ status: 'paused' });
+  }, [pause, updateTimerState]);
+
+  const handleReset = useCallback(() => {
+    reset();
+    updateTimerState({
+      status: 'idle',
+      timeRemaining: phase === 'work'
+        ? settings.workDuration * 60
+        : phase === 'shortBreak'
+          ? settings.shortBreakDuration * 60
+          : settings.longBreakDuration * 60,
+    });
+  }, [reset, updateTimerState, phase, settings]);
+
+  const handleSkip = useCallback(() => {
+    skip();
+    updateTimerState({
+      status: 'idle',
+      phase,
+      sessionsCompleted,
+    });
+  }, [skip, updateTimerState, phase, sessionsCompleted]);
 
   const minutes = Math.floor(timeRemaining / 60);
   const seconds = timeRemaining % 60;
@@ -98,9 +160,9 @@ const Timer = memo(function Timer() {
       <Controls
         status={status}
         onStart={handleStart}
-        onPause={pause}
-        onReset={reset}
-        onSkip={skip}
+        onPause={handlePause}
+        onReset={handleReset}
+        onSkip={handleSkip}
       />
     </div>
   );
