@@ -1,0 +1,84 @@
+@import './styles/animations.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Color Palette - Light Mode */
+  --bg-primary: #FAF9F7;
+  --bg-secondary: #FFFFFF;
+  --bg-tertiary: #F0EFEB;
+  --text-primary: #2D3830;
+  --text-secondary: #5C6B60;
+  --accent-green: #4CAF50;
+  --accent-red: #E57373;
+  --accent-blue: #64B5F6;
+  --accent-gold: #FFD54F;
+
+  /* Border Radius */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+  --shadow-xl: 0 20px 25px rgba(0,0,0,0.15);
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+}
+
+:root {
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+}
+
+.dark {
+  color-scheme: dark;
+
+  /* Color Palette - Dark Mode */
+  --bg-primary: #1A1F1C;
+  --bg-secondary: #252B27;
+  --bg-tertiary: #2D3530;
+  --text-primary: #E8EBE4;
+  --text-secondary: #9CA89F;
+  --accent-green: #66BB6A;
+  --accent-red: #EF9A9A;
+  --accent-blue: #81D4FA;
+  --accent-gold: #FFE082;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+}
+
+#root {
+  min-height: 100vh;
+}
