@@ -12,6 +12,7 @@ const AUDIO_FREQUENCIES = {
 export function useSounds() {
   const audioContextRef = useRef(null);
   const oscillatorRef = useRef(null);
+  const lfoRef = useRef(null);
   const gainNodeRef = useRef(null);
   const [currentSound, setCurrentSound] = useState(null);
   const [volume, setVolumeState] = useState(50);
@@ -107,7 +108,7 @@ export function useSounds() {
       oscillator.start();
 
       oscillatorRef.current = oscillator;
-      oscillator._lfO = lfo;
+      lfoRef.current = lfo;
     }
 
     setCurrentSound(soundId);
@@ -119,8 +120,9 @@ export function useSounds() {
       if (oscillatorRef.current.stop) {
         oscillatorRef.current.stop();
       }
-      if (oscillatorRef.current._lfO) {
-        oscillatorRef.current._lfO.stop();
+      if (lfoRef.current) {
+        lfoRef.current.stop();
+        lfoRef.current = null;
       }
       oscillatorRef.current = null;
     }
@@ -145,8 +147,9 @@ export function useSounds() {
             } catch (e) {
             }
           }
-          if (oscillatorRef.current._lfO) {
-            oscillatorRef.current._lfO.stop();
+          if (lfoRef.current) {
+            lfoRef.current.stop();
+            lfoRef.current = null;
           }
         } catch (e) {
         }
