@@ -237,17 +237,6 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
   }, [status, start, pause, reset, skip]);
 
   useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.visibilityState === 'hidden' && statusRef.current === 'running') {
-        pause();
-      }
-    };
-
-    document.addEventListener('visibilitychange', handleVisibilityChange);
-    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
-  }, [pause]);
-
-  useEffect(() => {
     return () => {
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
