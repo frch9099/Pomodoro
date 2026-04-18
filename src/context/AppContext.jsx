@@ -129,11 +129,8 @@ export function AppProvider({ children }) {
   };
 
   const toggleDarkMode = useCallback(() => {
-    setSettings((prev) => {
-      if (prev.darkMode === settings.darkMode) return prev;
-      return { ...prev, darkMode: !prev.darkMode };
-    });
-  }, [settings.darkMode]);
+    setSettings((prev) => ({ ...prev, darkMode: !prev.darkMode }));
+  }, []);
 
   const startSession = useCallback(() => {
     if (settings.notificationsEnabled && !hasPermission() && !notificationPermissionDenied) {
