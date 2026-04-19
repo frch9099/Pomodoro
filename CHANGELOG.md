@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.19.0 - localStorage Error Handling Fix
+**Date:** 2026-04-19
+
+### Fixed
+- **Console error on corrupted localStorage** - When localStorage contained invalid JSON data, the app logged a console.error even though it handled the error gracefully by falling back to defaults. Removed the unnecessary console.error since the error handling works correctly.
+
+### Files Modified
+- `src/context/AppContext.jsx` - Removed console.error in settings JSON.parse catch block
+
+### Verification
+- Build: Passed
+- Tests: 99 passed
+- Manual testing: Corrupted localStorage no longer produces console errors, app recovers gracefully
+
+---
+
 ## v0.18.0 - AmbientSoundPanel Integration
 **Date:** 2026-04-19
 
