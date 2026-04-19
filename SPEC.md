@@ -474,10 +474,10 @@ xl:  1280px  (Large desktop)
 **Animation:** Slide in from top, fade out
 **Position:** Top center, stacked if multiple
 
-### AmbientSoundPanel Component
-**Layout:** Current sound (icon + name) + volume slider + expand button
-**Expanded:** Grid of sound options with icons
-**States:** collapsed, expanded, loading
+### SoundButton (Footer) Component
+**Layout:** Floating bottom-right, tap to mute, long press for panel
+**Sound Panel:** Slides up from button, 6 sound options, volume slider, achievements link
+**States:** collapsed, expanded, muted
 
 ### SettingsModal Component
 **Layout:** Grouped sections with form controls
@@ -590,7 +590,7 @@ src/
 │   ├── TreeVisual.jsx
 │   ├── StreakDisplay.jsx
 │   ├── AchievementToast.jsx
-│   ├── AmbientSoundPanel.jsx
+│   ├── Footer.jsx
 │   ├── SettingsModal.jsx
 │   ├── BreakSuggestionModal.jsx
 │   └── Header.jsx
