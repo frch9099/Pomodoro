@@ -1,5 +1,0 @@
-- generic [ref=e407]:
-  - generic [ref=e408]: 😢
-  - heading "Something went wrong" [level=1] [ref=e409]
-  - paragraph [ref=e410]: TREE_TYPES.map is not a function
-  - button "Try Again" [ref=e411] [cursor=pointer]
