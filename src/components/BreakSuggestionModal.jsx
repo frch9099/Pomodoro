@@ -20,7 +20,9 @@ export default function BreakSuggestionModal({ isOpen, onClose, onStartBreak, su
 
   const formatDuration = (seconds) => {
     if (seconds >= 60) {
-      return `${seconds / 60} min`;
+      const mins = Math.floor(seconds / 60);
+      const secs = seconds % 60;
+      return secs > 0 ? `${mins} min ${secs}s` : `${mins} min`;
     }
     return `${seconds}s`;
   };

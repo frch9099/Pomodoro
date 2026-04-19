@@ -156,19 +156,19 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
     if (onPhaseChange && phase !== externalPhase) {
       onPhaseChange(phase);
     }
-  }, [phase, onPhaseChange, externalPhase, externalStatus]);
+  }, [phase, onPhaseChange, externalPhase]);
 
   useEffect(() => {
     if (onTimeRemainingChange && timeRemaining !== externalTimeRemaining) {
       onTimeRemainingChange(timeRemaining);
     }
-  }, [timeRemaining, onTimeRemainingChange, externalTimeRemaining, externalStatus]);
+  }, [timeRemaining, onTimeRemainingChange, externalTimeRemaining]);
 
   useEffect(() => {
     if (onSessionsCompletedChange && sessionsCompleted !== externalSessionsCompleted) {
       onSessionsCompletedChange(sessionsCompleted);
     }
-  }, [sessionsCompleted, onSessionsCompletedChange, externalSessionsCompleted, externalStatus]);
+  }, [sessionsCompleted, onSessionsCompletedChange, externalSessionsCompleted]);
 
   const start = useCallback(() => {
     if (statusRef.current === 'running') return;
@@ -192,7 +192,7 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
     }
     pausedTimeRef.current = Date.now();
     setStatus('paused');
-  }, [status]);
+  }, []);
 
   const reset = useCallback(() => {
     if (intervalRef.current) {

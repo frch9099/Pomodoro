@@ -1,5 +1,22 @@
 # Changelog
 
+## v1.0.1 - Break Suggestion Duration Fix
+
+### Fixed
+- **BreakSuggestionModal showing decimal minutes**: The `formatDuration` function was showing times like "4.5 min" instead of "4 min 30s". Fixed to properly format durations with minutes and seconds display.
+
+**BreakSuggestionModal.jsx:**
+- `formatDuration(90)` now returns `"1 min 30s"` instead of `"1.5 min"`
+- `formatDuration(60)` returns `"1 min"` (no seconds)
+- `formatDuration(30)` returns `"30s"`
+
+### Verification
+- Tests: 99 passed
+- Build: Passed
+- Manual testing: All views, modals, timer, tasks, stats, achievements, sounds - all working with 0 console errors
+
+---
+
 ## v1.0.0 - Final Release
 
 ### Fixed

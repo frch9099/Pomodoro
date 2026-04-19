@@ -56,7 +56,7 @@ const Timer = memo(function Timer() {
     } else if (timerState.status === 'idle') {
       hasRestoredRef.current = false;
     }
-  }, [timerState.status, timerState.lastUpdateTime]);
+  }, [timerState.status, timerState.lastUpdateTime, timerState.timeRemaining, clearTimerState, setTimeRemaining, start]);
 
   const handleStart = useCallback(() => {
     startSession();
