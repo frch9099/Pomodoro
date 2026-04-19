@@ -1,5 +1,28 @@
 # Changelog
 
+## v1.1.0 - Phase 1 Verification & DataStore Fixes
+
+### Fixed
+- **Migration logic corrected**: The migration check now only considers whether tasks exist in IndexedDB (not settings). This fixes the issue where migrations were being skipped when settings existed but tasks hadn't been migrated yet.
+
+- **Added `hasLocalStorageTasks()` and `hasLocalStorageTemplates()`**: Separate specific checks for tasks and templates in localStorage to ensure migration triggers correctly.
+
+- **Fixed race condition in `ensureMigration()`**: Reordered the logic so `migrationAttempted` is set correctly and `migrationPromise` is only created once.
+
+- **Changed console.error to console.warn for saveTask IndexedDB failure**: Changed from `console.error` to `console.warn` since localStorage fallback is expected behavior, not an error.
+
+### Architecture Verified
+- READ flow: IndexedDB → if empty check localStorage → auto-migrate → return data
+- WRITE flow: IndexedDB only (when available), fallback to localStorage if IndexedDB fails
+- localStorage data is kept for 30 days after migration
+
+### Verification
+- Tests: 99 passed
+- Build: Passed
+- Manual testing with playwright-cli: Migration works end-to-end, localStorage data correctly migrates to IndexedDB, localStorage data preserved after migration
+
+---
+
 ## v1.0.1 - Break Suggestion Duration Fix
 
 ### Fixed

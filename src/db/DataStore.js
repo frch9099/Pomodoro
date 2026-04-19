@@ -33,27 +33,58 @@ function isIndexedDBAvailable() {
 }
 
 async function ensureMigration() {
-  if (migrationAttempted) return;
   if (!isIndexedDBAvailable()) return;
+  if (migrationAttempted) return;
+  
+  const idbHasTasks = await hasDataInIndexedDB();
+  const localHasTasks = hasLocalStorageTasks();
+  const localHasTemplates = hasLocalStorageTemplates();
+  
+  if (idbHasTasks && !localHasTasks && !localHasTemplates) {
+    migrationAttempted = true;
+    return;
+  }
+  
+  if (!localHasTasks && !localHasTemplates) {
+    migrationAttempted = true;
+    return;
+  }
   
   migrationAttempted = true;
   
-  const idbHasData = await hasDataInIndexedDB();
-  if (idbHasData) return;
-  
-  const localHasData = hasDataInLocalStorage();
-  if (!localHasData) return;
-  
-  migrationPromise = runMigration();
+  if (!migrationPromise) {
+    migrationPromise = runMigration();
+  }
   await migrationPromise;
 }
 
 async function hasDataInIndexedDB() {
   if (!isIndexedDBAvailable()) return false;
   try {
-    const settingsCount = await db.settings.count();
     const tasksCount = await db.tasks.count();
-    return settingsCount > 0 || tasksCount > 0;
+    return tasksCount > 0;
+  } catch {
+    return false;
+  }
+}
+
+function hasLocalStorageTasks() {
+  const tasks = localStorage.getItem('pomodoro_tasks');
+  if (!tasks) return false;
+  try {
+    const parsed = JSON.parse(tasks);
+    return Array.isArray(parsed) && parsed.length > 0;
+  } catch {
+    return false;
+  }
+}
+
+function hasLocalStorageTemplates() {
+  const templates = localStorage.getItem('pomodoro_templates');
+  if (!templates) return false;
+  try {
+    const parsed = JSON.parse(templates);
+    return Array.isArray(parsed) && parsed.length > 0;
   } catch {
     return false;
   }
@@ -270,7 +301,7 @@ export async function saveTask(task) {
       await db.tasks.put(task);
       return true;
     } catch (e) {
-      console.error('Failed to save task to IndexedDB:', e);
+      console.warn('Failed to save task to IndexedDB, falling back to localStorage:', e);
     }
   }
   try {
