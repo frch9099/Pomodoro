@@ -16,7 +16,7 @@ const Controls = memo(function Controls({ status, onStart, onPause, onReset, onS
 
       <button
         onClick={isRunning ? onPause : onStart}
-        className="p-5 rounded-full bg-[var(--accent-green)] hover:opacity-90 text-white hover:scale-105 active:scale-95 transition-all duration-300 shadow-lg"
+        className="p-5 rounded-full bg-[var(--accent-green)] hover:opacity-90 text-white hover:scale-105 active:scale-95 transition-all duration-300 shadow-[var(--shadow-lg)]"
         aria-label={isRunning ? 'Pause timer' : 'Start timer'}
       >
         {isRunning ? (
