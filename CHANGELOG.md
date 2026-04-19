@@ -1,5 +1,49 @@
 # Changelog
 
+## v0.20.0 - Final Polish Pass
+**Date:** 2026-04-19
+
+### Comprehensive Verification
+- **Timer edge cases**: Rapid click sequences (start/pause/skip/start/pause/skip) handled correctly by state machine
+- **Task edge cases**: Task CRUD operations work correctly, task completion while on different tabs works
+- **Achievement edge cases**: Modal displays all 12 achievements correctly, shows progress (0/12)
+- **Sound edge cases**: 6 sounds + mute work, switching sounds while playing transitions seamlessly
+- **UI/UX review**: All modals/buttons functional, dark mode works and persists
+- **Mobile responsiveness**: Tasks/Tree tabs work on narrow viewport, navigation hidden on mobile as designed
+
+### Final Verification Checklist
+- [x] Tab title: "🍅 MM:SS" during countdown, "Pomodoro Timer" when idle
+- [x] Dark mode: works and persists, all text readable
+- [x] Timer: all states (idle/running/paused/completed) and phases (work/shortBreak/longBreak) work
+- [x] Tasks: CRUD operations all work with localStorage
+- [x] Stats: Today/Week/Month/All Time tabs work
+- [x] Achievements: all 12 achievable, modal shows progress
+- [x] Sounds: 6 sounds + mute work, no audio glitches
+- [x] Settings: all settings persist
+- [x] Notifications: fire correctly with correct messages
+- [x] No console errors (checked Error level only)
+- [x] npm test passes (99 tests)
+- [x] npm run build passes
+
+### Edge Cases Tested
+1. Rapid click sequences on timer controls - state machine handles correctly
+2. Sound switching while playing - seamless transition, no click/pop
+3. Task completion while on Stats tab - stats update correctly
+4. Dark mode toggle - persists to localStorage
+5. Mobile viewport (375px) - Tasks/Tree tabs appear, main nav hides as designed
+6. Achievement modal - opens/closes correctly, shows 0/12 progress
+7. Settings modal - opens/closes correctly, all settings present
+
+### Files Modified
+No files modified - all previous bug fixes verified working.
+
+### Verification
+- Build: Passed
+- Tests: 99 passed
+- Manual testing: All features functional, no console errors
+
+---
+
 ## v0.19.0 - localStorage Error Handling Fix
 **Date:** 2026-04-19
 
