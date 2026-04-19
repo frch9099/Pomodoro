@@ -10,7 +10,11 @@ const SoundButton = memo(function SoundButton({
   onPlaySound,
   onStopSound,
   onSetVolume,
-  onOpenAchievements
+  onOpenAchievements,
+  continueSoundDuringBreak,
+  pauseSound,
+  resumeSound,
+  timerPhase,
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -25,6 +29,18 @@ const SoundButton = memo(function SoundButton({
   useEffect(() => {
     setIsMuted(volume === 0);
   }, [volume]);
+
+  useEffect(() => {
+    if (timerPhase === 'shortBreak' || timerPhase === 'longBreak') {
+      if (!continueSoundDuringBreak && isPlaying) {
+        pauseSound();
+      }
+    } else {
+      if (!continueSoundDuringBreak && currentSound && !isPlaying) {
+        resumeSound();
+      }
+    }
+  }, [timerPhase, continueSoundDuringBreak, isPlaying, currentSound, pauseSound, resumeSound]);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -84,7 +100,7 @@ const SoundButton = memo(function SoundButton({
 
   return (
     <>
-      <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3">
+      <div className="fixed bottom-6 right-6 z-[70] flex flex-col items-end gap-3">
         <div
           ref={panelRef}
           className={`absolute bottom-full right-0 mb-3 transition-all duration-300 ${

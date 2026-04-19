@@ -225,7 +225,9 @@ export function AppProvider({ children }) {
         setShowBreakSuggestion(true);
       }
     } else if (phase !== 'work') {
-      notify("Break's Over!", 'Ready to focus?');
+      if (settings.notificationsEnabled) {
+        notify("Break's Over!", 'Ready to focus?');
+      }
       
       if (settings.autoStartWork) {
         const nextDuration = settings.workDuration * 60;

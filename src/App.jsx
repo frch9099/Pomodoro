@@ -79,12 +79,15 @@ function AppContent() {
     activeTaskId,
     setActiveTaskId,
     showToast,
+    timerState,
   } = useApp();
 
   const {
     playSound,
     stopSound,
     setVolume,
+    pauseSound,
+    resumeSound,
     currentSound,
     volume,
     isPlayingState,
@@ -262,6 +265,10 @@ function AppContent() {
         onStopSound={handleStopSound}
         onSetVolume={handleSetVolume}
         onOpenAchievements={() => setAchievementsOpen(true)}
+        continueSoundDuringBreak={settings.continueSoundDuringBreak}
+        pauseSound={pauseSound}
+        resumeSound={resumeSound}
+        timerPhase={timerState.phase}
       />
 
       <Suspense fallback={null}>
