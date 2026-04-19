@@ -111,7 +111,7 @@ export default function SettingsModal({ isOpen, onClose }) {
       className="fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-black/50 backdrop-blur-sm"
       onClick={handleBackdropClick}
     >
-      <div className="fixed inset-x-0 bottom-0 max-h-[90vh] rounded-t-xl md:relative md:rounded-none md:max-h-none md:inset-0 md:mx-auto md:max-w-md bg-[var(--bg-secondary)] rounded-[var(--radius-lg)] shadow-[var(--shadow-xl)] w-full max-w-md mx-0 overflow-y-auto">
+      <div className="fixed inset-x-0 bottom-0 max-h-[90vh] rounded-t-xl md:relative md:rounded-none md:max-h-none md:inset-0 md:mx-auto bg-[var(--bg-secondary)] rounded-[var(--radius-lg)] shadow-[var(--shadow-xl)] w-full max-w-md mx-0 overflow-y-auto">
         <div className="sticky top-0 bg-[var(--bg-secondary)] border-b border-[var(--bg-tertiary)] px-6 py-4 flex items-center justify-between">
           <h2 className="text-xl font-bold text-[var(--text-primary)]">
             Settings
@@ -271,12 +271,12 @@ export default function SettingsModal({ isOpen, onClose }) {
                       : 'bg-[var(--bg-tertiary)]'
                   }`}
                 >
-                <span
-                  className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${
-                    localSettings.notificationsEnabled ? 'left-7' : 'left-1'
-                  }`}
-                />
-              </button>
+                  <span
+                    className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${
+                      localSettings.notificationsEnabled ? 'left-7' : 'left-1'
+                    }`}
+                  />
+                </button>
             </div>
           </section>
 
@@ -373,17 +373,6 @@ export default function SettingsModal({ isOpen, onClose }) {
         </div>
 
         <div className="sticky bottom-0 bg-[var(--bg-secondary)] border-t border-[var(--bg-tertiary)] px-6 py-4">
-          <div className="space-y-3">
-          {importMessage && (
-            <div className={`p-3 rounded-[var(--radius-sm)] text-sm ${
-              importMessage.type === 'success'
-                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
-                : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
-            }`}>
-              {importMessage.text}
-            </div>
-          )}
-
           <div className="flex gap-2">
             <button
               onClick={handleExport}
@@ -417,7 +406,6 @@ export default function SettingsModal({ isOpen, onClose }) {
             <RotateCcw className="w-4 h-4" />
             Reset to Defaults
           </button>
-        </div>
         </div>
       </div>
     </div>

@@ -110,7 +110,7 @@ export default function TaskItem({
       onTouchEnd={handleTouchEnd}
     >
       <div className={`absolute inset-y-0 left-0 w-full flex items-center justify-end pr-4 ${
-        swipeDirection === 'right' ? 'bg-green-500' : swipeDirection === 'left' ? 'bg-red-500' : 'bg-transparent'
+        swipeDirection === 'right' ? 'bg-[var(--accent-green)]' : swipeDirection === 'left' ? 'bg-[var(--accent-red)]' : 'bg-transparent'
       }`}>
         {swipeDirection === 'right' && (
           <span className="text-white text-2xl"><Check className="w-6 h-6" /></span>
