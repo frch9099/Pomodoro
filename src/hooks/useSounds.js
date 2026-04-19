@@ -71,8 +71,16 @@ export function useSounds() {
 
   const playSound = useCallback((soundId) => {
     if (oscillatorRef.current) {
-      oscillatorRef.current.stop();
+      try { oscillatorRef.current.stop(); } catch (e) {}
       oscillatorRef.current = null;
+    }
+    if (lfoRef.current) {
+      try { lfoRef.current.stop(); } catch (e) {}
+      lfoRef.current = null;
+    }
+    if (gainNodeRef.current) {
+      gainNodeRef.current.disconnect();
+      gainNodeRef.current = null;
     }
 
     const audioContext = getAudioContext();

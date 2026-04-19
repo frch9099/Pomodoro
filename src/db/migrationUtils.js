@@ -124,7 +124,7 @@ export function verifyChecksum(data) {
     throw new Error('Missing checksum in data');
   }
 
-  const { _checksum, _checksumAlgorithm, ...dataWithoutChecksum } = data;
+  const { _checksum, _checksumAlgorithm, _exportedAt, ...dataWithoutChecksum } = data;
   const computedChecksum = generateChecksum(dataWithoutChecksum);
 
   if (computedChecksum !== _checksum) {

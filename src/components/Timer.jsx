@@ -44,7 +44,8 @@ const Timer = memo(function Timer() {
   });
 
   useEffect(() => {
-    if (timerState.status === 'running' && timerState.lastUpdateTime) {
+    if (timerState.status === 'running' && timerState.lastUpdateTime && !hasRestoredRef.current) {
+      hasRestoredRef.current = true;
       const elapsed = Math.floor((Date.now() - timerState.lastUpdateTime) / 1000);
       const newTimeRemaining = Math.max(0, timerState.timeRemaining - elapsed);
 
@@ -54,7 +55,7 @@ const Timer = memo(function Timer() {
       }
 
       setTimeRemaining(newTimeRemaining);
-      start();
+      start(newTimeRemaining);
     } else if (timerState.status === 'idle') {
       hasRestoredRef.current = false;
     }

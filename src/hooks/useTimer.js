@@ -173,11 +173,12 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
     }
   }, [sessionsCompleted, onSessionsCompletedChange, externalSessionsCompleted]);
 
-  const start = useCallback(() => {
+  const start = useCallback((explicitTimeRemaining) => {
     if (statusRef.current === 'running') return;
     
     hasCompletedRef.current = false;
-    startTimeRef.current = Date.now() - ((getPhaseDuration(phaseRef.current) - timeRemainingRef.current) * 1000);
+    const tr = explicitTimeRemaining !== undefined ? explicitTimeRemaining : timeRemainingRef.current;
+    startTimeRef.current = Date.now() - ((getPhaseDuration(phaseRef.current) - tr) * 1000);
     
     if (intervalRef.current) {
       clearInterval(intervalRef.current);

@@ -262,7 +262,7 @@ export async function getTasks() {
   
   if (isIndexedDBAvailable()) {
     try {
-      const idbTasks = await db.tasks.toArray();
+      const idbTasks = await db.tasks.orderBy('createdAt').reverse().toArray();
       if (idbTasks.length > 0) {
         return idbTasks;
       }
