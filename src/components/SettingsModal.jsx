@@ -1,10 +1,15 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { X, RotateCcw } from 'lucide-react';
+import { X, RotateCcw, Download, Upload } from 'lucide-react';
 import { useApp, defaultSettings } from '../context/AppContext';
+import { exportData, importData } from '../utils/exportImport';
 
 export default function SettingsModal({ isOpen, onClose }) {
   const { settings, updateSettings } = useApp();
   const [localSettings, setLocalSettings] = useState(settings);
+  const [isExporting, setIsExporting] = useState(false);
+  const [isImporting, setIsImporting] = useState(false);
+  const [importMessage, setImportMessage] = useState(null);
+  const fileInputRef = useRef(null);
   const debounceTimerRef = useRef(null);
   const updateSettingsRef = useRef(updateSettings);
 
@@ -45,6 +50,49 @@ export default function SettingsModal({ isOpen, onClose }) {
   const handleReset = () => {
     setLocalSettings(defaultSettings);
     updateSettings(defaultSettings);
+  };
+
+  const handleExport = async () => {
+    setIsExporting(true);
+    try {
+      const result = await exportData();
+      if (result.success) {
+        setImportMessage({ type: 'success', text: `Exported ${result.recordCount} records to ${result.filename}` });
+      } else {
+        setImportMessage({ type: 'error', text: `Export failed: ${result.error}` });
+      }
+    } catch (error) {
+      setImportMessage({ type: 'error', text: `Export failed: ${error.message}` });
+    }
+    setIsExporting(false);
+    setTimeout(() => setImportMessage(null), 3000);
+  };
+
+  const handleImportClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setIsImporting(true);
+    setImportMessage(null);
+
+    const result = await importData(file);
+
+    if (result.success) {
+      setImportMessage({
+        type: 'success',
+        text: `Imported ${result.recordCount.tasks} tasks, ${result.recordCount.templates} templates`
+      });
+      setTimeout(() => window.location.reload(), 1500);
+    } else {
+      setImportMessage({ type: 'error', text: result.error || 'Import failed' });
+    }
+
+    setIsImporting(false);
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const handleBackdropClick = (e) => {
@@ -322,6 +370,43 @@ export default function SettingsModal({ isOpen, onClose }) {
         </div>
 
         <div className="sticky bottom-0 bg-[var(--bg-secondary)] border-t border-[var(--bg-tertiary)] px-6 py-4">
+          <div className="space-y-3">
+          {importMessage && (
+            <div className={`p-3 rounded-[var(--radius-sm)] text-sm ${
+              importMessage.type === 'success'
+                ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                : 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200'
+            }`}>
+              {importMessage.text}
+            </div>
+          )}
+
+          <div className="flex gap-2">
+            <button
+              onClick={handleExport}
+              disabled={isExporting}
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-[var(--radius-md)] bg-[var(--bg-tertiary)] text-[var(--text-secondary)] font-medium hover:opacity-80 transition-colors duration-300 disabled:opacity-50"
+            >
+              <Download className="w-4 h-4" />
+              {isExporting ? 'Exporting...' : 'Export Data'}
+            </button>
+            <button
+              onClick={handleImportClick}
+              disabled={isImporting}
+              className="flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-[var(--radius-md)] bg-[var(--bg-tertiary)] text-[var(--text-secondary)] font-medium hover:opacity-80 transition-colors duration-300 disabled:opacity-50"
+            >
+              <Upload className="w-4 h-4" />
+              {isImporting ? 'Importing...' : 'Import Data'}
+            </button>
+          </div>
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileChange}
+            accept=".json"
+            className="hidden"
+          />
+
           <button
             onClick={handleReset}
             className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-[var(--radius-md)] bg-[var(--bg-tertiary)] text-[var(--text-secondary)] font-medium hover:opacity-80 transition-colors duration-300"
@@ -329,6 +414,7 @@ export default function SettingsModal({ isOpen, onClose }) {
             <RotateCcw className="w-4 h-4" />
             Reset to Defaults
           </button>
+        </div>
         </div>
       </div>
     </div>

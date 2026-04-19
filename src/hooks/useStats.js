@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
+import { db } from '../db/DexieDB';
 
 const STATS_KEY = 'pomodoro_stats';
 
@@ -59,12 +60,24 @@ export function useStats() {
   });
 
   useEffect(() => {
-    try {
-      localStorage.setItem(STATS_KEY, JSON.stringify(stats));
-    } catch (error) {
-      console.error('Failed to save stats to localStorage:', error);
+    async function initialSync() {
+      if (!window.indexedDB) return;
+      try {
+        const existingStats = await db.stats.get('main');
+        if (!existingStats && stats.sessions.length > 0) {
+          await db.stats.put({
+            id: 'main',
+            ...stats,
+            date: new Date().toISOString().split('T')[0],
+            type: 'main'
+          });
+        }
+      } catch (e) {
+        console.warn('Initial stats sync skipped:', e.message);
+      }
     }
-  }, [stats]);
+    initialSync();
+  }, []);
 
   const recordSession = useCallback((session) => {
     const newSession = {
@@ -81,7 +94,6 @@ export function useStats() {
       const isWorkSession = newSession.phase === 'work';
       const todayStart = getStartOfDay();
       const sessionDate = getStartOfDay(newSession.completedAt);
-      const isToday = sessionDate === todayStart;
 
       const newTotalPomodoros = isWorkSession
         ? prev.totalPomodoros + 1
@@ -120,7 +132,7 @@ export function useStats() {
         newTreeTypesUnlocked.push('bonsai');
       }
 
-      return {
+      const updated = {
         ...prev,
         sessions: [...prev.sessions, newSession],
         totalPomodoros: newTotalPomodoros,
@@ -129,10 +141,34 @@ export function useStats() {
         lastSessionDate: newSession.completedAt,
         treeTypesUnlocked: newTreeTypesUnlocked,
       };
+
+      try {
+        localStorage.setItem(STATS_KEY, JSON.stringify(updated));
+      } catch (error) {
+        console.error('Failed to save stats to localStorage:', error);
+      }
+
+      return updated;
     });
 
+    if (window.indexedDB) {
+      db.stats.put({
+        id: 'main',
+        sessions: [...stats.sessions, newSession],
+        achievements: stats.achievements,
+        currentStreak: stats.currentStreak,
+        bestStreak: stats.bestStreak,
+        lastSessionDate: newSession.completedAt,
+        totalPomodoros: stats.totalPomodoros + 1,
+        treeTypesUnlocked: stats.treeTypesUnlocked,
+        plantedTrees: stats.plantedTrees,
+        date: new Date().toISOString().split('T')[0],
+        type: 'main'
+      }).catch(() => {});
+    }
+
     return newSession;
-  }, []);
+  }, [stats]);
 
   const todayStats = useMemo(() => {
     const todayStart = getStartOfDay();
@@ -149,7 +185,6 @@ export function useStats() {
   const weekStats = useMemo(() => {
     const days = [];
     const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-    const today = new Date();
 
     for (let i = 6; i >= 0; i--) {
       const date = new Date();
@@ -239,10 +274,13 @@ export function useStats() {
       const daysDiff = Math.round((todayStart - lastDate) / (1000 * 60 * 60 * 24));
 
       if (daysDiff > 1) {
-        return {
-          ...prev,
-          currentStreak: 0,
-        };
+        const updated = { ...prev, currentStreak: 0 };
+        try {
+          localStorage.setItem(STATS_KEY, JSON.stringify(updated));
+        } catch (error) {
+          console.error('Failed to save stats to localStorage:', error);
+        }
+        return updated;
       }
 
       return prev;
@@ -250,8 +288,8 @@ export function useStats() {
   }, []);
 
   const getDailyGoalProgress = useCallback((dailyGoal = 8) => {
-    const todayStats = getTodayStats();
-    return Math.min(1, todayStats.pomodoros / dailyGoal);
+    const todayStatsResult = getTodayStats();
+    return Math.min(1, todayStatsResult.pomodoros / dailyGoal);
   }, [getTodayStats]);
 
   const addAchievement = useCallback((achievementId) => {
@@ -259,18 +297,39 @@ export function useStats() {
       if (prev.achievements.includes(achievementId)) {
         return prev;
       }
-      return {
+      const updated = {
         ...prev,
         achievements: [...prev.achievements, achievementId],
       };
+      try {
+        localStorage.setItem(STATS_KEY, JSON.stringify(updated));
+      } catch (error) {
+        console.error('Failed to save stats to localStorage:', error);
+      }
+      return updated;
     });
+
+    if (window.indexedDB) {
+      db.achievements.put({
+        id: achievementId,
+        unlockedAt: Date.now()
+      }).catch(() => {});
+    }
   }, []);
 
   const addPlantedTree = useCallback((tree) => {
-    setStats((prev) => ({
-      ...prev,
-      plantedTrees: [...prev.plantedTrees, { ...tree, plantedAt: Date.now() }],
-    }));
+    setStats((prev) => {
+      const updated = {
+        ...prev,
+        plantedTrees: [...prev.plantedTrees, { ...tree, plantedAt: Date.now() }],
+      };
+      try {
+        localStorage.setItem(STATS_KEY, JSON.stringify(updated));
+      } catch (error) {
+        console.error('Failed to save stats to localStorage:', error);
+      }
+      return updated;
+    });
   }, []);
 
   return {

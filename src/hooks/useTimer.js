@@ -9,7 +9,10 @@ const PHASE_LABELS = {
 export function useTimer({ onComplete, settings, externalStatus, externalPhase, externalTimeRemaining, externalSessionsCompleted, onStatusChange, onPhaseChange, onTimeRemainingChange, onSessionsCompletedChange } = {}) {
   const [status, setStatus] = useState(externalStatus || 'idle');
   const [phase, setPhase] = useState(externalPhase || 'work');
-  const [timeRemaining, setTimeRemaining] = useState(externalTimeRemaining ?? (settings?.workDuration || 25) * 60);
+  const [timeRemaining, setTimeRemaining] = useState(() => {
+    const workDuration = settings?.workDuration ?? 25;
+    return externalTimeRemaining ?? workDuration * 60;
+  });
   const [sessionsCompleted, setSessionsCompleted] = useState(externalSessionsCompleted || 0);
   
   const intervalRef = useRef(null);
