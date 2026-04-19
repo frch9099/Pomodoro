@@ -23,11 +23,29 @@ export const defaultSettings = {
 };
 
 let indexedDBAvailable = null;
+let migrationAttempted = false;
+let migrationPromise = null;
 
 function isIndexedDBAvailable() {
   if (indexedDBAvailable !== null) return indexedDBAvailable;
   indexedDBAvailable = !!(window.indexedDB && window.IDBFactory);
   return indexedDBAvailable;
+}
+
+async function ensureMigration() {
+  if (migrationAttempted) return;
+  if (!isIndexedDBAvailable()) return;
+  
+  migrationAttempted = true;
+  
+  const idbHasData = await hasDataInIndexedDB();
+  if (idbHasData) return;
+  
+  const localHasData = hasDataInLocalStorage();
+  if (!localHasData) return;
+  
+  migrationPromise = runMigration();
+  await migrationPromise;
 }
 
 async function hasDataInIndexedDB() {
@@ -166,6 +184,8 @@ export async function runMigration(progressCallback) {
 }
 
 export async function getSettings() {
+  await ensureMigration();
+  
   if (isIndexedDBAvailable()) {
     try {
       const idbData = await db.settings.get('settings');
@@ -207,6 +227,8 @@ export async function saveSettings(settings) {
 }
 
 export async function getTasks() {
+  await ensureMigration();
+  
   if (isIndexedDBAvailable()) {
     try {
       const idbTasks = await db.tasks.toArray();
@@ -309,6 +331,8 @@ export async function deleteTask(id) {
 }
 
 export async function getTemplates() {
+  await ensureMigration();
+  
   if (isIndexedDBAvailable()) {
     try {
       const idbTemplates = await db.templates.toArray();
@@ -388,6 +412,8 @@ export async function deleteTemplate(id) {
 }
 
 export async function getStats() {
+  await ensureMigration();
+  
   if (isIndexedDBAvailable()) {
     try {
       const idbStats = await db.stats.get('main');
