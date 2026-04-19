@@ -1,5 +1,6 @@
 import { Volume2, VolumeX, Award } from 'lucide-react';
 import { SOUNDS, getSoundById } from '../utils/sounds';
+import { useHaptics } from '../hooks/useHaptics';
 
 export default function Footer({
   currentSound,
@@ -13,8 +14,10 @@ export default function Footer({
 }) {
   const currentSoundInfo = currentSound ? getSoundById(currentSound) : null;
   const isMuted = volume === 0;
+  const haptics = useHaptics();
 
   const handleSoundToggle = () => {
+    haptics.buttonTap();
     if (currentSound && isPlaying) {
       onStopSound();
     } else if (currentSound) {

@@ -63,12 +63,12 @@ const AchievementsModal = memo(function AchievementsModal({ isOpen, onClose, sta
   const treeTypesUnlocked = stats.treeTypesUnlocked || ['oak'];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+    <div className="fixed inset-0 z-50 flex items-end md:items-center justify-center p-4">
       <div
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
         onClick={onClose}
       />
-      <div className="relative w-full max-w-2xl max-h-[80vh] overflow-hidden bg-[var(--bg-primary)] rounded-[var(--radius-lg)] shadow-[var(--shadow-xl)] animate-modal-in">
+      <div className="fixed inset-x-0 bottom-0 max-h-[90vh] rounded-t-xl md:relative md:rounded-none md:max-h-none md:inset-0 md:mx-auto md:max-w-2xl w-full md:w-auto overflow-hidden bg-[var(--bg-primary)] rounded-[var(--radius-lg)] shadow-[var(--shadow-xl)] animate-modal-in">
         <div className="flex items-center justify-between p-6 border-b border-[var(--bg-tertiary)]">
           <div className="flex items-center gap-3">
             <Award className="w-6 h-6 text-[var(--accent-gold)]" />

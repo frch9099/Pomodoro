@@ -1,6 +1,7 @@
 import { useCallback, memo, useEffect, useRef } from 'react';
 import { useTimer } from '../hooks/useTimer';
 import { useApp } from '../context/AppContext';
+import { useHaptics } from '../hooks/useHaptics';
 import Controls from './Controls';
 
 const PHASE_COLORS = {
@@ -18,15 +19,16 @@ const STATUS_COLORS = {
 
 const Timer = memo(function Timer() {
   const { completeSession, startSession, settings, timerState, updateTimerState, clearTimerState } = useApp();
-
+  const haptics = useHaptics();
   const hasRestoredRef = useRef(false);
 
   const handleComplete = useCallback((phase, sessionsCompleted) => {
+    haptics.timerComplete();
     clearTimerState();
     setTimeout(() => {
       completeSession(phase, sessionsCompleted);
     }, 0);
-  }, [completeSession, clearTimerState]);
+  }, [completeSession, clearTimerState, haptics]);
 
   const { status, phase, timeRemaining, sessionsCompleted, progress, start, pause, reset, skip, setTimeRemaining } = useTimer({
     onComplete: handleComplete,

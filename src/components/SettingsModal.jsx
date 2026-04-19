@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { X, RotateCcw, Download, Upload } from 'lucide-react';
 import { useApp, defaultSettings } from '../context/AppContext';
 import { exportData, importData } from '../utils/exportImport';
+import { useHaptics } from '../hooks/useHaptics';
 
 export default function SettingsModal({ isOpen, onClose }) {
   const { settings, updateSettings } = useApp();
@@ -12,6 +13,7 @@ export default function SettingsModal({ isOpen, onClose }) {
   const fileInputRef = useRef(null);
   const debounceTimerRef = useRef(null);
   const updateSettingsRef = useRef(updateSettings);
+  const haptics = useHaptics();
 
   useEffect(() => {
     updateSettingsRef.current = updateSettings;
@@ -53,6 +55,7 @@ export default function SettingsModal({ isOpen, onClose }) {
   };
 
   const handleExport = async () => {
+    haptics.buttonTap();
     setIsExporting(true);
     try {
       const result = await exportData();
@@ -105,10 +108,10 @@ export default function SettingsModal({ isOpen, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 z-[100] flex items-end md:items-center justify-center bg-black/50 backdrop-blur-sm"
       onClick={handleBackdropClick}
     >
-      <div className="bg-[var(--bg-secondary)] rounded-[var(--radius-lg)] shadow-[var(--shadow-xl)] w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto">
+      <div className="fixed inset-x-0 bottom-0 max-h-[90vh] rounded-t-xl md:relative md:rounded-none md:max-h-none md:inset-0 md:mx-auto md:max-w-md bg-[var(--bg-secondary)] rounded-[var(--radius-lg)] shadow-[var(--shadow-xl)] w-full max-w-md mx-0 overflow-y-auto">
         <div className="sticky top-0 bg-[var(--bg-secondary)] border-b border-[var(--bg-tertiary)] px-6 py-4 flex items-center justify-between">
           <h2 className="text-xl font-bold text-[var(--text-primary)]">
             Settings

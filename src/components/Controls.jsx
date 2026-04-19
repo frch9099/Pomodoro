@@ -1,13 +1,15 @@
 import { memo } from 'react';
 import { Play, Pause, RotateCcw, SkipForward } from 'lucide-react';
+import { useHaptics } from '../hooks/useHaptics';
 
 const Controls = memo(function Controls({ status, onStart, onPause, onReset, onSkip }) {
   const isRunning = status === 'running';
+  const haptics = useHaptics();
 
   return (
     <div className="flex items-center gap-3">
       <button
-        onClick={onReset}
+        onClick={() => { haptics.buttonTap(); onReset(); }}
         className="p-3 rounded-full bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)] hover:scale-105 active:scale-95 transition-all duration-300"
         aria-label="Reset timer"
       >
@@ -15,7 +17,7 @@ const Controls = memo(function Controls({ status, onStart, onPause, onReset, onS
       </button>
 
       <button
-        onClick={isRunning ? onPause : onStart}
+        onClick={() => { haptics.buttonTap(); isRunning ? onPause() : onStart(); }}
         className="p-5 rounded-full bg-[var(--accent-green)] hover:opacity-90 text-white hover:scale-105 active:scale-95 transition-all duration-300 shadow-[var(--shadow-lg)]"
         aria-label={isRunning ? 'Pause timer' : 'Start timer'}
       >
@@ -27,7 +29,7 @@ const Controls = memo(function Controls({ status, onStart, onPause, onReset, onS
       </button>
 
       <button
-        onClick={onSkip}
+        onClick={() => { haptics.skip(); onSkip(); }}
         className="p-3 rounded-full bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)] hover:scale-105 active:scale-95 transition-all duration-300"
         aria-label="Skip to next phase"
       >

@@ -1,19 +1,22 @@
 import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import { ACHIEVEMENTS } from '../utils/achievements';
+import { useHaptics } from '../hooks/useHaptics';
 
 export default function AchievementToast({ achievement, onDismiss }) {
   const [isVisible, setIsVisible] = useState(false);
   const [isLeaving, setIsLeaving] = useState(false);
+  const haptics = useHaptics();
 
   useEffect(() => {
+    haptics.achievementUnlock();
     setIsVisible(true);
     const timer = setTimeout(() => {
       setIsLeaving(true);
       setTimeout(onDismiss, 300);
     }, 4000);
     return () => clearTimeout(timer);
-  }, [onDismiss]);
+  }, [onDismiss, haptics]);
 
   const handleClick = () => {
     setIsLeaving(true);

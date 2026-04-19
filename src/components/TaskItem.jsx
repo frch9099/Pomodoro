@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Pencil, Trash2, Bookmark, Check } from 'lucide-react';
+import { useHaptics } from '../hooks/useHaptics';
 
 export default function TaskItem({
   task,
@@ -16,6 +17,36 @@ export default function TaskItem({
   const [isCompleting, setIsCompleting] = useState(false);
   const [isEditingNotes, setIsEditingNotes] = useState(false);
   const [notesInput, setNotesInput] = useState(task.notes || '');
+  const [swipeOffset, setSwipeOffset] = useState(0);
+  const [swipeDirection, setSwipeDirection] = useState(null);
+  const touchStartX = useRef(null);
+  const haptics = useHaptics();
+
+  const handleTouchStart = (e) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e) => {
+    if (touchStartX.current === null) return;
+    const deltaX = e.touches[0].clientX - touchStartX.current;
+    if (Math.abs(deltaX) > 10) {
+      setSwipeDirection(deltaX > 0 ? 'right' : 'left');
+      setSwipeOffset(Math.max(-120, Math.min(120, deltaX)));
+    }
+  };
+
+  const handleTouchEnd = () => {
+    if (swipeOffset > 80) {
+      haptics.taskComplete();
+      onToggleComplete(task.id);
+    } else if (swipeOffset < -80) {
+      haptics.error();
+      onDelete(task.id);
+    }
+    setSwipeOffset(0);
+    setSwipeDirection(null);
+    touchStartX.current = null;
+  };
 
   const handleTitleClick = () => {
     if (!task.isCompleted) {
@@ -73,135 +104,146 @@ export default function TaskItem({
 
   return (
     <div
-      className={`
-        group flex items-center gap-3 p-3 rounded-[var(--radius-md)]
-        bg-[var(--bg-tertiary)] border border-transparent
-        hover:border-[var(--bg-secondary)]
-        transition-all duration-300
-        ${task.isCompleted ? 'opacity-70' : ''}
-        ${isCompleting ? 'scale-95 opacity-50' : ''}
-        ${isActive ? 'ring-2 ring-[var(--accent-green)]' : ''}
-      `}
+      className={`task-item relative overflow-hidden ${swipeDirection ? 'transition-transform' : ''}`}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
-      <button
-        onClick={handleToggleComplete}
-        className={`
-          flex-shrink-0 w-5 h-5 rounded-[var(--radius-sm)] border-2 flex items-center justify-center
-          transition-all duration-300
-          ${
-            task.isCompleted
-              ? 'bg-[var(--accent-green)] border-[var(--accent-green)]'
-              : 'border-[var(--text-secondary)] hover:border-[var(--accent-green)]'
-          }
-        `}
-      >
-        {task.isCompleted && <Check className="w-3 h-3 text-white" />}
-      </button>
-
-      <div className="flex-1 min-w-0">
-        {isEditing ? (
-          <input
-            type="text"
-            value={editTitle}
-            onChange={(e) => setEditTitle(e.target.value)}
-            onBlur={handleTitleSave}
-            onKeyDown={handleTitleKeyDown}
-            autoFocus
-            className="w-full px-2 py-1 text-[var(--text-primary)] bg-[var(--bg-secondary)] rounded-[var(--radius-sm)] border-none outline-none focus:ring-2 focus:ring-[var(--accent-green)]"
-          />
-        ) : (
-          <div
-            onClick={handleTitleClick}
-            className={`
-              cursor-pointer truncate
-              ${task.isCompleted ? 'line-through text-[var(--text-secondary)]' : 'text-[var(--text-primary)]'}
-            `}
-          >
-            {task.title}
-          </div>
+      <div className={`absolute inset-y-0 left-0 w-full flex items-center justify-end pr-4 ${
+        swipeDirection === 'right' ? 'bg-green-500' : swipeDirection === 'left' ? 'bg-red-500' : 'bg-transparent'
+      }`}>
+        {swipeDirection === 'right' && (
+          <span className="text-white text-2xl"><Check className="w-6 h-6" /></span>
         )}
-
-        <div className="flex items-center gap-2 mt-1">
-          {progressDots()}
-          <button
-            onClick={() => {
-              setIsExpanded(!isExpanded);
-              if (!isExpanded && task.notes) {
-                setNotesInput(task.notes);
-                setIsEditingNotes(false);
-              } else if (!isExpanded) {
-                setIsEditingNotes(true);
-              }
-            }}
-            className="text-xs text-[var(--text-secondary)] hover:text-[var(--accent-green)]"
-          >
-            {isExpanded ? 'Hide notes' : (task.notes ? 'Show notes' : 'Add notes')}
-          </button>
-        </div>
-
-        {isExpanded && (
-          <div className="mt-2">
-            {isEditingNotes ? (
-              <div className="flex flex-col gap-2">
-                <textarea
-                  value={notesInput}
-                  onChange={(e) => setNotesInput(e.target.value)}
-                  placeholder="Add notes..."
-                  rows={3}
-                  className="w-full px-2 py-1 text-sm text-[var(--text-primary)] bg-[var(--bg-secondary)] rounded-[var(--radius-sm)] border-none outline-none focus:ring-2 focus:ring-[var(--accent-green)] resize-none"
-                  autoFocus
-                />
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => {
-                      onUpdate(task.id, { notes: notesInput });
-                      setIsEditingNotes(false);
-                    }}
-                    className="px-2 py-1 text-xs bg-[var(--accent-green)] text-white rounded-[var(--radius-sm)] hover:opacity-90"
-                  >
-                    Save
-                  </button>
-                  <button
-                    onClick={() => {
-                      setNotesInput(task.notes || '');
-                      setIsEditingNotes(false);
-                    }}
-                    className="px-2 py-1 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className="flex items-start gap-2 text-sm text-[var(--text-secondary)] p-2 bg-[var(--bg-secondary)] rounded-[var(--radius-sm)]">
-                <span className="flex-1">{task.notes || 'No notes'}</span>
-                <button
-                  onClick={() => setIsEditingNotes(true)}
-                  className="p-1 rounded-[var(--radius-sm)] hover:bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:text-[var(--accent-green)]"
-                >
-                  <Pencil className="w-3 h-3" />
-                </button>
-              </div>
-            )}
-          </div>
+        {swipeDirection === 'left' && (
+          <span className="text-white text-2xl"><Trash2 className="w-6 h-6" /></span>
         )}
       </div>
 
-      <div className="flex-shrink-0 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-        <button
-          onClick={() => onSaveAsTemplate(task)}
-          className="p-1.5 rounded-[var(--radius-sm)] hover:bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:text-[var(--accent-blue)]"
-          title="Save as template"
-        >
-          <Bookmark className="w-4 h-4" />
-        </button>
-        <button
-          onClick={() => onDelete(task.id)}
-          className="p-1.5 rounded-[var(--radius-sm)] hover:bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:text-[var(--accent-red)]"
-          title="Delete task"
-        >
-          <Trash2 className="w-4 h-4" />
-        </button>
+      <div
+        className={`
+          relative bg-[var(--bg-tertiary)]
+          ${task.isCompleted ? 'opacity-70' : ''}
+          ${isCompleting ? 'scale-95 opacity-50' : ''}
+          ${isActive ? 'ring-2 ring-[var(--accent-green)]' : ''}
+        `}
+        style={{ transform: `translateX(${swipeOffset}px)` }}
+      >
+        <div className="flex items-center gap-3 p-3">
+          <button
+            onClick={handleToggleComplete}
+            className="flex-shrink-0 w-5 h-5 rounded-[var(--radius-sm)] border-2 flex items-center justify-center transition-all duration-300 active:scale-95"
+          >
+            {task.isCompleted ? (
+              <Check className="w-3 h-3 text-white" />
+            ) : (
+              <span className="w-3 h-3 rounded-full border-2 border-[var(--text-secondary)]" />
+            )}
+          </button>
+
+          <div className="flex-1 min-w-0">
+            {isEditing ? (
+              <input
+                type="text"
+                value={editTitle}
+                onChange={(e) => setEditTitle(e.target.value)}
+                onBlur={handleTitleSave}
+                onKeyDown={handleTitleKeyDown}
+                autoFocus
+                className="w-full px-2 py-1 text-[var(--text-primary)] bg-[var(--bg-secondary)] rounded-[var(--radius-sm)] border-none outline-none focus:ring-2 focus:ring-[var(--accent-green)]"
+              />
+            ) : (
+              <div
+                onClick={handleTitleClick}
+                className={`cursor-pointer truncate ${task.isCompleted ? 'line-through text-[var(--text-secondary)]' : 'text-[var(--text-primary)]'}`}
+              >
+                {task.title}
+              </div>
+            )}
+
+            <div className="flex items-center gap-2 mt-1">
+              {progressDots()}
+              <button
+                onClick={() => {
+                  setIsExpanded(!isExpanded);
+                  if (!isExpanded && task.notes) {
+                    setNotesInput(task.notes);
+                    setIsEditingNotes(false);
+                  } else if (!isExpanded) {
+                    setIsEditingNotes(true);
+                  }
+                }}
+                className="text-xs text-[var(--text-secondary)] hover:text-[var(--accent-green)]"
+              >
+                {isExpanded ? 'Hide notes' : (task.notes ? 'Show notes' : 'Add notes')}
+              </button>
+            </div>
+
+            {isExpanded && (
+              <div className="mt-2">
+                {isEditingNotes ? (
+                  <div className="flex flex-col gap-2">
+                    <textarea
+                      value={notesInput}
+                      onChange={(e) => setNotesInput(e.target.value)}
+                      placeholder="Add notes..."
+                      rows={3}
+                      className="w-full px-2 py-1 text-sm text-[var(--text-primary)] bg-[var(--bg-secondary)] rounded-[var(--radius-sm)] border-none outline-none focus:ring-2 focus:ring-[var(--accent-green)] resize-none"
+                      autoFocus
+                    />
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => {
+                          onUpdate(task.id, { notes: notesInput });
+                          setIsEditingNotes(false);
+                        }}
+                        className="px-2 py-1 text-xs bg-[var(--accent-green)] text-white rounded-[var(--radius-sm)] hover:opacity-90 active:scale-95 transition-all"
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={() => {
+                          setNotesInput(task.notes || '');
+                          setIsEditingNotes(false);
+                        }}
+                        className="px-2 py-1 text-xs text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex items-start gap-2 text-sm text-[var(--text-secondary)] p-2 bg-[var(--bg-secondary)] rounded-[var(--radius-sm)]">
+                    <span className="flex-1">{task.notes || 'No notes'}</span>
+                    <button
+                      onClick={() => setIsEditingNotes(true)}
+                      className="p-1 rounded-[var(--radius-sm)] hover:bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:text-[var(--accent-green)]"
+                    >
+                      <Pencil className="w-3 h-3" />
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          <div className="flex-shrink-0 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            <button
+              onClick={() => onSaveAsTemplate(task)}
+              className="p-1.5 rounded-[var(--radius-sm)] hover:bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:text-[var(--accent-blue)] active:scale-95 transition-all"
+              title="Save as template"
+            >
+              <Bookmark className="w-4 h-4" />
+            </button>
+            <button
+              onClick={() => onDelete(task.id)}
+              className="p-1.5 rounded-[var(--radius-sm)] hover:bg-[var(--bg-secondary)] text-[var(--text-secondary)] hover:text-[var(--accent-red)] active:scale-95 transition-all"
+              title="Delete task"
+            >
+              <Trash2 className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
