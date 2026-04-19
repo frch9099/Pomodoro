@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect, useLayoutEffect, useCallback, useMemo } from 'react';
+import { createContext, useContext, useState, useEffect, useLayoutEffect, useCallback, useMemo, useRef } from 'react';
 import { useTasks } from '../hooks/useTasks';
 import { useStats, getStartOfDay } from '../hooks/useStats';
 import { useAchievements } from '../hooks/useAchievements';
@@ -91,6 +91,8 @@ export function AppProvider({ children }) {
   const [breakSuggestion, setBreakSuggestion] = useState(null);
   const [currentView, setCurrentView] = useState('timer');
   const [activeTaskId, setActiveTaskId] = useState(null);
+  const activeTaskIdRef = useRef(activeTaskId);
+  activeTaskIdRef.current = activeTaskId;
   const [notificationPermissionDenied, setNotificationPermissionDenied] = useState(() => {
     try {
       const saved = localStorage.getItem('pomodoro_notificationPermissionDenied');
@@ -112,10 +114,10 @@ export function AppProvider({ children }) {
 
   const handleDeleteTask = useCallback((id) => {
     deleteTask(id);
-    if (activeTaskId === id) {
+    if (activeTaskIdRef.current === id) {
       setActiveTaskId(null);
     }
-  }, [deleteTask, activeTaskId]);
+  }, [deleteTask]);
 
   useEffect(() => {
     try {
@@ -218,7 +220,7 @@ export function AppProvider({ children }) {
       notify("Break's Over!", 'Ready to focus?');
     }
     setSessionStartTime(null);
-  }, [sessionStartTime, settings.workDuration, settings.notificationsEnabled, recordSession, addPlantedTree, activeTaskId, incrementPomodoro, notify]);
+  }, [sessionStartTime, settings, stats, recordSession, addPlantedTree, activeTaskId, incrementPomodoro, notify]);
 
   const startBreakFromSuggestion = useCallback((suggestion) => {
     setBreakSuggestion(suggestion);
@@ -271,7 +273,7 @@ export function AppProvider({ children }) {
     timerState,
     updateTimerState,
     clearTimerState,
-  }), [settings, stats, tasks, templates, sessionStartTime, showBreakSuggestion, breakSuggestion, currentView, handleDeleteTask, timerState, addTask, updateTask, completeTask, uncompleteTask, toggleComplete, incrementPomodoro, saveAsTemplate, deleteTemplate, createFromTemplate, recordSession, getTodayStats, getWeekStats, getMonthStats, getAllTimeStats, updateStreak, getDailyGoalProgress, addAchievement, addPlantedTree, updateSettings, toggleDarkMode]);
+  }), [settings, stats, tasks, templates, sessionStartTime, showBreakSuggestion, breakSuggestion, currentView, handleDeleteTask, timerState, addTask, updateTask, completeTask, uncompleteTask, toggleComplete, incrementPomodoro, saveAsTemplate, deleteTemplate, createFromTemplate, recordSession, getTodayStats, getWeekStats, getMonthStats, getAllTimeStats, updateStreak, getDailyGoalProgress, addAchievement, addPlantedTree, updateSettings, toggleDarkMode, checkAchievements]);
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }

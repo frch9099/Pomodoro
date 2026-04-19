@@ -20,11 +20,15 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
   const statusRef = useRef(status);
   const onCompleteRef = useRef(onComplete);
   const hasCompletedRef = useRef(false);
+  const timeRemainingRef = useRef(timeRemaining);
+  const settingsRef = useRef(settings);
 
   phaseRef.current = phase;
   sessionsCompletedRef.current = sessionsCompleted;
   statusRef.current = status;
   onCompleteRef.current = onComplete;
+  timeRemainingRef.current = timeRemaining;
+  settingsRef.current = settings;
 
   useEffect(() => {
     if (externalStatus !== undefined && externalStatus !== status) {
@@ -33,9 +37,9 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
   }, [externalStatus]);
 
   const getPhaseDuration = useCallback((p, sessionsBeforeLongBreak = 4) => {
-    const workDuration = settings?.workDuration || 25;
-    const shortBreakDuration = settings?.shortBreakDuration || 5;
-    const longBreakDuration = settings?.longBreakDuration || 15;
+    const workDuration = settingsRef.current?.workDuration || 25;
+    const shortBreakDuration = settingsRef.current?.shortBreakDuration || 5;
+    const longBreakDuration = settingsRef.current?.longBreakDuration || 15;
     switch (p) {
       case 'work':
         return workDuration * 60;
@@ -46,10 +50,10 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
       default:
         return workDuration * 60;
     }
-  }, [settings]);
+  }, []);
 
   const getNextPhase = useCallback((currentPhase, completedSessions) => {
-    const sessionsBeforeLongBreak = settings?.sessionsBeforeLongBreak || 4;
+    const sessionsBeforeLongBreak = settingsRef.current?.sessionsBeforeLongBreak || 4;
     if (currentPhase === 'work') {
       if (completedSessions % sessionsBeforeLongBreak === 0 && completedSessions > 0) {
         return 'longBreak';
@@ -57,7 +61,7 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
       return 'shortBreak';
     }
     return 'work';
-  }, [settings]);
+  }, []);
 
   const tick = useCallback(() => {
     if (hasCompletedRef.current) return;
@@ -167,20 +171,20 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
   }, [sessionsCompleted, onSessionsCompletedChange, externalSessionsCompleted, externalStatus]);
 
   const start = useCallback(() => {
-    if (status === 'running') return;
+    if (statusRef.current === 'running') return;
     
     hasCompletedRef.current = false;
-    startTimeRef.current = Date.now() - ((getPhaseDuration(phase) - timeRemaining) * 1000);
+    startTimeRef.current = Date.now() - ((getPhaseDuration(phaseRef.current) - timeRemainingRef.current) * 1000);
     
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
     }
     intervalRef.current = setInterval(tick, 1000);
     setStatus('running');
-  }, [status, phase, timeRemaining, getPhaseDuration, tick]);
+  }, [getPhaseDuration, tick]);
 
   const pause = useCallback(() => {
-    if (status !== 'running') return;
+    if (statusRef.current !== 'running') return;
     
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
@@ -197,9 +201,9 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
     }
     hasCompletedRef.current = false;
     startTimeRef.current = null;
-    setTimeRemaining(getPhaseDuration(phase));
+    setTimeRemaining(getPhaseDuration(phaseRef.current));
     setStatus('idle');
-  }, [phase, getPhaseDuration]);
+  }, [getPhaseDuration]);
 
   const skip = useCallback(() => {
     if (intervalRef.current) {
@@ -207,12 +211,12 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
       intervalRef.current = null;
     }
 
-    let newSessions = sessionsCompleted;
-    if (phase === 'work') {
-      newSessions = sessionsCompleted + 1;
+    let newSessions = sessionsCompletedRef.current;
+    if (phaseRef.current === 'work') {
+      newSessions = sessionsCompletedRef.current + 1;
     }
 
-    const nextPhase = getNextPhase(phase, newSessions);
+    const nextPhase = getNextPhase(phaseRef.current, newSessions);
     const nextDuration = getPhaseDuration(nextPhase);
 
     setSessionsCompleted(newSessions);
@@ -221,7 +225,7 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
     setStatus('idle');
 
     return { nextPhase, nextDuration, newSessions };
-  }, [phase, sessionsCompleted, getPhaseDuration, getNextPhase]);
+  }, [getPhaseDuration, getNextPhase]);
 
   useEffect(() => {
     if (status === 'running') {
@@ -231,6 +235,16 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
     }
   }, [status, timeRemaining]);
 
+  const startRef = useRef(null);
+  const pauseRef = useRef(null);
+  const resetRef = useRef(null);
+  const skipRef = useRef(null);
+
+  startRef.current = start;
+  pauseRef.current = pause;
+  resetRef.current = reset;
+  skipRef.current = skip;
+
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
@@ -238,22 +252,22 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
       if (e.code === 'Space') {
         e.preventDefault();
         if (statusRef.current === 'running') {
-          pause();
+          pauseRef.current?.();
         } else {
-          start();
+          startRef.current?.();
         }
       } else if (e.code === 'KeyR') {
         e.preventDefault();
-        reset();
+        resetRef.current?.();
       } else if (e.code === 'KeyS') {
         e.preventDefault();
-        skip();
+        skipRef.current?.();
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [start, pause, reset, skip]);
+  }, []);
 
   useEffect(() => {
     return () => {
