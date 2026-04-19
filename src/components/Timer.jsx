@@ -1,4 +1,4 @@
-import { useCallback, memo, useEffect, useRef } from 'react';
+import { useCallback, memo, useEffect, useRef, useMemo } from 'react';
 import { useTimer } from '../hooks/useTimer';
 import { useApp } from '../context/AppContext';
 import { useHaptics } from '../hooks/useHaptics';
@@ -18,9 +18,13 @@ const STATUS_COLORS = {
 };
 
 const Timer = memo(function Timer() {
-  const { completeSession, startSession, settings, timerState, updateTimerState, clearTimerState } = useApp();
+  const { completeSession, startSession, settings, timerState, updateTimerState, clearTimerState, tasks, activeTaskId } = useApp();
   const haptics = useHaptics();
   const hasRestoredRef = useRef(false);
+
+  const activeTask = useMemo(() => {
+    return tasks.find(t => t.id === activeTaskId);
+  }, [tasks, activeTaskId]);
 
   const handleComplete = useCallback((phase, sessionsCompleted) => {
     haptics.timerComplete();
@@ -121,6 +125,13 @@ const Timer = memo(function Timer() {
 
   return (
     <div className="flex flex-col items-center gap-6">
+      {activeTask && phase === 'work' && (
+        <div className="text-center px-4 py-2 bg-[var(--bg-secondary)] rounded-[var(--radius-md)] shadow-[var(--shadow-sm)]">
+          <p className="text-xs text-[var(--text-secondary)] uppercase tracking-wide">Working on</p>
+          <p className="text-sm font-medium text-[var(--text-primary)] truncate max-w-[260px]">{activeTask.title}</p>
+        </div>
+      )}
+
       <div className="relative">
         <svg width="280" height="280" className="transform -rotate-90">
           <circle
@@ -156,9 +167,22 @@ const Timer = memo(function Timer() {
           {phaseLabel}
         </p>
         {phase === 'work' && (
-          <p className="text-sm text-[var(--text-secondary)] opacity-75 mt-1">
-            Session {(sessionsCompleted % settings.sessionsBeforeLongBreak) + 1} of {settings.sessionsBeforeLongBreak}
-          </p>
+            <div className="mt-2 flex items-center justify-center gap-2">
+            <div className="flex items-center gap-1.5">
+              {Array.from({ length: settings.sessionsBeforeLongBreak }).map((_, i) => (
+                <span
+                  key={i}
+                  className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                    i < (sessionsCompleted % settings.sessionsBeforeLongBreak)
+                      ? 'bg-[var(--accent-green)] opacity-100 scale-100'
+                      : i === (sessionsCompleted % settings.sessionsBeforeLongBreak) && sessionsCompleted > 0
+                        ? 'bg-[var(--accent-green)] opacity-100 scale-100 ring-2 ring-[var(--accent-green)] ring-offset-2 ring-offset-[var(--bg-primary)]'
+                        : 'bg-[var(--text-secondary)]/30 opacity-50 scale-90'
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
         )}
       </div>
 

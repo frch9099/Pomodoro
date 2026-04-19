@@ -27,7 +27,7 @@ export default function AchievementToast({ achievement, onDismiss }) {
   return (
     <div
       onClick={handleClick}
-      className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 cursor-pointer transition-all duration-300 ${
+      className={`fixed top-20 left-1/2 -translate-x-1/2 z-50 cursor-pointer transition-all duration-300 ${
         isLeaving ? 'opacity-0 -translate-y-4' : isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
       }`}
     >

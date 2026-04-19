@@ -121,8 +121,9 @@ export default function TaskItem({
       </div>
 
       <div
+        onClick={() => !isEditing && onSelect?.()}
         className={`
-          relative bg-[var(--bg-tertiary)]
+          group relative bg-[var(--bg-tertiary)]
           ${task.isCompleted ? 'opacity-70' : ''}
           ${isCompleting ? 'scale-95 opacity-50' : ''}
           ${isActive ? 'ring-2 ring-[var(--accent-green)]' : ''}
@@ -131,7 +132,10 @@ export default function TaskItem({
       >
         <div className="flex items-center gap-3 p-3">
           <button
-            onClick={handleToggleComplete}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleToggleComplete();
+            }}
             className="flex-shrink-0 w-5 h-5 rounded-[var(--radius-sm)] border-2 flex items-center justify-center transition-all duration-300 active:scale-95"
           >
             {task.isCompleted ? (
@@ -154,7 +158,10 @@ export default function TaskItem({
               />
             ) : (
               <div
-                onClick={handleTitleClick}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleTitleClick();
+                }}
                 className={`cursor-pointer truncate ${task.isCompleted ? 'line-through text-[var(--text-secondary)]' : 'text-[var(--text-primary)]'}`}
               >
                 {task.title}

@@ -31,13 +31,14 @@ describe('Timer', () => {
     expect(screen.getByText('Focus Time')).toBeTruthy();
   });
 
-  it('shows session number', () => {
+  it('shows session dots for progress', () => {
     render(
       <AppProvider>
         <Timer />
       </AppProvider>
     );
-    expect(screen.getByText('Session 1 of 4')).toBeTruthy();
+    const dots = document.querySelectorAll('.flex.items-center.gap-1\\.5 span');
+    expect(dots.length).toBe(4);
   });
 
   it('renders Controls component with start button', () => {

@@ -6,8 +6,7 @@ import TaskList from './components/TaskList';
 import Stats from './components/Stats';
 import GamificationPanel from './components/GamificationPanel';
 import ForestView from './components/ForestView';
-import Footer from './components/Footer';
-import AmbientSoundPanel from './components/AmbientSoundPanel';
+import SoundButton from './components/Footer';
 import AchievementsModal from './components/AchievementsModal';
 import { AchievementToastContainer } from './components/AchievementToast';
 import { useSounds } from './hooks/useSounds';
@@ -129,7 +128,7 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-300 pb-32">
+    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-300">
       <Header />
 <main className="pt-20 px-4">        <div className="max-w-5xl mx-auto">
           <div className={currentView === 'timer' ? 'block' : 'hidden'}>
@@ -255,24 +254,14 @@ function AppContent() {
         </div>
       </main>
 
-      <Footer
+      <SoundButton
         currentSound={settings.currentSound}
         volume={settings.soundVolume}
         isPlaying={isPlayingState}
         onPlaySound={handlePlaySound}
         onStopSound={handleStopSound}
-        onToggleSound={handleToggleSound}
+        onSetVolume={handleSetVolume}
         onOpenAchievements={() => setAchievementsOpen(true)}
-        soundPanel={
-          <AmbientSoundPanel
-            currentSound={settings.currentSound}
-            volume={settings.soundVolume}
-            isPlaying={isPlayingState}
-            onPlaySound={handlePlaySound}
-            onStopSound={handleStopSound}
-            onSetVolume={handleSetVolume}
-          />
-        }
       />
 
       <Suspense fallback={null}>
