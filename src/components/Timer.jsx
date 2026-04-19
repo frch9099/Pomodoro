@@ -67,8 +67,14 @@ const Timer = memo(function Timer() {
   useEffect(() => {
     if (startBreakAction) {
       start();
+      updateTimerState({
+        status: 'running',
+        phase,
+        timeRemaining,
+        sessionsCompleted,
+      });
     }
-  }, [startBreakAction, start]);
+  }, [startBreakAction, start, updateTimerState, phase, timeRemaining, sessionsCompleted]);
 
   const handleStart = useCallback(() => {
     startSession();
