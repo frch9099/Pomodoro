@@ -153,6 +153,9 @@ export function AppProvider({ children }) {
       if (settings.notificationsEnabled) {
         notify('Achievement Unlocked!', `You earned: ${achievement.title}`);
       }
+      if (showToastRef.current) {
+        showToastRef.current(achievement);
+      }
     });
   }, [checkAchievements, addAchievement, settings.notificationsEnabled, notify, stats.sessions.length, stats.currentStreak, stats.totalPomodoros, stats.plantedTrees.length]);
 
@@ -218,6 +221,13 @@ export function AppProvider({ children }) {
     setBreakSuggestion(null);
   }, []);
 
+  const showToastRef = useRef(null);
+  const showToast = useCallback((achievement) => {
+    if (showToastRef.current) {
+      showToastRef.current(achievement);
+    }
+  }, []);
+
   const value = useMemo(() => ({
     settings,
     updateSettings,
@@ -260,6 +270,7 @@ export function AppProvider({ children }) {
     timerState,
     updateTimerState,
     clearTimerState,
+    showToast,
   }), [settings, stats, tasks, templates, sessionStartTime, showBreakSuggestion, breakSuggestion, currentView, activeTaskId, handleDeleteTask, timerState, addTask, updateTask, completeTask, uncompleteTask, toggleComplete, incrementPomodoro, saveAsTemplate, deleteTemplate, createFromTemplate, recordSession, getTodayStats, getWeekStats, getMonthStats, getAllTimeStats, updateStreak, getDailyGoalProgress, addAchievement, addPlantedTree, updateSettings, toggleDarkMode, startSession, completeSession, checkAchievements]);
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

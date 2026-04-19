@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense, Component } from 'react';
+import { useState, useEffect, lazy, Suspense, Component, useRef } from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import Header from './components/Header';
 import Timer from './components/Timer';
@@ -79,6 +79,7 @@ function AppContent() {
     currentView,
     activeTaskId,
     setActiveTaskId,
+    showToast,
   } = useApp();
 
   const {
@@ -93,6 +94,14 @@ function AppContent() {
   const [mobileTab, setMobileTab] = useState('tasks');
   const [achievementsOpen, setAchievementsOpen] = useState(false);
   const [achievementToasts, setAchievementToasts] = useState([]);
+  const showToastRef = useRef(null);
+
+  useEffect(() => {
+    showToastRef.current = (achievement) => {
+      const id = Date.now() + Math.random();
+      setAchievementToasts(prev => [...prev, { id, achievement }]);
+    };
+  }, []);
 
   const handlePlaySound = (soundId) => {
     playSound(soundId);
