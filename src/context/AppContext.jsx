@@ -81,6 +81,7 @@ export function AppProvider({ children }) {
 
   const [showBreakSuggestion, setShowBreakSuggestion] = useState(false);
   const [breakSuggestion, setBreakSuggestion] = useState(null);
+  const [startBreakAction, setStartBreakAction] = useState(null);
   const [currentView, setCurrentView] = useState('timer');
   const [activeTaskId, setActiveTaskId] = useState(null);
   const activeTaskIdRef = useRef(activeTaskId);
@@ -178,6 +179,15 @@ export function AppProvider({ children }) {
     setSessionStartTime(Date.now());
   }, [settings.notificationsEnabled, hasPermission, requestPermission, notificationPermissionDenied]);
 
+  const triggerStartBreak = useCallback((phase, duration) => {
+    updateTimerState({ status: 'idle', phase, timeRemaining: duration });
+    setStartBreakAction(Date.now());
+  }, [updateTimerState]);
+
+  const startBreakNow = useCallback(() => {
+    setStartBreakAction(Date.now());
+  }, []);
+
   const completeSession = useCallback((phase, sessionsCompleted) => {
     if (sessionStartTime && phase === 'work') {
       const newSession = {
@@ -205,16 +215,25 @@ export function AppProvider({ children }) {
         notify('Focus Session Complete!', 'Time for a break.');
       }
 
-      setShowBreakSuggestion(true);
+      if (settings.autoStartBreaks) {
+        const sessionsBeforeLongBreak = settings.sessionsBeforeLongBreak || 4;
+        const isLongBreak = (sessionsCompleted % sessionsBeforeLongBreak === 0 && sessionsCompleted > 0);
+        const nextPhase = isLongBreak ? 'longBreak' : 'shortBreak';
+        const nextDuration = isLongBreak ? settings.longBreakDuration * 60 : settings.shortBreakDuration * 60;
+        triggerStartBreak(nextPhase, nextDuration);
+      } else {
+        setShowBreakSuggestion(true);
+      }
     } else if (phase !== 'work' && settings.notificationsEnabled) {
       notify("Break's Over!", 'Ready to focus?');
     }
     setSessionStartTime(null);
-  }, [sessionStartTime, settings, stats, recordSession, addPlantedTree, activeTaskId, incrementPomodoro, notify]);
+  }, [sessionStartTime, settings, stats, recordSession, addPlantedTree, activeTaskId, incrementPomodoro, notify, triggerStartBreak]);
 
   const startBreakFromSuggestion = useCallback((suggestion) => {
     setBreakSuggestion(suggestion);
-  }, []);
+    startBreakNow();
+  }, [startBreakNow]);
 
   const dismissBreakSuggestion = useCallback(() => {
     setShowBreakSuggestion(false);
@@ -263,6 +282,9 @@ export function AppProvider({ children }) {
     breakSuggestion,
     startBreakFromSuggestion,
     dismissBreakSuggestion,
+    startBreakAction,
+    triggerStartBreak,
+    startBreakNow,
     currentView,
     setCurrentView,
     activeTaskId,
@@ -271,7 +293,7 @@ export function AppProvider({ children }) {
     updateTimerState,
     clearTimerState,
     showToast,
-  }), [settings, stats, tasks, templates, sessionStartTime, showBreakSuggestion, breakSuggestion, currentView, activeTaskId, handleDeleteTask, timerState, addTask, updateTask, completeTask, uncompleteTask, toggleComplete, incrementPomodoro, saveAsTemplate, deleteTemplate, createFromTemplate, recordSession, getTodayStats, getWeekStats, getMonthStats, getAllTimeStats, updateStreak, getDailyGoalProgress, addAchievement, addPlantedTree, updateSettings, toggleDarkMode, startSession, completeSession, checkAchievements]);
+  }), [settings, stats, tasks, templates, sessionStartTime, showBreakSuggestion, breakSuggestion, currentView, activeTaskId, handleDeleteTask, timerState, addTask, updateTask, completeSession, uncompleteTask, toggleComplete, incrementPomodoro, saveAsTemplate, deleteTemplate, createFromTemplate, recordSession, getTodayStats, getWeekStats, getMonthStats, getAllTimeStats, updateStreak, getDailyGoalProgress, addAchievement, addPlantedTree, updateSettings, toggleDarkMode, startSession, completeSession, checkAchievements, triggerStartBreak, startBreakNow]);
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }

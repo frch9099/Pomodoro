@@ -18,7 +18,7 @@ const STATUS_COLORS = {
 };
 
 const Timer = memo(function Timer() {
-  const { completeSession, startSession, settings, timerState, updateTimerState, clearTimerState, tasks, activeTaskId } = useApp();
+  const { completeSession, startSession, settings, timerState, updateTimerState, clearTimerState, tasks, activeTaskId, startBreakAction } = useApp();
   const haptics = useHaptics();
   const hasRestoredRef = useRef(false);
 
@@ -28,11 +28,10 @@ const Timer = memo(function Timer() {
 
   const handleComplete = useCallback((phase, sessionsCompleted) => {
     haptics.timerComplete();
-    clearTimerState();
     setTimeout(() => {
       completeSession(phase, sessionsCompleted);
     }, 0);
-  }, [completeSession, clearTimerState, haptics]);
+  }, [completeSession, haptics]);
 
   const { status, phase, timeRemaining, sessionsCompleted, progress, start, pause, reset, skip, setTimeRemaining } = useTimer({
     onComplete: handleComplete,
@@ -64,6 +63,12 @@ const Timer = memo(function Timer() {
       hasRestoredRef.current = false;
     }
   }, [timerState.status, timerState.lastUpdateTime, timerState.timeRemaining, clearTimerState, setTimeRemaining, start]);
+
+  useEffect(() => {
+    if (startBreakAction) {
+      start();
+    }
+  }, [startBreakAction, start]);
 
   const handleStart = useCallback(() => {
     startSession();
@@ -102,8 +107,9 @@ const Timer = memo(function Timer() {
         timeRemaining: result.nextDuration,
         sessionsCompleted: result.newSessions,
       });
+      start();
     }
-  }, [skip, updateTimerState]);
+  }, [skip, updateTimerState, start]);
 
   const minutes = Math.floor(timeRemaining / 60);
   const seconds = timeRemaining % 60;
