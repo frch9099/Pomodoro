@@ -188,34 +188,10 @@ export function useSounds() {
     };
   }, []);
 
-  const muteSound = useCallback(() => {
-    if (gainNodeRef.current) {
-      gainNodeRef.current.gain.value = 0;
-    }
-  }, []);
-
-  const unmuteSound = useCallback(() => {
-    if (gainNodeRef.current) {
-      gainNodeRef.current.gain.value = volume / 100;
-    }
-  }, [volume]);
-
-  const pauseSound = useCallback(() => {
-    muteSound();
-  }, [muteSound]);
-
-  const resumeSound = useCallback(() => {
-    unmuteSound();
-  }, [unmuteSound]);
-
   return {
     playSound,
     stopSound,
     setVolume,
-    muteSound,
-    unmuteSound,
-    pauseSound,
-    resumeSound,
     currentSound,
     volume,
     isPlayingState,

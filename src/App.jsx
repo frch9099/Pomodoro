@@ -266,8 +266,6 @@ function AppContent() {
         onSetVolume={handleSetVolume}
         onOpenAchievements={() => setAchievementsOpen(true)}
         continueSoundDuringBreak={settings.continueSoundDuringBreak}
-        pauseSound={pauseSound}
-        resumeSound={resumeSound}
         timerPhase={timerState.phase}
       />
 

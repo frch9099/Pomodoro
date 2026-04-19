@@ -12,8 +12,6 @@ const SoundButton = memo(function SoundButton({
   onSetVolume,
   onOpenAchievements,
   continueSoundDuringBreak,
-  pauseSound,
-  resumeSound,
   timerPhase,
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -30,17 +28,21 @@ const SoundButton = memo(function SoundButton({
     setIsMuted(volume === 0);
   }, [volume]);
 
+  const wasPlayingBeforeBreak = useRef(false);
+
   useEffect(() => {
     if (timerPhase === 'shortBreak' || timerPhase === 'longBreak') {
       if (!continueSoundDuringBreak && isPlaying) {
-        pauseSound();
+        wasPlayingBeforeBreak.current = true;
+        stopSound();
       }
     } else {
-      if (!continueSoundDuringBreak && currentSound && !isPlaying) {
-        resumeSound();
+      if (wasPlayingBeforeBreak.current && currentSound) {
+        wasPlayingBeforeBreak.current = false;
+        playSound(currentSound);
       }
     }
-  }, [timerPhase, continueSoundDuringBreak, isPlaying, currentSound, pauseSound, resumeSound]);
+  }, [timerPhase, continueSoundDuringBreak, isPlaying, currentSound, stopSound, playSound]);
 
   useEffect(() => {
     const handleClickOutside = (e) => {
