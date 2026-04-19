@@ -287,4 +287,4 @@ export function useStats() {
   };
 }
 
-export { defaultStats };
+export { defaultStats, getStartOfDay, getDaysAgo, isSameDay, isConsecutiveDay };

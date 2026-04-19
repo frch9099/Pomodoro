@@ -55,18 +55,18 @@ const TaskList = memo(function TaskList({
   };
 
   return (
-    <div className="bg-[#FFFFFF] dark:bg-[#252B27] rounded-xl p-4 shadow-md">
+    <div className="bg-[var(--bg-secondary)] rounded-[var(--radius-md)] p-4 shadow-[var(--shadow-md)]">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-bold text-[#2D3830] dark:text-[#E8EBE4]">Tasks</h2>
+        <h2 className="text-lg font-bold text-[var(--text-primary)]">Tasks</h2>
         <div className="flex gap-2">
           <button
             onClick={() => setShowTemplates(!showTemplates)}
             className={`
-              p-2 rounded-lg transition-colors
+              p-2 rounded-[var(--radius-sm)] transition-colors
               ${
                 showTemplates
-                  ? 'bg-[#64B5F6] dark:bg-[#81D4FA] text-white'
-                  : 'bg-[#F0EFEB] dark:bg-[#2D3530] text-[#5C6B60] dark:text-[#9CA89F] hover:text-[#2D3830] dark:hover:text-[#E8EBE4]'
+                  ? 'bg-[var(--accent-blue)] text-white'
+                  : 'bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               }
             `}
             title="Templates"
@@ -75,7 +75,7 @@ const TaskList = memo(function TaskList({
           </button>
           <button
             onClick={handleAddClick}
-            className="p-2 rounded-lg bg-[#4CAF50] dark:bg-[#66BB6A] text-white hover:opacity-90 transition-opacity"
+            className="p-2 rounded-[var(--radius-sm)] bg-[var(--accent-green)] text-white hover:opacity-90 transition-opacity"
             title="Add task"
           >
             <Plus className="w-4 h-4" />
@@ -84,42 +84,42 @@ const TaskList = memo(function TaskList({
       </div>
 
       {showTemplates && (
-        <div className="mb-4 p-3 bg-[#F0EFEB] dark:bg-[#2D3530] rounded-lg">
+        <div className="mb-4 p-3 bg-[var(--bg-tertiary)] rounded-[var(--radius-md)]">
           <div className="flex items-center justify-between mb-2">
-            <h3 className="text-sm font-semibold text-[#2D3830] dark:text-[#E8EBE4]">Templates</h3>
+            <h3 className="text-sm font-semibold text-[var(--text-primary)]">Templates</h3>
             <button
               onClick={() => setShowTemplates(false)}
-              className="p-1 rounded hover:bg-[#F0EFEB] dark:hover:bg-[#2D3530]"
+              className="p-1 rounded-[var(--radius-sm)] hover:bg-[var(--bg-secondary)]"
             >
-              <X className="w-4 h-4 text-[#5C6B60] dark:text-[#9CA89F]" />
+              <X className="w-4 h-4 text-[var(--text-secondary)]" />
             </button>
           </div>
           {templates.length === 0 ? (
-            <p className="text-sm text-[#5C6B60] dark:text-[#9CA89F]">No templates yet. Save a task as template to see it here.</p>
+            <p className="text-sm text-[var(--text-secondary)]">No templates yet. Save a task as template to see it here.</p>
           ) : (
             <div className="space-y-2">
               {templates.map((template) => (
                 <div
                   key={template.id}
-                  className="flex items-center justify-between p-2 bg-[#FFFFFF] dark:bg-[#252B27] rounded"
+                  className="flex items-center justify-between p-2 bg-[var(--bg-secondary)] rounded-[var(--radius-sm)]"
                 >
                   <div>
-                    <span className="text-sm text-[#2D3830] dark:text-[#E8EBE4]">{template.title}</span>
-                    <span className="ml-2 text-xs text-[#5C6B60] dark:text-[#9CA89F]">
+                    <span className="text-sm text-[var(--text-primary)]">{template.title}</span>
+                    <span className="ml-2 text-xs text-[var(--text-secondary)]">
                       {template.estimatedPomodoros} pomodoro{template.estimatedPomodoros > 1 ? 's' : ''}
                     </span>
                   </div>
                   <div className="flex gap-1">
                     <button
                       onClick={() => onCreateFromTemplate(template.id)}
-                      className="p-1 rounded hover:bg-[#4CAF50] hover:text-white text-[#5C6B60] dark:text-[#9CA89F]"
+                      className="p-1 rounded-[var(--radius-sm)] hover:bg-[var(--accent-green)] hover:text-white text-[var(--text-secondary)]"
                       title="Use template"
                     >
                       <Plus className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => onDeleteTemplate(template.id)}
-                      className="p-1 rounded hover:bg-[#E57373] hover:text-white text-[#5C6B60] dark:text-[#9CA89F]"
+                      className="p-1 rounded-[var(--radius-sm)] hover:bg-[var(--accent-red)] hover:text-white text-[var(--text-secondary)]"
                       title="Delete template"
                     >
                       <X className="w-4 h-4" />
@@ -133,7 +133,7 @@ const TaskList = memo(function TaskList({
       )}
 
       {isAdding && (
-        <form onSubmit={handleAddSubmit} className="mb-4 p-3 bg-[#F0EFEB] dark:bg-[#2D3530] rounded-lg">
+        <form onSubmit={handleAddSubmit} className="mb-4 p-3 bg-[var(--bg-tertiary)] rounded-[var(--radius-md)]">
           <input
             type="text"
             value={newTaskTitle}
@@ -141,25 +141,25 @@ const TaskList = memo(function TaskList({
             onKeyDown={handleAddKeyDown}
             placeholder="Task title..."
             autoFocus
-            className="w-full px-3 py-2 mb-2 bg-[#FFFFFF] dark:bg-[#252B27] rounded-lg text-[#2D3830] dark:text-[#E8EBE4] placeholder-[#5C6B60] dark:placeholder-[#9CA89F] outline-none focus:ring-2 focus:ring-[#4CAF50] dark:focus:ring-[#66BB6A]"
+            className="w-full px-3 py-2 mb-2 bg-[var(--bg-secondary)] rounded-[var(--radius-sm)] text-[var(--text-primary)] placeholder-[var(--text-secondary)] outline-none focus:ring-2 focus:ring-[var(--accent-green)]"
           />
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="text-sm text-[#5C6B60] dark:text-[#9CA89F]">Estimated pomodoros:</span>
+              <span className="text-sm text-[var(--text-secondary)]">Estimated pomodoros:</span>
               <button
                 type="button"
                 onClick={handlePomodoroDecrement}
-                className="w-6 h-6 rounded bg-[#FFFFFF] dark:bg-[#252B27] text-[#2D3830] dark:text-[#E8EBE4] hover:bg-[#4CAF50] hover:text-white"
+                className="w-6 h-6 rounded-[var(--radius-sm)] bg-[var(--bg-secondary)] text-[var(--text-primary)] hover:bg-[var(--accent-green)] hover:text-white"
               >
                 -
               </button>
-              <span className="text-[#2D3830] dark:text-[#E8EBE4] font-medium w-6 text-center">
+              <span className="text-[var(--text-primary)] font-medium w-6 text-center">
                 {newTaskPomodoros}
               </span>
               <button
                 type="button"
                 onClick={handlePomodoroIncrement}
-                className="w-6 h-6 rounded bg-[#FFFFFF] dark:bg-[#252B27] text-[#2D3830] dark:text-[#E8EBE4] hover:bg-[#4CAF50] hover:text-white"
+                className="w-6 h-6 rounded-[var(--radius-sm)] bg-[var(--bg-secondary)] text-[var(--text-primary)] hover:bg-[var(--accent-green)] hover:text-white"
               >
                 +
               </button>
@@ -172,13 +172,13 @@ const TaskList = memo(function TaskList({
                   setNewTaskTitle('');
                   setNewTaskPomodoros(1);
                 }}
-                className="px-3 py-1 text-sm text-[#5C6B60] dark:text-[#9CA89F] hover:text-[#2D3830] dark:hover:text-[#E8EBE4]"
+                className="px-3 py-1 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-3 py-1 text-sm bg-[#4CAF50] dark:bg-[#66BB6A] text-white rounded-lg hover:opacity-90"
+                className="px-3 py-1 text-sm bg-[var(--accent-green)] text-white rounded-[var(--radius-sm)] hover:opacity-90"
               >
                 Add
               </button>
@@ -190,7 +190,7 @@ const TaskList = memo(function TaskList({
       <div className="space-y-2">
         {activeTasks.length === 0 && completedTasks.length === 0 ? (
           <div className="text-center py-8">
-            <p className="text-[#5C6B60] dark:text-[#9CA89F]">No tasks yet. Add one to get started!</p>
+            <p className="text-[var(--text-secondary)]">No tasks yet. Add one to get started!</p>
           </div>
         ) : (
           <>
@@ -211,7 +211,7 @@ const TaskList = memo(function TaskList({
               <div className="mt-4">
                 <button
                   onClick={() => setShowCompleted(!showCompleted)}
-                  className="flex items-center gap-1 text-sm text-[#5C6B60] dark:text-[#9CA89F] hover:text-[#2D3830] dark:hover:text-[#E8EBE4]"
+                  className="flex items-center gap-1 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                 >
                   {showCompleted ? (
                     <ChevronDown className="w-4 h-4" />

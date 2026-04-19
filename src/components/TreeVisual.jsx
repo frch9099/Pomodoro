@@ -223,17 +223,17 @@ export default function TreeVisual({ totalPomodoros, plantedTrees }) {
         <TreeSVG type={currentTreeType} stage={stage} />
       </div>
       <div className="mt-2 text-center">
-        <p className="text-sm font-medium text-[#2D3830] dark:text-[#E8EBE4]">
+        <p className="text-sm font-medium text-[var(--text-primary)]">
           {TREE_TYPES[currentTreeType]?.name}
         </p>
         {nextTreeType && (
-          <p className="text-xs text-[#5C6B60] dark:text-[#9CA89F]">
+          <p className="text-xs text-[var(--text-secondary)]">
             {pomodorosToNext} to next tree
           </p>
         )}
       </div>
       <div className="mt-1 flex items-center gap-1">
-        <span className="text-xs text-[#5C6B60] dark:text-[#9CA89F]">
+        <span className="text-xs text-[var(--text-secondary)]">
           {plantedTrees.length} trees planted
         </span>
       </div>

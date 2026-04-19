@@ -14,39 +14,39 @@ const AchievementCard = memo(function AchievementCard({ achievement, earned }) {
 
   return (
     <div
-      className={`p-4 rounded-xl transition-all ${
+      className={`p-4 rounded-[var(--radius-md)] transition-all ${
         isUnlocked
-          ? 'bg-gradient-to-br from-[#FFD54F]/20 to-[#FFE082]/10 border border-[#FFD54F]/30'
-          : 'bg-[#F0EFEB] dark:bg-[#2D3530] opacity-60'
+          ? 'bg-gradient-to-br from-[var(--accent-gold)]/20 to-[var(--accent-gold)]/10 border border-[var(--accent-gold)]/30'
+          : 'bg-[var(--bg-tertiary)] opacity-60'
       }`}
     >
       <div className="flex items-start gap-3">
         <div
-          className={`p-2 rounded-lg ${
-            isUnlocked ? 'bg-[#FFD54F]/20' : 'bg-[#E8EBE4] dark:bg-[#1A1F1C]'
+          className={`p-2 rounded-[var(--radius-sm)] ${
+            isUnlocked ? 'bg-[var(--accent-gold)]/20' : 'bg-[var(--bg-secondary)]'
           }`}
         >
           <IconComponent
-            className={`w-6 h-6 ${isUnlocked ? 'text-[#FFD54F]' : 'text-[#9CA89F]'}`}
+            className={`w-6 h-6 ${isUnlocked ? 'text-[var(--accent-gold)]' : 'text-[var(--text-secondary)]'}`}
           />
         </div>
         <div className="flex-1 min-w-0">
           <h4
             className={`font-semibold ${
-              isUnlocked ? 'text-[#2D3830] dark:text-[#E8EBE4]' : 'text-[#5C6B60] dark:text-[#9CA89F]'
+              isUnlocked ? 'text-[var(--text-primary)]' : 'text-[var(--text-secondary)]'
             }`}
           >
             {achievement.title}
           </h4>
           <p
             className={`text-sm mt-0.5 ${
-              isUnlocked ? 'text-[#5C6B60] dark:text-[#9CA89F]' : 'text-[#9CA89F]'
+              isUnlocked ? 'text-[var(--text-secondary)]' : 'text-[var(--text-secondary)]'
             }`}
           >
             {achievement.description}
           </p>
           {!isUnlocked && (
-            <p className="text-xs text-[#9CA89F] mt-1">
+            <p className="text-xs text-[var(--text-secondary)] mt-1">
               {achievement.requirement} {achievement.type === 'streak' ? 'day streak' : 'pomodoros'}
             </p>
           )}
@@ -68,65 +68,65 @@ const AchievementsModal = memo(function AchievementsModal({ isOpen, onClose, sta
         className="absolute inset-0 bg-black/50 backdrop-blur-sm"
         onClick={onClose}
       />
-      <div className="relative w-full max-w-2xl max-h-[80vh] overflow-hidden bg-[#FAF9F7] dark:bg-[#1A1F1C] rounded-2xl shadow-xl animate-modal-in">
-        <div className="flex items-center justify-between p-6 border-b border-[#E8EBE4] dark:border-[#2D3530]">
+      <div className="relative w-full max-w-2xl max-h-[80vh] overflow-hidden bg-[var(--bg-primary)] rounded-[var(--radius-lg)] shadow-[var(--shadow-xl)] animate-modal-in">
+        <div className="flex items-center justify-between p-6 border-b border-[var(--bg-tertiary)]">
           <div className="flex items-center gap-3">
-            <Award className="w-6 h-6 text-[#FFD54F]" />
-            <h2 className="text-xl font-bold text-[#2D3830] dark:text-[#E8EBE4]">
+            <Award className="w-6 h-6 text-[var(--accent-gold)]" />
+            <h2 className="text-xl font-bold text-[var(--text-primary)]">
               Achievements
             </h2>
-            <span className="px-2 py-0.5 text-sm bg-[#FFD54F]/20 text-[#2D3830] dark:text-[#E8EBE4] rounded-full">
+            <span className="px-2 py-0.5 text-sm bg-[var(--accent-gold)]/20 text-[var(--text-primary)] rounded-full">
               {earnedIds.length}/{ACHIEVEMENTS.length}
             </span>
           </div>
           <button
             onClick={onClose}
-            className="p-2 rounded-lg hover:bg-[#F0EFEB] dark:hover:bg-[#2D3530] transition-colors"
+            className="p-2 rounded-[var(--radius-sm)] hover:bg-[var(--bg-tertiary)] transition-colors"
             aria-label="Close achievements"
           >
-            <X className="w-5 h-5 text-[#5C6B60] dark:text-[#9CA89F]" />
+            <X className="w-5 h-5 text-[var(--text-secondary)]" />
           </button>
         </div>
 
         <div className="p-6 overflow-y-auto max-h-[calc(80vh-80px)]">
           <div className="mb-6">
-            <h3 className="text-sm font-semibold text-[#5C6B60] dark:text-[#9CA89F] uppercase tracking-wider mb-3">
+            <h3 className="text-sm font-semibold text-[var(--text-secondary)] uppercase tracking-wider mb-3">
               Progress
             </h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-              <div className="p-4 bg-[#FFFFFF] dark:bg-[#252B27] rounded-xl">
+              <div className="p-4 bg-[var(--bg-secondary)] rounded-[var(--radius-md)]">
                 <div className="flex items-center gap-2 mb-2">
-                  <Target className="w-5 h-5 text-[#4CAF50]" />
-                  <span className="text-sm text-[#5C6B60] dark:text-[#9CA89F]">Total</span>
+                  <Target className="w-5 h-5 text-[var(--accent-green)]" />
+                  <span className="text-sm text-[var(--text-secondary)]">Total</span>
                 </div>
-                <p className="text-2xl font-bold text-[#2D3830] dark:text-[#E8EBE4]">
+                <p className="text-2xl font-bold text-[var(--text-primary)]">
                   {stats.totalPomodoros || 0}
                 </p>
               </div>
-              <div className="p-4 bg-[#FFFFFF] dark:bg-[#252B27] rounded-xl">
+              <div className="p-4 bg-[var(--bg-secondary)] rounded-[var(--radius-md)]">
                 <div className="flex items-center gap-2 mb-2">
-                  <Flame className="w-5 h-5 text-[#FFD54F]" />
-                  <span className="text-sm text-[#5C6B60] dark:text-[#9CA89F]">Streak</span>
+                  <Flame className="w-5 h-5 text-[var(--accent-gold)]" />
+                  <span className="text-sm text-[var(--text-secondary)]">Streak</span>
                 </div>
-                <p className="text-2xl font-bold text-[#2D3830] dark:text-[#E8EBE4]">
+                <p className="text-2xl font-bold text-[var(--text-primary)]">
                   {stats.currentStreak || 0} days
                 </p>
               </div>
-              <div className="p-4 bg-[#FFFFFF] dark:bg-[#252B27] rounded-xl">
+              <div className="p-4 bg-[var(--bg-secondary)] rounded-[var(--radius-md)]">
                 <div className="flex items-center gap-2 mb-2">
-                  <TreeDeciduous className="w-5 h-5 text-[#4CAF50]" />
-                  <span className="text-sm text-[#5C6B60] dark:text-[#9CA89F]">Trees</span>
+                  <TreeDeciduous className="w-5 h-5 text-[var(--accent-green)]" />
+                  <span className="text-sm text-[var(--text-secondary)]">Trees</span>
                 </div>
-                <p className="text-2xl font-bold text-[#2D3830] dark:text-[#E8EBE4]">
+                <p className="text-2xl font-bold text-[var(--text-primary)]">
                   {stats.plantedTrees?.length || 0}
                 </p>
               </div>
-              <div className="p-4 bg-[#FFFFFF] dark:bg-[#252B27] rounded-xl">
+              <div className="p-4 bg-[var(--bg-secondary)] rounded-[var(--radius-md)]">
                 <div className="flex items-center gap-2 mb-2">
-                  <Clock className="w-5 h-5 text-[#64B5F6]" />
-                  <span className="text-sm text-[#5C6B60] dark:text-[#9CA89F]">Best</span>
+                  <Clock className="w-5 h-5 text-[var(--accent-blue)]" />
+                  <span className="text-sm text-[var(--text-secondary)]">Best</span>
                 </div>
-                <p className="text-2xl font-bold text-[#2D3830] dark:text-[#E8EBE4]">
+                <p className="text-2xl font-bold text-[var(--text-primary)]">
                   {stats.bestStreak || 0} days
                 </p>
               </div>
@@ -134,7 +134,7 @@ const AchievementsModal = memo(function AchievementsModal({ isOpen, onClose, sta
           </div>
 
           <div className="mb-6">
-            <h3 className="text-sm font-semibold text-[#5C6B60] dark:text-[#9CA89F] uppercase tracking-wider mb-3">
+            <h3 className="text-sm font-semibold text-[var(--text-secondary)] uppercase tracking-wider mb-3">
               Tree Collection
             </h3>
             <div className="flex flex-wrap gap-2">
@@ -143,22 +143,22 @@ const AchievementsModal = memo(function AchievementsModal({ isOpen, onClose, sta
                 return (
                   <div
                     key={treeId}
-                    className={`px-3 py-2 rounded-lg flex items-center gap-2 ${
+                    className={`px-3 py-2 rounded-[var(--radius-sm)] flex items-center gap-2 ${
                       unlocked
-                        ? 'bg-[#4CAF50]/10 border border-[#4CAF50]/30'
-                        : 'bg-[#F0EFEB] dark:bg-[#2D3530] opacity-50'
+                        ? 'bg-[var(--accent-green)]/10 border border-[var(--accent-green)]/30'
+                        : 'bg-[var(--bg-tertiary)] opacity-50'
                     }`}
                   >
                     <span className="text-xl">{tree.icon}</span>
                     <span
                       className={`text-sm font-medium ${
-                        unlocked ? 'text-[#2D3830] dark:text-[#E8EBE4]' : 'text-[#9CA89F]'
+                        unlocked ? 'text-[var(--text-primary)]' : 'text-[var(--text-secondary)]'
                       }`}
                     >
                       {tree.name}
                     </span>
                     {!unlocked && (
-                      <span className="text-xs text-[#9CA89F]">
+                      <span className="text-xs text-[var(--text-secondary)]">
                         {tree.unlockAt} pomodoros
                       </span>
                     )}
@@ -169,7 +169,7 @@ const AchievementsModal = memo(function AchievementsModal({ isOpen, onClose, sta
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-[#5C6B60] dark:text-[#9CA89F] uppercase tracking-wider mb-3">
+            <h3 className="text-sm font-semibold text-[var(--text-secondary)] uppercase tracking-wider mb-3">
               All Achievements
             </h3>
             <div className="grid gap-3 md:grid-cols-2">

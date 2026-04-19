@@ -14,6 +14,26 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  /* ============================================
+     DESIGN SYSTEM TOKENS
+     ============================================
+     Use these CSS variables throughout the app
+     for CONSISTENT theming and dark mode support.
+     
+     Colors:
+     - Primary backgrounds: var(--bg-primary), var(--bg-secondary), var(--bg-tertiary)
+     - Text: var(--text-primary), var(--text-secondary)
+     - Accents: var(--accent-green), var(--accent-red), var(--accent-blue), var(--accent-gold)
+     
+     Border Radius:
+     - Buttons/inputs: var(--radius-sm) = 6px
+     - Cards/panels: var(--radius-md) = 12px
+     - Modals: var(--radius-lg) = 16px
+     
+     Shadows:
+     - Standard: var(--shadow-sm), var(--shadow-md), var(--shadow-lg), var(--shadow-xl)
+     ============================================ */
+
   /* Color Palette - Light Mode */
   --bg-primary: #FAF9F7;
   --bg-secondary: #FFFFFF;

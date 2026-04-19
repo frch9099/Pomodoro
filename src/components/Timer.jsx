@@ -4,16 +4,16 @@ import { useApp } from '../context/AppContext';
 import Controls from './Controls';
 
 const PHASE_COLORS = {
-  work: '#4CAF50',
-  shortBreak: '#64B5F6',
-  longBreak: '#64B5F6',
+  work: 'var(--accent-green)',
+  shortBreak: 'var(--accent-blue)',
+  longBreak: 'var(--accent-blue)',
 };
 
 const STATUS_COLORS = {
-  idle: '#9CA89F',
-  running: '#4CAF50',
-  paused: '#FFD54F',
-  completed: '#FFD54F',
+  idle: 'var(--text-secondary)',
+  running: 'var(--accent-green)',
+  paused: 'var(--accent-gold)',
+  completed: 'var(--accent-gold)',
 };
 
 const Timer = memo(function Timer() {
@@ -125,9 +125,8 @@ const Timer = memo(function Timer() {
             cy="140"
             r={radius}
             fill="none"
-            stroke="#E8EBE4"
+            stroke="var(--bg-tertiary)"
             strokeWidth="8"
-            className="dark:stroke-[#2D3530]"
           />
           <circle
             cx="140"
@@ -143,18 +142,18 @@ const Timer = memo(function Timer() {
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-5xl font-mono font-bold text-[#2D3830] dark:text-[#E8EBE4]">
+          <span className="text-5xl font-mono font-bold text-[var(--text-primary)]">
             {timeDisplay}
           </span>
         </div>
       </div>
 
       <div className="text-center">
-        <p className="text-lg font-medium text-[#5C6B60] dark:text-[#9CA89F]">
+        <p className="text-lg font-medium text-[var(--text-secondary)]">
           {phaseLabel}
         </p>
         {phase === 'work' && (
-          <p className="text-sm text-[#9CA89F] dark:text-[#6B7B70] mt-1">
+          <p className="text-sm text-[var(--text-secondary)] opacity-75 mt-1">
             Session {(sessionsCompleted % 4) + 1} of 4
           </p>
         )}

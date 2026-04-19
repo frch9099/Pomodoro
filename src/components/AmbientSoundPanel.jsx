@@ -46,7 +46,7 @@ export default function AmbientSoundPanel({
   const currentSoundInfo = currentSound ? getSoundById(currentSound) : null;
 
   return (
-    <div className="bg-white dark:bg-[#252B27] rounded-xl shadow-md overflow-hidden">
+    <div className="bg-[var(--bg-secondary)] rounded-[var(--radius-md)] shadow-[var(--shadow-md)] overflow-hidden">
       <div className="p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -55,12 +55,12 @@ export default function AmbientSoundPanel({
                 <span className="text-2xl" role="img" aria-label={currentSoundInfo.label}>
                   {currentSoundInfo.icon}
                 </span>
-                <span className="text-sm font-medium text-[#2D3830] dark:text-[#E8EBE4]">
+                <span className="text-sm font-medium text-[var(--text-primary)]">
                   {currentSoundInfo.label}
                 </span>
               </>
             ) : (
-              <span className="text-sm text-[#5C6B60] dark:text-[#9CA89F]">
+              <span className="text-sm text-[var(--text-secondary)]">
                 No sound
               </span>
             )}
@@ -69,13 +69,13 @@ export default function AmbientSoundPanel({
           <div className="flex items-center gap-2">
             <button
               onClick={handleMuteToggle}
-              className="p-2 rounded-lg hover:bg-[#F0EFEB] dark:hover:bg-[#2D3530] transition-colors"
+              className="p-2 rounded-[var(--radius-sm)] hover:bg-[var(--bg-tertiary)] transition-colors"
               aria-label={isMuted ? 'Unmute' : 'Mute'}
             >
               {isMuted || volume === 0 ? (
-                <VolumeX className="w-5 h-5 text-[#5C6B60] dark:text-[#9CA89F]" />
+                <VolumeX className="w-5 h-5 text-[var(--text-secondary)]" />
               ) : (
-                <Volume2 className="w-5 h-5 text-[#5C6B60] dark:text-[#9CA89F]" />
+                <Volume2 className="w-5 h-5 text-[var(--text-secondary)]" />
               )}
             </button>
 
@@ -86,20 +86,20 @@ export default function AmbientSoundPanel({
                 max="100"
                 value={volume}
                 onChange={handleVolumeChange}
-                className="w-full h-2 bg-[#E8EBE4] dark:bg-[#2D3530] rounded-full appearance-none cursor-pointer accent-[#4CAF50]"
+                className="w-full h-2 bg-[var(--bg-tertiary)] rounded-full appearance-none cursor-pointer accent-[var(--accent-green)]"
                 aria-label="Volume"
               />
             </div>
 
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="p-2 rounded-lg hover:bg-[#F0EFEB] dark:hover:bg-[#2D3530] transition-colors"
+              className="p-2 rounded-[var(--radius-sm)] hover:bg-[var(--bg-tertiary)] transition-colors"
               aria-label={isExpanded ? 'Collapse sound panel' : 'Expand sound panel'}
             >
               {isExpanded ? (
-                <ChevronUp className="w-5 h-5 text-[#5C6B60] dark:text-[#9CA89F]" />
+                <ChevronUp className="w-5 h-5 text-[var(--text-secondary)]" />
               ) : (
-                <ChevronDown className="w-5 h-5 text-[#5C6B60] dark:text-[#9CA89F]" />
+                <ChevronDown className="w-5 h-5 text-[var(--text-secondary)]" />
               )}
             </button>
           </div>
@@ -112,7 +112,7 @@ export default function AmbientSoundPanel({
             max="100"
             value={volume}
             onChange={handleVolumeChange}
-            className="w-full h-2 bg-[#E8EBE4] dark:bg-[#2D3530] rounded-full appearance-none cursor-pointer accent-[#4CAF50]"
+            className="w-full h-2 bg-[var(--bg-tertiary)] rounded-full appearance-none cursor-pointer accent-[var(--accent-green)]"
             aria-label="Volume"
           />
         </div>
@@ -128,10 +128,10 @@ export default function AmbientSoundPanel({
             <button
               key={sound.id}
               onClick={() => handleToggleSound(sound.id)}
-              className={`flex flex-col items-center gap-1 p-3 rounded-xl transition-all ${
+              className={`flex flex-col items-center gap-1 p-3 rounded-[var(--radius-md)] transition-all ${
                 currentSound === sound.id && isPlaying
-                  ? 'bg-[#4CAF50]/20 ring-2 ring-[#4CAF50]'
-                  : 'bg-[#F0EFEB] dark:bg-[#2D3530] hover:ring-2 hover:ring-[#4CAF50]/50'
+                  ? 'bg-[var(--accent-green)]/20 ring-2 ring-[var(--accent-green)]'
+                  : 'bg-[var(--bg-tertiary)] hover:ring-2 hover:ring-[var(--accent-green)]/50'
               }`}
               aria-label={`${sound.label}${currentSound === sound.id && isPlaying ? ' (playing)' : ''}`}
               aria-pressed={currentSound === sound.id && isPlaying}
@@ -139,7 +139,7 @@ export default function AmbientSoundPanel({
               <span className="text-2xl" role="img" aria-hidden="true">
                 {sound.icon}
               </span>
-              <span className="text-xs font-medium text-[#5C6B60] dark:text-[#9CA89F]">
+              <span className="text-xs font-medium text-[var(--text-secondary)]">
                 {sound.label}
               </span>
             </button>

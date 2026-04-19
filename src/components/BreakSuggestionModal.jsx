@@ -44,16 +44,16 @@ export default function BreakSuggestionModal({ isOpen, onClose, onStartBreak, su
         onClick={onClose}
       />
       <div
-        className={`relative bg-white dark:bg-[#252B27] rounded-2xl shadow-xl p-6 max-w-sm w-full transform transition-all duration-300 ${
+        className={`relative bg-[var(--bg-secondary)] rounded-[var(--radius-lg)] shadow-[var(--shadow-xl)] p-6 max-w-sm w-full transform transition-all duration-300 ${
           isOpen ? 'scale-100' : 'scale-95'
         }`}
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+          className="absolute top-4 right-4 p-1 rounded-full hover:bg-[var(--bg-tertiary)] transition-colors"
           aria-label="Close"
         >
-          <X className="w-5 h-5 text-[#5C6B60] dark:text-[#9CA89F]" />
+          <X className="w-5 h-5 text-[var(--text-secondary)]" />
         </button>
 
         <div className="text-center">
@@ -62,18 +62,18 @@ export default function BreakSuggestionModal({ isOpen, onClose, onStartBreak, su
           </div>
           <h2
             id="break-suggestion-title"
-            className="text-xl font-bold text-[#2D3830] dark:text-[#E8EBE4] mb-2"
+            className="text-xl font-bold text-[var(--text-primary)] mb-2"
           >
             {displaySuggestion.label}
           </h2>
-          <p className="text-sm text-[#5C6B60] dark:text-[#9CA89F] mb-6">
+          <p className="text-sm text-[var(--text-secondary)] mb-6">
             {formatDuration(displaySuggestion.duration)} • {displaySuggestion.category}
           </p>
 
           <div className="flex flex-col gap-3">
             <button
               onClick={handleStart}
-              className="w-full py-3 px-6 bg-[#4CAF50] hover:bg-[#43A047] active:scale-95 text-white font-semibold rounded-xl transition-all flex items-center justify-center gap-2"
+              className="w-full py-3 px-6 bg-[var(--accent-green)] hover:opacity-90 active:scale-95 text-white font-semibold rounded-[var(--radius-md)] transition-all flex items-center justify-center gap-2"
               aria-label={`Start ${displaySuggestion.label} break`}
             >
               <Play className="w-5 h-5" />
@@ -81,7 +81,7 @@ export default function BreakSuggestionModal({ isOpen, onClose, onStartBreak, su
             </button>
             <button
               onClick={onClose}
-              className="text-sm text-[#5C6B60] dark:text-[#9CA89F] hover:text-[#2D3830] dark:hover:text-[#E8EBE4] transition-colors"
+              className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
             >
               Skip
             </button>

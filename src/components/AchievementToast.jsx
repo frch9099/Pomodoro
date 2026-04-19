@@ -29,9 +29,9 @@ export default function AchievementToast({ achievement, onDismiss }) {
         isLeaving ? 'opacity-0 -translate-y-4' : 'opacity-100 translate-y-0'
       }`}
     >
-      <div className="bg-white dark:bg-[#252B27] rounded-xl shadow-xl border border-[#E0E0E0] dark:border-[#3D4643] p-4 min-w-[280px] max-w-[320px]">
+      <div className="bg-[var(--bg-secondary)] rounded-[var(--radius-md)] shadow-[var(--shadow-xl)] border border-[var(--bg-tertiary)] p-4 min-w-[280px] max-w-[320px]">
         <div className="flex items-start gap-3">
-          <div className="bg-amber-100 dark:bg-amber-900/30 rounded-full p-2">
+          <div className="bg-[var(--accent-gold)]/20 rounded-full p-2">
             <span className="text-2xl">
               {iconName === 'Rocket' && '🚀'}
               {iconName === 'Target' && '🎯'}
@@ -46,21 +46,21 @@ export default function AchievementToast({ achievement, onDismiss }) {
             </span>
           </div>
           <div className="flex-1">
-            <h4 className="text-sm font-semibold text-[#2D3830] dark:text-[#E8EBE4]">
+            <h4 className="text-sm font-semibold text-[var(--text-primary)]">
               Achievement Unlocked!
             </h4>
-            <p className="text-sm font-medium text-[#4CAF50] dark:text-[#66BB6A]">
+            <p className="text-sm font-medium text-[var(--accent-green)]">
               {achievement?.title}
             </p>
-            <p className="text-xs text-[#5C6B60] dark:text-[#9CA89F]">
+            <p className="text-xs text-[var(--text-secondary)]">
               {achievement?.description}
             </p>
           </div>
           <button
             onClick={handleClick}
-            className="p-1 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700"
+            className="p-1 rounded-full hover:bg-[var(--bg-tertiary)]"
           >
-            <X className="w-4 h-4 text-[#5C6B60] dark:text-[#9CA89F]" />
+            <X className="w-4 h-4 text-[var(--text-secondary)]" />
           </button>
         </div>
       </div>

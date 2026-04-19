@@ -62,17 +62,17 @@ export default function ForestView({ plantedTrees, totalPomodoros }) {
   }, [plantedTrees, totalPomodoros]);
 
   return (
-    <div className="bg-[#FFFFFF] dark:bg-[#252B27] rounded-xl p-4 shadow-md">
+    <div className="bg-[var(--bg-secondary)] rounded-[var(--radius-md)] p-4 shadow-[var(--shadow-md)]">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-semibold text-[#2D3830] dark:text-[#E8EBE4]">
+        <h3 className="text-sm font-semibold text-[var(--text-primary)]">
           Your Forest
         </h3>
-        <span className="text-xs text-[#5C6B60] dark:text-[#9CA89F]">
+        <span className="text-xs text-[var(--text-secondary)]">
           {trees.length} trees
         </span>
       </div>
       {trees.length === 0 ? (
-        <p className="text-sm text-[#5C6B60] dark:text-[#9CA89F] text-center py-4">
+        <p className="text-sm text-[var(--text-secondary)] text-center py-4">
           Plant your first tree by completing a pomodoro!
         </p>
       ) : (

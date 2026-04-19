@@ -9,8 +9,8 @@ export default function StreakDisplay({ currentStreak, bestStreak }) {
         <Flame
           className={`w-10 h-10 ${
             isActive
-              ? 'text-[#FFD54F] dark:text-[#FFE082] fill-[#FFD54F] dark:fill-[#FFE082] animate-pulse'
-              : 'text-gray-400'
+              ? 'text-[var(--accent-gold)] fill-[var(--accent-gold)] animate-pulse'
+              : 'text-[var(--text-secondary)]'
           }`}
         />
         <span className="absolute inset-0 flex items-center justify-center text-sm font-bold text-white">

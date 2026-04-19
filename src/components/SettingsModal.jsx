@@ -60,14 +60,14 @@ export default function SettingsModal({ isOpen, onClose }) {
       className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-sm"
       onClick={handleBackdropClick}
     >
-      <div className="bg-white dark:bg-[#252B27] rounded-2xl shadow-xl w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto">
-        <div className="sticky top-0 bg-white dark:bg-[#252B27] border-b border-gray-200 dark:border-gray-700 px-6 py-4 flex items-center justify-between">
-          <h2 className="text-xl font-bold text-[#2D3830] dark:text-[#E8EBE4]">
+      <div className="bg-[var(--bg-secondary)] rounded-[var(--radius-lg)] shadow-[var(--shadow-xl)] w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto">
+        <div className="sticky top-0 bg-[var(--bg-secondary)] border-b border-[var(--bg-tertiary)] px-6 py-4 flex items-center justify-between">
+          <h2 className="text-xl font-bold text-[var(--text-primary)]">
             Settings
           </h2>
           <button
             onClick={onClose}
-            className="p-2 rounded-lg text-[#5C6B60] dark:text-[#9CA89F] hover:bg-[#F0EFEB] dark:hover:bg-[#2D3530] transition-colors"
+            className="p-2 rounded-[var(--radius-sm)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] transition-colors"
             aria-label="Close settings"
           >
             <X className="w-5 h-5" />
@@ -76,16 +76,16 @@ export default function SettingsModal({ isOpen, onClose }) {
 
         <div className="p-6 space-y-6">
           <section>
-            <h3 className="text-sm font-semibold text-[#5C6B60] dark:text-[#9CA89F] uppercase tracking-wide mb-4">
+            <h3 className="text-sm font-semibold text-[var(--text-secondary)] uppercase tracking-wide mb-4">
               Timer
             </h3>
             <div className="space-y-4">
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <label className="text-sm font-medium text-[#2D3830] dark:text-[#E8EBE4]">
+                  <label className="text-sm font-medium text-[var(--text-primary)]">
                     Work Duration
                   </label>
-                  <span className="text-sm font-mono text-[#4CAF50] dark:text-[#66BB6A]">
+                  <span className="text-sm font-mono text-[var(--accent-green)]">
                     {localSettings.workDuration} min
                   </span>
                 </div>
@@ -95,16 +95,16 @@ export default function SettingsModal({ isOpen, onClose }) {
                   max="60"
                   value={localSettings.workDuration}
                   onChange={(e) => handleChange('workDuration', parseInt(e.target.value))}
-                  className="w-full h-2 bg-[#F0EFEB] dark:bg-[#2D3530] rounded-full appearance-none cursor-pointer accent-[#4CAF50]"
+                  className="w-full h-2 bg-[var(--bg-tertiary)] rounded-full appearance-none cursor-pointer accent-[var(--accent-green)]"
                 />
               </div>
 
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <label className="text-sm font-medium text-[#2D3830] dark:text-[#E8EBE4]">
+                  <label className="text-sm font-medium text-[var(--text-primary)]">
                     Short Break Duration
                   </label>
-                  <span className="text-sm font-mono text-[#64B5F6] dark:text-[#81D4FA]">
+                  <span className="text-sm font-mono text-[var(--accent-blue)]">
                     {localSettings.shortBreakDuration} min
                   </span>
                 </div>
@@ -114,16 +114,16 @@ export default function SettingsModal({ isOpen, onClose }) {
                   max="30"
                   value={localSettings.shortBreakDuration}
                   onChange={(e) => handleChange('shortBreakDuration', parseInt(e.target.value))}
-                  className="w-full h-2 bg-[#F0EFEB] dark:bg-[#2D3530] rounded-full appearance-none cursor-pointer accent-[#64B5F6]"
+                  className="w-full h-2 bg-[var(--bg-tertiary)] rounded-full appearance-none cursor-pointer accent-[var(--accent-blue)]"
                 />
               </div>
 
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <label className="text-sm font-medium text-[#2D3830] dark:text-[#E8EBE4]">
+                  <label className="text-sm font-medium text-[var(--text-primary)]">
                     Long Break Duration
                   </label>
-                  <span className="text-sm font-mono text-[#64B5F6] dark:text-[#81D4FA]">
+                  <span className="text-sm font-mono text-[var(--accent-blue)]">
                     {localSettings.longBreakDuration} min
                   </span>
                 </div>
@@ -133,16 +133,16 @@ export default function SettingsModal({ isOpen, onClose }) {
                   max="60"
                   value={localSettings.longBreakDuration}
                   onChange={(e) => handleChange('longBreakDuration', parseInt(e.target.value))}
-                  className="w-full h-2 bg-[#F0EFEB] dark:bg-[#2D3530] rounded-full appearance-none cursor-pointer accent-[#64B5F6]"
+                  className="w-full h-2 bg-[var(--bg-tertiary)] rounded-full appearance-none cursor-pointer accent-[var(--accent-blue)]"
                 />
               </div>
 
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <label className="text-sm font-medium text-[#2D3830] dark:text-[#E8EBE4]">
+                  <label className="text-sm font-medium text-[var(--text-primary)]">
                     Sessions Before Long Break
                   </label>
-                  <span className="text-sm font-mono text-[#4CAF50] dark:text-[#66BB6A]">
+                  <span className="text-sm font-mono text-[var(--accent-green)]">
                     {localSettings.sessionsBeforeLongBreak}
                   </span>
                 </div>
@@ -152,27 +152,27 @@ export default function SettingsModal({ isOpen, onClose }) {
                   max="8"
                   value={localSettings.sessionsBeforeLongBreak}
                   onChange={(e) => handleChange('sessionsBeforeLongBreak', parseInt(e.target.value))}
-                  className="w-full h-2 bg-[#F0EFEB] dark:bg-[#2D3530] rounded-full appearance-none cursor-pointer accent-[#4CAF50]"
+                  className="w-full h-2 bg-[var(--bg-tertiary)] rounded-full appearance-none cursor-pointer accent-[var(--accent-green)]"
                 />
               </div>
             </div>
           </section>
 
           <section>
-            <h3 className="text-sm font-semibold text-[#5C6B60] dark:text-[#9CA89F] uppercase tracking-wide mb-4">
+            <h3 className="text-sm font-semibold text-[var(--text-secondary)] uppercase tracking-wide mb-4">
               Sound
             </h3>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-[#2D3830] dark:text-[#E8EBE4]">
+                <label className="text-sm font-medium text-[var(--text-primary)]">
                   Sound Enabled
                 </label>
                 <button
                   onClick={() => handleChange('soundEnabled', !localSettings.soundEnabled)}
                   className={`relative w-12 h-6 rounded-full transition-colors ${
                     localSettings.soundEnabled
-                      ? 'bg-[#4CAF50] dark:bg-[#66BB6A]'
-                      : 'bg-[#F0EFEB] dark:bg-[#2D3530]'
+                      ? 'bg-[var(--accent-green)]'
+                      : 'bg-[var(--bg-tertiary)]'
                   }`}
                 >
                   <span
@@ -185,10 +185,10 @@ export default function SettingsModal({ isOpen, onClose }) {
 
               <div>
                 <div className="flex justify-between items-center mb-2">
-                  <label className="text-sm font-medium text-[#2D3830] dark:text-[#E8EBE4]">
+                  <label className="text-sm font-medium text-[var(--text-primary)]">
                     Volume
                   </label>
-                  <span className="text-sm font-mono text-[#5C6B60] dark:text-[#9CA89F]">
+                  <span className="text-sm font-mono text-[var(--text-secondary)]">
                     {localSettings.soundVolume}%
                   </span>
                 </div>
@@ -198,26 +198,26 @@ export default function SettingsModal({ isOpen, onClose }) {
                   max="100"
                   value={localSettings.soundVolume}
                   onChange={(e) => handleChange('soundVolume', parseInt(e.target.value))}
-                  className="w-full h-2 bg-[#F0EFEB] dark:bg-[#2D3530] rounded-full appearance-none cursor-pointer accent-[#4CAF50]"
+                  className="w-full h-2 bg-[var(--bg-tertiary)] rounded-full appearance-none cursor-pointer accent-[var(--accent-green)]"
                 />
               </div>
             </div>
           </section>
 
           <section>
-            <h3 className="text-sm font-semibold text-[#5C6B60] dark:text-[#9CA89F] uppercase tracking-wide mb-4">
+            <h3 className="text-sm font-semibold text-[var(--text-secondary)] uppercase tracking-wide mb-4">
               Notifications
             </h3>
             <div className="flex items-center justify-between">
-              <label className="text-sm font-medium text-[#2D3830] dark:text-[#E8EBE4]">
+              <label className="text-sm font-medium text-[var(--text-primary)]">
                 Notifications Enabled
               </label>
               <button
                 onClick={() => handleChange('notificationsEnabled', !localSettings.notificationsEnabled)}
                 className={`relative w-12 h-6 rounded-full transition-colors ${
                   localSettings.notificationsEnabled
-                    ? 'bg-[#4CAF50] dark:bg-[#66BB6A]'
-                    : 'bg-[#F0EFEB] dark:bg-[#2D3530]'
+                    ? 'bg-[var(--accent-green)]'
+                    : 'bg-[var(--bg-tertiary)]'
                 }`}
               >
                 <span
@@ -230,20 +230,20 @@ export default function SettingsModal({ isOpen, onClose }) {
           </section>
 
           <section>
-            <h3 className="text-sm font-semibold text-[#5C6B60] dark:text-[#9CA89F] uppercase tracking-wide mb-4">
+            <h3 className="text-sm font-semibold text-[var(--text-secondary)] uppercase tracking-wide mb-4">
               Auto-behavior
             </h3>
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-[#2D3830] dark:text-[#E8EBE4]">
+                <label className="text-sm font-medium text-[var(--text-primary)]">
                   Auto-start Breaks
                 </label>
                 <button
                   onClick={() => handleChange('autoStartBreaks', !localSettings.autoStartBreaks)}
                   className={`relative w-12 h-6 rounded-full transition-colors ${
                     localSettings.autoStartBreaks
-                      ? 'bg-[#4CAF50] dark:bg-[#66BB6A]'
-                      : 'bg-[#F0EFEB] dark:bg-[#2D3530]'
+                      ? 'bg-[var(--accent-green)]'
+                      : 'bg-[var(--bg-tertiary)]'
                   }`}
                 >
                   <span
@@ -255,15 +255,15 @@ export default function SettingsModal({ isOpen, onClose }) {
               </div>
 
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-[#2D3830] dark:text-[#E8EBE4]">
+                <label className="text-sm font-medium text-[var(--text-primary)]">
                   Auto-start Work
                 </label>
                 <button
                   onClick={() => handleChange('autoStartWork', !localSettings.autoStartWork)}
                   className={`relative w-12 h-6 rounded-full transition-colors ${
                     localSettings.autoStartWork
-                      ? 'bg-[#4CAF50] dark:bg-[#66BB6A]'
-                      : 'bg-[#F0EFEB] dark:bg-[#2D3530]'
+                      ? 'bg-[var(--accent-green)]'
+                      : 'bg-[var(--bg-tertiary)]'
                   }`}
                 >
                   <span
@@ -275,15 +275,15 @@ export default function SettingsModal({ isOpen, onClose }) {
               </div>
 
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium text-[#2D3830] dark:text-[#E8EBE4]">
+                <label className="text-sm font-medium text-[var(--text-primary)]">
                   Continue Sound During Break
                 </label>
                 <button
                   onClick={() => handleChange('continueSoundDuringBreak', !localSettings.continueSoundDuringBreak)}
                   className={`relative w-12 h-6 rounded-full transition-colors ${
                     localSettings.continueSoundDuringBreak
-                      ? 'bg-[#4CAF50] dark:bg-[#66BB6A]'
-                      : 'bg-[#F0EFEB] dark:bg-[#2D3530]'
+                      ? 'bg-[var(--accent-green)]'
+                      : 'bg-[var(--bg-tertiary)]'
                   }`}
                 >
                   <span
@@ -297,15 +297,15 @@ export default function SettingsModal({ isOpen, onClose }) {
           </section>
 
           <section>
-            <h3 className="text-sm font-semibold text-[#5C6B60] dark:text-[#9CA89F] uppercase tracking-wide mb-4">
+            <h3 className="text-sm font-semibold text-[var(--text-secondary)] uppercase tracking-wide mb-4">
               Display
             </h3>
             <div>
               <div className="flex justify-between items-center mb-2">
-                <label className="text-sm font-medium text-[#2D3830] dark:text-[#E8EBE4]">
+                <label className="text-sm font-medium text-[var(--text-primary)]">
                   Daily Goal (pomodoros)
                 </label>
-                <span className="text-sm font-mono text-[#FFD54F] dark:text-[#FFE082]">
+                <span className="text-sm font-mono text-[var(--accent-gold)]">
                   {localSettings.dailyGoal}
                 </span>
               </div>
@@ -315,16 +315,16 @@ export default function SettingsModal({ isOpen, onClose }) {
                 max="20"
                 value={localSettings.dailyGoal}
                 onChange={(e) => handleChange('dailyGoal', parseInt(e.target.value) || 1)}
-                className="w-full px-4 py-2 rounded-lg bg-[#F0EFEB] dark:bg-[#2D3530] border-0 text-[#2D3830] dark:text-[#E8EBE4] font-mono focus:ring-2 focus:ring-[#4CAF50] dark:focus:ring-[#66BB6A]"
+                className="w-full px-4 py-2 rounded-[var(--radius-sm)] bg-[var(--bg-tertiary)] border-0 text-[var(--text-primary)] font-mono focus:ring-2 focus:ring-[var(--accent-green)]"
               />
             </div>
           </section>
         </div>
 
-        <div className="sticky bottom-0 bg-white dark:bg-[#252B27] border-t border-gray-200 dark:border-gray-700 px-6 py-4">
+        <div className="sticky bottom-0 bg-[var(--bg-secondary)] border-t border-[var(--bg-tertiary)] px-6 py-4">
           <button
             onClick={handleReset}
-            className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[#F0EFEB] dark:bg-[#2D3530] text-[#5C6B60] dark:text-[#9CA89F] font-medium hover:bg-[#E5E4DF] dark:hover:bg-[#363D38] transition-colors"
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-[var(--radius-md)] bg-[var(--bg-tertiary)] text-[var(--text-secondary)] font-medium hover:opacity-80 transition-colors"
           >
             <RotateCcw className="w-4 h-4" />
             Reset to Defaults

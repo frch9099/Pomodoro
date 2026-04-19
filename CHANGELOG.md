@@ -1,5 +1,91 @@
 # Changelog
 
+## v0.25.0 - UI/UX Consistency Overhaul
+
+### Problem
+The app had severe UI inconsistencies - some components used CSS variables (`var(--bg-primary)`, etc.) while others used hardcoded hex colors. This caused:
+- Dark mode not working properly on many components
+- Inconsistent visual appearance
+- Hardcoded `dark:` Tailwind selectors mixed with CSS variable usage
+
+### Solution
+Updated all 14 components to use CSS variables consistently for theming:
+
+**Design System Established in `index.css`:**
+- CSS variables defined for all colors, border radii, shadows, and spacing
+- Light and dark mode values clearly documented
+- Components now automatically respond to dark mode via the `.dark` class
+
+**Components Updated:**
+- `Timer.jsx` - Timer colors now use CSS variables
+- `Controls.jsx` - Button colors use CSS variables
+- `TaskList.jsx` - Task panel styling uses CSS variables
+- `TaskItem.jsx` - Task item colors use CSS variables
+- `SettingsModal.jsx` - Settings UI uses CSS variables
+- `AmbientSoundPanel.jsx` - Sound panel uses CSS variables
+- `Stats.jsx` - Stats dashboard uses CSS variables
+- `Header.jsx` - Navigation uses CSS variables
+- `Footer.jsx` - Footer already used CSS variables (verified)
+- `AchievementsModal.jsx` - Achievement cards use CSS variables
+- `AchievementToast.jsx` - Toast notifications use CSS variables
+- `BreakSuggestionModal.jsx` - Break modal uses CSS variables
+- `TreeVisual.jsx` - UI text uses CSS variables (tree colors preserved)
+- `ForestView.jsx` - Forest view UI uses CSS variables
+- `StreakDisplay.jsx` - Streak display uses CSS variables
+
+**Key Changes:**
+- All hardcoded colors replaced with `var(--css-variable)`
+- All `rounded-lg`, `rounded-xl`, `rounded-md` standardized to use `var(--radius-sm)`, `var(--radius-md)`, `var(--radius-lg)`
+- All `shadow-md`, `shadow-lg` standardized to use `var(--shadow-sm)`, `var(--shadow-md)`, etc.
+- Removed all `dark:` Tailwind class overrides (no longer needed with CSS variables)
+
+### Verification
+- Tests: 99 passed
+- Build: Passed
+- No remaining hardcoded UI colors (only SVG tree illustration colors remain as they should be)
+
+---
+
+## v0.24.0 - Critical Streak Calculation Bug Fixed
+**Date:** 2026-04-19
+
+### Fixed
+- **Streak achievements unlocking prematurely**: In `completeSession`, the streak was being artificially inflated with `currentStreak: stats.currentStreak + 1` regardless of whether the session was on a consecutive day. This caused `streak-3`, `streak-7`, and `streak-30` achievements to unlock incorrectly when the actual streak was lower.
+- **Same-day sessions incorrectly incrementing streak**: If a user completed multiple work sessions on the same day, the streak would incorrectly increment for each session instead of staying the same.
+
+### Bug Analysis
+The original code in `completeSession`:
+```javascript
+const statsWithNewData = {
+  ...stats,
+  currentStreak: stats.currentStreak + 1,  // WRONG - always increments
+  ...
+};
+```
+
+This bypassed the proper streak calculation logic that checks:
+- Is this the same day? → streak unchanged
+- Is this a consecutive day? → streak + 1
+- Is there a gap? → streak resets to 1
+
+### Fix Applied
+The streak is now correctly computed based on the session date relationship:
+```javascript
+const isSameDay = lastDate === sessionDate;
+const isConsecutive = lastDate !== null && (sessionDate - lastDate) === (1 * 24 * 60 * 60 * 1000);
+const streakAfterThisSession = isSameDay ? stats.currentStreak : (isConsecutive ? stats.currentStreak + 1 : 1);
+```
+
+### Files Modified
+- `src/context/AppContext.jsx` - Fixed streak calculation in completeSession, added getStartOfDay import
+- `src/hooks/useStats.js` - Exported utility functions (getStartOfDay, getDaysAgo, isSameDay, isConsecutiveDay)
+
+### Verification
+- Build: Passed
+- Tests: 99 passed
+
+---
+
 ## v0.23.0 - Final Release Verification
 **Date:** 2026-04-19
 

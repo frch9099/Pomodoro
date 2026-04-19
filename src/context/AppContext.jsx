@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, useLayoutEffect, useCallback, useMemo } from 'react';
 import { useTasks } from '../hooks/useTasks';
-import { useStats } from '../hooks/useStats';
+import { useStats, getStartOfDay } from '../hooks/useStats';
 import { useAchievements } from '../hooks/useAchievements';
 import { useNotifications } from '../hooks/useNotifications';
 import { getTreeTypeForPomodoros } from '../utils/achievements';
@@ -157,6 +157,16 @@ export function AppProvider({ children }) {
     }
   }, [settings.darkMode]);
 
+  useEffect(() => {
+    const newAchievements = checkAchievements();
+    newAchievements.forEach((achievement) => {
+      addAchievement(achievement.id);
+      if (settings.notificationsEnabled) {
+        notify('Achievement Unlocked!', `You earned: ${achievement.title}`);
+      }
+    });
+  }, [stats.sessions.length, stats.currentStreak, stats.totalPomodoros, stats.plantedTrees.length]);
+
   const updateSettings = (updates) => {
     setSettings((prev) => ({ ...prev, ...updates }));
   };
@@ -178,21 +188,6 @@ export function AppProvider({ children }) {
 
   const completeSession = useCallback((phase, sessionsCompleted) => {
     if (sessionStartTime && phase === 'work') {
-      const newTotalPomodoros = stats.totalPomodoros + 1;
-      const newTreeTypesUnlocked = [...stats.treeTypesUnlocked];
-      if (newTotalPomodoros >= 10 && !newTreeTypesUnlocked.includes('pine')) {
-        newTreeTypesUnlocked.push('pine');
-      }
-      if (newTotalPomodoros >= 25 && !newTreeTypesUnlocked.includes('cherry')) {
-        newTreeTypesUnlocked.push('cherry');
-      }
-      if (newTotalPomodoros >= 50 && !newTreeTypesUnlocked.includes('maple')) {
-        newTreeTypesUnlocked.push('maple');
-      }
-      if (newTotalPomodoros >= 100 && !newTreeTypesUnlocked.includes('bonsai')) {
-        newTreeTypesUnlocked.push('bonsai');
-      }
-
       const newSession = {
         id: crypto.randomUUID(),
         phase,
@@ -203,29 +198,12 @@ export function AppProvider({ children }) {
       };
 
       const newTree = {
-        type: getTreeTypeForPomodoros(newTotalPomodoros),
+        type: getTreeTypeForPomodoros((stats.totalPomodoros ?? 0) + 1),
         growth: 0,
-      };
-
-      const statsWithNewData = {
-        ...stats,
-        totalPomodoros: newTotalPomodoros,
-        currentStreak: stats.currentStreak + 1,
-        treeTypesUnlocked: newTreeTypesUnlocked,
-        sessions: [...stats.sessions, newSession],
-        plantedTrees: [...stats.plantedTrees, { ...newTree, plantedAt: Date.now() }],
       };
 
       recordSession(newSession);
       addPlantedTree(newTree);
-
-      const newAchievements = checkAchievements(statsWithNewData);
-      newAchievements.forEach((achievement) => {
-        addAchievement(achievement.id);
-        if (settings.notificationsEnabled) {
-          notify('Achievement Unlocked!', `You earned: ${achievement.title}`);
-        }
-      });
 
       if (activeTaskId) {
         incrementPomodoro(activeTaskId);
@@ -240,7 +218,7 @@ export function AppProvider({ children }) {
       notify("Break's Over!", 'Ready to focus?');
     }
     setSessionStartTime(null);
-  }, [sessionStartTime, settings.workDuration, settings.notificationsEnabled, recordSession, addPlantedTree, checkAchievements, templates, tasks, addAchievement, notify, activeTaskId, incrementPomodoro]);
+  }, [sessionStartTime, settings.workDuration, settings.notificationsEnabled, recordSession, addPlantedTree, activeTaskId, incrementPomodoro, notify]);
 
   const startBreakFromSuggestion = useCallback((suggestion) => {
     setBreakSuggestion(suggestion);

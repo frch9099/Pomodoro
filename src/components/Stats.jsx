@@ -16,7 +16,7 @@ function CircularProgress({ percentage, size = 120, strokeWidth = 8 }) {
         fill="none"
         stroke="currentColor"
         strokeWidth={strokeWidth}
-        className="text-[#F0EFEB] dark:text-[#2D3530]"
+        className="text-[var(--bg-tertiary)]"
       />
       <circle
         cx={size / 2}
@@ -28,7 +28,7 @@ function CircularProgress({ percentage, size = 120, strokeWidth = 8 }) {
         strokeDasharray={circumference}
         strokeDashoffset={offset}
         strokeLinecap="round"
-        className="text-[#4CAF50] dark:text-[#66BB6A] transition-all duration-500"
+        className="text-[var(--accent-green)] transition-all duration-500"
       />
     </svg>
   );
@@ -40,7 +40,7 @@ function FlameIcon({ active }) {
       width="24"
       height="24"
       viewBox="0 0 24 24"
-      fill={active ? '#FF6B35' : '#9CA89F'}
+      fill={active ? 'var(--accent-gold)' : 'var(--text-secondary)'}
       className="inline-block"
     >
       <path d="M12 23c-4.97 0-9-3.58-9-8 0-2.1.8-4.05 2.18-5.57.37-.41.92-.55 1.43-.38.55.19.95.67 1.01 1.24.12 1.1.52 2.14 1.14 3.02.28.39.78.57 1.24.45.46-.12.78-.55.78-1.03 0-.27-.07-.54-.21-.78-.47-.8-.76-1.67-.85-2.57-.06-.62.18-1.22.63-1.58.45-.36 1.02-.5 1.57-.38 1.09.25 2.22.83 3.12 1.62.38.33.97.31 1.32-.05.35-.36.35-.91 0-1.27C14.67 8.67 12.5 6.5 12.5 3.5c0-1.5.5-2.5 1.5-3.5 0 0 1.5 1.5 1.5 3.5 0 1.5-1 2.5-2 3.5 1-.5 2-1 3-2.5 0 0 1.5 1.5 1.5 3 0 4-3 8-7 8z" />
@@ -54,31 +54,31 @@ function TodayView({ todayStats, currentStreak, bestStreak, dailyGoal }) {
 
   return (
     <div className="flex flex-col items-center gap-6 py-4">
-      <div className="text-6xl font-bold text-[#2D3830] dark:text-[#E8EBE4]">
+      <div className="text-6xl font-bold text-[var(--text-primary)]">
         {todayStats.pomodoros}
       </div>
-      <div className="text-[#5C6B60] dark:text-[#9CA89F]">
+      <div className="text-[var(--text-secondary)]">
         {todayStats.pomodoros === 1 ? 'pomodoro' : 'pomodoros'} today
       </div>
 
       <div className="relative">
         <CircularProgress percentage={progress} size={140} strokeWidth={10} />
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="text-2xl font-bold text-[#4CAF50] dark:text-[#66BB6A]">
+          <span className="text-2xl font-bold text-[var(--accent-green)]">
             {Math.round(progress * 100)}%
           </span>
-          <span className="text-xs text-[#5C6B60] dark:text-[#9CA89F]">
+          <span className="text-xs text-[var(--text-secondary)]">
             of goal
           </span>
         </div>
       </div>
 
       {remaining > 0 ? (
-        <div className="text-sm text-[#5C6B60] dark:text-[#9CA89F]">
+        <div className="text-sm text-[var(--text-secondary)]">
           {remaining} more to reach your daily goal
         </div>
       ) : (
-        <div className="text-sm text-[#4CAF50] dark:text-[#66BB6A] font-medium">
+        <div className="text-sm text-[var(--accent-green)] font-medium">
           Daily goal achieved!
         </div>
       )}
@@ -87,22 +87,22 @@ function TodayView({ todayStats, currentStreak, bestStreak, dailyGoal }) {
         <div className="flex flex-col items-center">
           <div className="flex items-center gap-1">
             <FlameIcon active={currentStreak > 0} />
-            <span className="text-2xl font-bold text-[#2D3830] dark:text-[#E8EBE4]">
+            <span className="text-2xl font-bold text-[var(--text-primary)]">
               {currentStreak}
             </span>
           </div>
-          <span className="text-xs text-[#5C6B60] dark:text-[#9CA89F]">
+          <span className="text-xs text-[var(--text-secondary)]">
             current streak
           </span>
         </div>
         <div className="flex flex-col items-center">
           <div className="flex items-center gap-1">
             <FlameIcon active={bestStreak > 0} />
-            <span className="text-2xl font-bold text-[#2D3830] dark:text-[#E8EBE4]">
+            <span className="text-2xl font-bold text-[var(--text-primary)]">
               {bestStreak}
             </span>
           </div>
-          <span className="text-xs text-[#5C6B60] dark:text-[#9CA89F]">
+          <span className="text-xs text-[var(--text-secondary)]">
             best streak
           </span>
         </div>
@@ -124,21 +124,21 @@ function WeekView({ weekStats }) {
               <div
                 className={`w-full rounded-t transition-all duration-300 ${
                   day.isToday
-                    ? 'bg-[#4CAF50] dark:bg-[#66BB6A]'
-                    : 'bg-[#4CAF50]/40 dark:bg-[#66BB6A]/40'
+                    ? 'bg-[var(--accent-green)]'
+                    : 'bg-[var(--accent-green)]/40'
                 }`}
                 style={{ height: day.pomodoros === 0 ? 0 : `${Math.max(height, 4)}%` }}
               />
               <span
                 className={`text-xs ${
                   day.isToday
-                    ? 'text-[#4CAF50] dark:text-[#66BB6A] font-bold'
-                    : 'text-[#5C6B60] dark:text-[#9CA89F]'
+                    ? 'text-[var(--accent-green)] font-bold'
+                    : 'text-[var(--text-secondary)]'
                 }`}
               >
                 {day.label}
               </span>
-              <span className="text-xs font-medium text-[#2D3830] dark:text-[#E8EBE4]">
+              <span className="text-xs font-medium text-[var(--text-primary)]">
                 {day.pomodoros}
               </span>
             </div>
@@ -153,12 +153,12 @@ function MonthView({ monthStats }) {
   const maxPomodoros = Math.max(...monthStats.map((d) => d.pomodoros), 1);
 
   const getIntensity = (pomodoros) => {
-    if (pomodoros === 0) return 'bg-[#F0EFEB] dark:bg-[#2D3530]';
+    if (pomodoros === 0) return 'bg-[var(--bg-tertiary)]';
     const ratio = pomodoros / maxPomodoros;
-    if (ratio < 0.25) return 'bg-[#4CAF50]/20 dark:bg-[#66BB6A]/20';
-    if (ratio < 0.5) return 'bg-[#4CAF50]/40 dark:bg-[#66BB6A]/40';
-    if (ratio < 0.75) return 'bg-[#4CAF50]/60 dark:bg-[#66BB6A]/60';
-    return 'bg-[#4CAF50] dark:bg-[#66BB6A]';
+    if (ratio < 0.25) return 'bg-[var(--accent-green)]/20';
+    if (ratio < 0.5) return 'bg-[var(--accent-green)]/40';
+    if (ratio < 0.75) return 'bg-[var(--accent-green)]/60';
+    return 'bg-[var(--accent-green)]';
   };
 
   return (
@@ -172,7 +172,7 @@ function MonthView({ monthStats }) {
               key={index}
               className={`aspect-square rounded-sm flex items-center justify-center text-xs
                 ${getIntensity(day.pomodoros)}
-                ${day.isToday ? 'ring-2 ring-[#4CAF50] dark:ring-[#66BB6A]' : ''}
+                ${day.isToday ? 'ring-2 ring-[var(--accent-green)]' : ''}
               `}
               title={`${dayOfMonth}: ${day.pomodoros} pomodoros`}
             >
@@ -181,14 +181,14 @@ function MonthView({ monthStats }) {
           );
         })}
       </div>
-      <div className="flex justify-center gap-3 mt-4 text-xs text-[#5C6B60] dark:text-[#9CA89F]">
+      <div className="flex justify-center gap-3 mt-4 text-xs text-[var(--text-secondary)]">
         <span>Less</span>
         <div className="flex gap-1">
-          <div className="w-4 h-4 rounded-sm bg-[#F0EFEB] dark:bg-[#2D3530]" />
-          <div className="w-4 h-4 rounded-sm bg-[#4CAF50]/20 dark:bg-[#66BB6A]/20" />
-          <div className="w-4 h-4 rounded-sm bg-[#4CAF50]/40 dark:bg-[#66BB6A]/40" />
-          <div className="w-4 h-4 rounded-sm bg-[#4CAF50]/60 dark:bg-[#66BB6A]/60" />
-          <div className="w-4 h-4 rounded-sm bg-[#4CAF50] dark:bg-[#66BB6A]" />
+          <div className="w-4 h-4 rounded-sm bg-[var(--bg-tertiary)]" />
+          <div className="w-4 h-4 rounded-sm bg-[var(--accent-green)]/20" />
+          <div className="w-4 h-4 rounded-sm bg-[var(--accent-green)]/40" />
+          <div className="w-4 h-4 rounded-sm bg-[var(--accent-green)]/60" />
+          <div className="w-4 h-4 rounded-sm bg-[var(--accent-green)]" />
         </div>
         <span>More</span>
       </div>
@@ -199,47 +199,47 @@ function MonthView({ monthStats }) {
 function AllTimeView({ allTimeStats }) {
   return (
     <div className="py-4 grid grid-cols-2 gap-4">
-      <div className="bg-[#F0EFEB] dark:bg-[#2D3530] rounded-xl p-4 text-center">
-        <div className="text-3xl font-bold text-[#2D3830] dark:text-[#E8EBE4]">
+      <div className="bg-[var(--bg-tertiary)] rounded-[var(--radius-md)] p-4 text-center">
+        <div className="text-3xl font-bold text-[var(--text-primary)]">
           {allTimeStats.totalPomodoros}
         </div>
-        <div className="text-sm text-[#5C6B60] dark:text-[#9CA89F]">
+        <div className="text-sm text-[var(--text-secondary)]">
           Total Pomodoros
         </div>
       </div>
 
-      <div className="bg-[#F0EFEB] dark:bg-[#2D3530] rounded-xl p-4 text-center">
-        <div className="text-3xl font-bold text-[#2D3830] dark:text-[#E8EBE4]">
+      <div className="bg-[var(--bg-tertiary)] rounded-[var(--radius-md)] p-4 text-center">
+        <div className="text-3xl font-bold text-[var(--text-primary)]">
           {allTimeStats.focusHours}h
         </div>
-        <div className="text-sm text-[#5C6B60] dark:text-[#9CA89F]">
+        <div className="text-sm text-[var(--text-secondary)]">
           Focus Hours
         </div>
       </div>
 
-      <div className="bg-[#F0EFEB] dark:bg-[#2D3530] rounded-xl p-4 text-center">
-        <div className="text-3xl font-bold text-[#2D3830] dark:text-[#E8EBE4]">
+      <div className="bg-[var(--bg-tertiary)] rounded-[var(--radius-md)] p-4 text-center">
+        <div className="text-3xl font-bold text-[var(--text-primary)]">
           {allTimeStats.treesPlanted}
         </div>
-        <div className="text-sm text-[#5C6B60] dark:text-[#9CA89F]">
+        <div className="text-sm text-[var(--text-secondary)]">
           Trees Planted
         </div>
       </div>
 
-      <div className="bg-[#F0EFEB] dark:bg-[#2D3530] rounded-xl p-4 text-center">
-        <div className="text-3xl font-bold text-[#2D3830] dark:text-[#E8EBE4]">
+      <div className="bg-[var(--bg-tertiary)] rounded-[var(--radius-md)] p-4 text-center">
+        <div className="text-3xl font-bold text-[var(--text-primary)]">
           {allTimeStats.achievementsEarned}
         </div>
-        <div className="text-sm text-[#5C6B60] dark:text-[#9CA89F]">
+        <div className="text-sm text-[var(--text-secondary)]">
           Achievements
         </div>
       </div>
 
-      <div className="col-span-2 bg-[#F0EFEB] dark:bg-[#2D3530] rounded-xl p-4 text-center">
-        <div className="text-3xl font-bold text-[#FFD54F] dark:text-[#FFE082]">
+      <div className="col-span-2 bg-[var(--bg-tertiary)] rounded-[var(--radius-md)] p-4 text-center">
+        <div className="text-3xl font-bold text-[var(--accent-gold)]">
           {allTimeStats.bestStreak} days
         </div>
-        <div className="text-sm text-[#5C6B60] dark:text-[#9CA89F]">
+        <div className="text-sm text-[var(--text-secondary)]">
           Best Streak Ever
         </div>
       </div>
@@ -265,8 +265,8 @@ export default function Stats() {
   ];
 
   return (
-    <div className="bg-white dark:bg-[#252B27] rounded-2xl shadow-md p-4 mt-8">
-      <div className="flex border-b border-[#F0EFEB] dark:border-[#2D3530]">
+    <div className="bg-[var(--bg-secondary)] rounded-[var(--radius-lg)] shadow-[var(--shadow-md)] p-4 mt-8">
+      <div className="flex border-b border-[var(--bg-tertiary)]">
         {tabs.map((tab) => (
           <button
             key={tab.id}
@@ -274,14 +274,14 @@ export default function Stats() {
             className={`flex-1 py-3 text-sm font-medium transition-colors relative
               ${
                 activeTab === tab.id
-                  ? 'text-[#4CAF50] dark:text-[#66BB6A]'
-                  : 'text-[#5C6B60] dark:text-[#9CA89F] hover:text-[#2D3830] dark:hover:text-[#E8EBE4]'
+                  ? 'text-[var(--accent-green)]'
+                  : 'text-[var(--text-secondary)] hover:text-[var(--text-primary)]'
               }
             `}
           >
             {tab.label}
             {activeTab === tab.id && (
-              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[#4CAF50] dark:bg-[#66BB6A]" />
+              <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-[var(--accent-green)]" />
             )}
           </button>
         ))}
