@@ -293,7 +293,7 @@ export function AppProvider({ children }) {
     timerState,
     updateTimerState,
     clearTimerState,
-  }), [settings, tasks, templates, stats, sessionStartTime, showBreakSuggestion, breakSuggestion, currentView, handleDeleteTask, timerState]);
+  }), [settings, stats, sessionStartTime, showBreakSuggestion, breakSuggestion, currentView, handleDeleteTask, timerState]);
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }

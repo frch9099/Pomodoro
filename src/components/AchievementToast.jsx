@@ -43,7 +43,6 @@ export default function AchievementToast({ achievement, onDismiss }) {
               {iconName === 'Bookmark' && '🔖'}
               {iconName === 'TreePine' && '🌲'}
               {iconName === 'Star' && '⭐'}
-              {iconName === 'Award' && '⭐'}
             </span>
           </div>
           <div className="flex-1">
