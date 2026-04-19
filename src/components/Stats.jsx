@@ -248,14 +248,7 @@ function AllTimeView({ allTimeStats }) {
 }
 
 export default function Stats() {
-  const { settings } = useApp();
-  const {
-    stats,
-    getTodayStats,
-    getWeekStats,
-    getMonthStats,
-    getAllTimeStats,
-  } = useStats();
+  const { settings, stats, getTodayStats, getWeekStats, getMonthStats, getAllTimeStats } = useApp();
 
   const [activeTab, setActiveTab] = useState('today');
 

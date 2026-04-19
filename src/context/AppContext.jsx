@@ -293,7 +293,7 @@ export function AppProvider({ children }) {
     timerState,
     updateTimerState,
     clearTimerState,
-  }), [settings, stats, sessionStartTime, showBreakSuggestion, breakSuggestion, currentView, handleDeleteTask, timerState]);
+  }), [settings, stats, tasks, templates, sessionStartTime, showBreakSuggestion, breakSuggestion, currentView, handleDeleteTask, timerState, addTask, updateTask, completeTask, uncompleteTask, toggleComplete, incrementPomodoro, saveAsTemplate, deleteTemplate, createFromTemplate, recordSession, getTodayStats, getWeekStats, getMonthStats, getAllTimeStats, updateStreak, getDailyGoalProgress, addAchievement, addPlantedTree, updateSettings, toggleDarkMode]);
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 }

@@ -1,0 +1,169 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - generic [ref=e7]: 🍅
+        - heading "Pomodoro" [level=1] [ref=e8]
+      - navigation [ref=e9]:
+        - button "Timer" [ref=e10] [cursor=pointer]
+        - button "Tasks" [ref=e11] [cursor=pointer]
+        - button "Stats" [ref=e12] [cursor=pointer]
+      - generic [ref=e13]:
+        - button "Toggle dark mode" [ref=e14] [cursor=pointer]:
+          - img [ref=e15]
+        - button "Settings" [active] [ref=e21] [cursor=pointer]:
+          - img [ref=e22]
+  - generic [ref=e136]:
+    - generic [ref=e137]:
+      - heading "Settings" [level=2] [ref=e138]
+      - button "Close settings" [ref=e139] [cursor=pointer]:
+        - img [ref=e140]
+    - generic [ref=e143]:
+      - generic [ref=e144]:
+        - heading "Timer" [level=3] [ref=e145]
+        - generic [ref=e146]:
+          - generic [ref=e147]:
+            - generic [ref=e148]:
+              - generic [ref=e149]: Work Duration
+              - generic [ref=e150]: 25 min
+            - slider [ref=e151] [cursor=pointer]: "25"
+          - generic [ref=e152]:
+            - generic [ref=e153]:
+              - generic [ref=e154]: Short Break Duration
+              - generic [ref=e155]: 5 min
+            - slider [ref=e156] [cursor=pointer]: "5"
+          - generic [ref=e157]:
+            - generic [ref=e158]:
+              - generic [ref=e159]: Long Break Duration
+              - generic [ref=e160]: 15 min
+            - slider [ref=e161] [cursor=pointer]: "15"
+          - generic [ref=e162]:
+            - generic [ref=e163]:
+              - generic [ref=e164]: Sessions Before Long Break
+              - generic [ref=e165]: "4"
+            - slider [ref=e166] [cursor=pointer]: "4"
+      - generic [ref=e167]:
+        - heading "Sound" [level=3] [ref=e168]
+        - generic [ref=e169]:
+          - generic [ref=e170]:
+            - generic [ref=e171]: Sound Enabled
+            - button [ref=e172] [cursor=pointer]
+          - generic [ref=e174]:
+            - generic [ref=e175]:
+              - generic [ref=e176]: Volume
+              - generic [ref=e177]: 0%
+            - slider [ref=e178] [cursor=pointer]: "0"
+      - generic [ref=e179]:
+        - heading "Notifications" [level=3] [ref=e180]
+        - generic [ref=e181]:
+          - generic [ref=e182]: Notifications Enabled
+          - button [ref=e183] [cursor=pointer]
+      - generic [ref=e185]:
+        - heading "Auto-behavior" [level=3] [ref=e186]
+        - generic [ref=e187]:
+          - generic [ref=e188]:
+            - generic [ref=e189]: Auto-start Breaks
+            - button [ref=e190] [cursor=pointer]
+          - generic [ref=e192]:
+            - generic [ref=e193]: Auto-start Work
+            - button [ref=e194] [cursor=pointer]
+          - generic [ref=e196]:
+            - generic [ref=e197]: Continue Sound During Break
+            - button [ref=e198] [cursor=pointer]
+      - generic [ref=e200]:
+        - heading "Display" [level=3] [ref=e201]
+        - generic [ref=e202]:
+          - generic [ref=e203]:
+            - generic [ref=e204]: Daily Goal (pomodoros)
+            - generic [ref=e205]: "8"
+          - spinbutton [ref=e206]: "8"
+    - button "Reset to Defaults" [ref=e208] [cursor=pointer]:
+      - img [ref=e209]
+      - text: Reset to Defaults
+  - main [ref=e25]:
+    - generic [ref=e27]:
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - img [ref=e30]
+          - generic [ref=e34]: 25:00
+        - generic [ref=e35]:
+          - paragraph [ref=e36]: Focus Time
+          - paragraph [ref=e37]: Session 1 of 4
+        - generic [ref=e38]:
+          - button "Reset timer" [ref=e39] [cursor=pointer]:
+            - img [ref=e40]
+          - button "Start timer" [ref=e43] [cursor=pointer]:
+            - img [ref=e44]
+          - button "Skip to next phase" [ref=e46] [cursor=pointer]:
+            - img [ref=e47]
+      - generic [ref=e51]:
+        - generic [ref=e53]:
+          - generic [ref=e54]:
+            - generic [ref=e55]:
+              - img [ref=e56]
+              - heading "Current Tree" [level=3] [ref=e58]
+            - generic [ref=e59]:
+              - img [ref=e61]
+              - generic [ref=e64]:
+                - paragraph [ref=e65]: Oak
+                - paragraph [ref=e66]: 10 to next tree
+              - generic [ref=e68]: 0 trees planted
+          - generic [ref=e70]:
+            - generic [ref=e72]: Streak
+            - generic [ref=e73]:
+              - generic [ref=e74]:
+                - img [ref=e75]
+                - generic [ref=e77]: "0"
+              - paragraph [ref=e78]: Start a new streak!
+              - paragraph [ref=e79]: "Best: 0 days"
+        - generic [ref=e80]:
+          - generic [ref=e81]:
+            - heading "Tasks" [level=2] [ref=e82]
+            - generic [ref=e83]:
+              - button "Templates" [ref=e84] [cursor=pointer]:
+                - img [ref=e85]
+              - button "Add task" [ref=e87] [cursor=pointer]:
+                - img [ref=e88]
+          - paragraph [ref=e91]: No tasks yet. Add one to get started!
+      - generic [ref=e93]:
+        - generic [ref=e94]:
+          - heading "Your Forest" [level=3] [ref=e95]
+          - generic [ref=e96]: 0 trees
+        - paragraph [ref=e97]: Plant your first tree by completing a pomodoro!
+  - generic [ref=e98]:
+    - generic [ref=e100]:
+      - generic [ref=e102]:
+        - generic [ref=e104]: No sound
+        - generic [ref=e105]:
+          - button "Unmute" [ref=e129] [cursor=pointer]:
+            - img [ref=e130]
+          - slider "Volume" [ref=e112] [cursor=pointer]: "0"
+          - button "Expand sound panel" [ref=e113] [cursor=pointer]:
+            - img [ref=e114]
+      - generic:
+        - generic:
+          - button "Rain":
+            - img: 🌧️
+            - generic: Rain
+          - button "Forest":
+            - img: 🌲
+            - generic: Forest
+          - button "Coffee Shop":
+            - img: ☕
+            - generic: Coffee Shop
+          - button "White Noise":
+            - img: 📻
+            - generic: White Noise
+          - button "Ocean":
+            - img: 🌊
+            - generic: Ocean
+          - button "Fireplace":
+            - img: 🔥
+            - generic: Fireplace
+    - contentinfo [ref=e116]:
+      - generic [ref=e117]:
+        - button "Unmute" [ref=e134] [cursor=pointer]:
+          - img [ref=e120]
+        - button "View achievements" [ref=e124] [cursor=pointer]:
+          - img [ref=e125]
+          - generic [ref=e128]: Achievements

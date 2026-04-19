@@ -1,0 +1,217 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - generic [ref=e7]: 🍅
+        - heading "Pomodoro" [level=1] [ref=e8]
+      - navigation [ref=e9]:
+        - button "Timer" [ref=e10] [cursor=pointer]
+        - button "Tasks" [ref=e11] [cursor=pointer]
+        - button "Stats" [ref=e12] [cursor=pointer]
+      - generic [ref=e13]:
+        - button "Toggle dark mode" [ref=e14] [cursor=pointer]:
+          - img [ref=e15]
+        - button "Settings" [active] [ref=e17] [cursor=pointer]:
+          - img [ref=e18]
+  - generic [ref=e333]:
+    - generic [ref=e334]:
+      - heading "Settings" [level=2] [ref=e335]
+      - button "Close settings" [ref=e336] [cursor=pointer]:
+        - img [ref=e337]
+    - generic [ref=e340]:
+      - generic [ref=e341]:
+        - heading "Timer" [level=3] [ref=e342]
+        - generic [ref=e343]:
+          - generic [ref=e344]:
+            - generic [ref=e345]:
+              - generic [ref=e346]: Work Duration
+              - generic [ref=e347]: 25 min
+            - slider [ref=e348] [cursor=pointer]: "25"
+          - generic [ref=e349]:
+            - generic [ref=e350]:
+              - generic [ref=e351]: Short Break Duration
+              - generic [ref=e352]: 5 min
+            - slider [ref=e353] [cursor=pointer]: "5"
+          - generic [ref=e354]:
+            - generic [ref=e355]:
+              - generic [ref=e356]: Long Break Duration
+              - generic [ref=e357]: 15 min
+            - slider [ref=e358] [cursor=pointer]: "15"
+          - generic [ref=e359]:
+            - generic [ref=e360]:
+              - generic [ref=e361]: Sessions Before Long Break
+              - generic [ref=e362]: "4"
+            - slider [ref=e363] [cursor=pointer]: "4"
+      - generic [ref=e364]:
+        - heading "Sound" [level=3] [ref=e365]
+        - generic [ref=e366]:
+          - generic [ref=e367]:
+            - generic [ref=e368]: Sound Enabled
+            - button [ref=e369] [cursor=pointer]
+          - generic [ref=e371]:
+            - generic [ref=e372]:
+              - generic [ref=e373]: Volume
+              - generic [ref=e374]: 50%
+            - slider [ref=e375] [cursor=pointer]: "50"
+      - generic [ref=e376]:
+        - heading "Notifications" [level=3] [ref=e377]
+        - generic [ref=e378]:
+          - generic [ref=e379]: Notifications Enabled
+          - button [ref=e380] [cursor=pointer]
+      - generic [ref=e382]:
+        - heading "Auto-behavior" [level=3] [ref=e383]
+        - generic [ref=e384]:
+          - generic [ref=e385]:
+            - generic [ref=e386]: Auto-start Breaks
+            - button [ref=e387] [cursor=pointer]
+          - generic [ref=e389]:
+            - generic [ref=e390]: Auto-start Work
+            - button [ref=e391] [cursor=pointer]
+          - generic [ref=e393]:
+            - generic [ref=e394]: Continue Sound During Break
+            - button [ref=e395] [cursor=pointer]
+      - generic [ref=e397]:
+        - heading "Display" [level=3] [ref=e398]
+        - generic [ref=e399]:
+          - generic [ref=e400]:
+            - generic [ref=e401]: Daily Goal (pomodoros)
+            - generic [ref=e402]: "8"
+          - spinbutton [ref=e403]: "8"
+    - button "Reset to Defaults" [ref=e405] [cursor=pointer]:
+      - img [ref=e406]
+      - text: Reset to Defaults
+  - main [ref=e21]:
+    - generic [ref=e23]:
+      - generic [ref=e24]:
+        - generic [ref=e25]:
+          - img [ref=e26]
+          - generic [ref=e30]: 25:00
+        - generic [ref=e31]:
+          - paragraph [ref=e32]: Focus Time
+          - paragraph [ref=e135]: Session 1 of 4
+        - generic [ref=e34]:
+          - button "Reset timer" [ref=e35] [cursor=pointer]:
+            - img [ref=e36]
+          - button "Start timer" [ref=e129] [cursor=pointer]:
+            - img [ref=e130]
+          - button "Skip to next phase" [ref=e42] [cursor=pointer]:
+            - img [ref=e43]
+      - generic [ref=e47]:
+        - generic [ref=e49]:
+          - generic [ref=e50]:
+            - generic [ref=e51]:
+              - img [ref=e52]
+              - heading "Current Tree" [level=3] [ref=e54]
+            - generic [ref=e55]:
+              - img [ref=e57]
+              - generic [ref=e60]:
+                - paragraph [ref=e61]: Oak
+                - paragraph [ref=e62]: 10 to next tree
+              - generic [ref=e64]: 0 trees planted
+          - generic [ref=e66]:
+            - generic [ref=e68]: Streak
+            - generic [ref=e69]:
+              - generic [ref=e70]:
+                - img [ref=e71]
+                - generic [ref=e73]: "0"
+              - paragraph [ref=e74]: Start a new streak!
+              - paragraph [ref=e75]: "Best: 0 days"
+        - generic [ref=e76]:
+          - generic [ref=e77]:
+            - heading "Tasks" [level=2] [ref=e78]
+            - generic [ref=e79]:
+              - button "Templates" [ref=e80] [cursor=pointer]:
+                - img [ref=e81]
+              - button "Add task" [ref=e83] [cursor=pointer]:
+                - img [ref=e84]
+          - generic [ref=e85]:
+            - generic [ref=e255]:
+              - button [ref=e256] [cursor=pointer]
+              - generic [ref=e257]:
+                - generic [ref=e258] [cursor=pointer]: Epsilon
+                - button "Add notes" [ref=e262] [cursor=pointer]
+              - generic [ref=e263]:
+                - button "Save as template" [ref=e264] [cursor=pointer]:
+                  - img [ref=e265]
+                - button "Delete task" [ref=e267] [cursor=pointer]:
+                  - img [ref=e268]
+            - generic [ref=e271]:
+              - button "Completed (3)" [ref=e313] [cursor=pointer]:
+                - img [ref=e273]
+                - text: Completed (3)
+              - generic [ref=e275]:
+                - generic [ref=e314]:
+                  - button [ref=e315] [cursor=pointer]:
+                    - img [ref=e316]
+                  - generic [ref=e318]:
+                    - generic [ref=e319] [cursor=pointer]: Gamma
+                    - button "Add notes" [ref=e323] [cursor=pointer]
+                  - generic [ref=e324]:
+                    - button "Save as template" [ref=e325] [cursor=pointer]:
+                      - img [ref=e326]
+                    - button "Delete task" [ref=e328] [cursor=pointer]:
+                      - img [ref=e329]
+                - generic [ref=e295]:
+                  - button [ref=e296] [cursor=pointer]:
+                    - img [ref=e297]
+                  - generic [ref=e299]:
+                    - generic [ref=e300] [cursor=pointer]: Beta
+                    - button "Add notes" [ref=e304] [cursor=pointer]
+                  - generic [ref=e305]:
+                    - button "Save as template" [ref=e306] [cursor=pointer]:
+                      - img [ref=e307]
+                    - button "Delete task" [ref=e309] [cursor=pointer]:
+                      - img [ref=e310]
+                - generic [ref=e276]:
+                  - button [ref=e277] [cursor=pointer]:
+                    - img [ref=e278]
+                  - generic [ref=e280]:
+                    - generic [ref=e281] [cursor=pointer]: Alpha
+                    - button "Add notes" [ref=e285] [cursor=pointer]
+                  - generic [ref=e286]:
+                    - button "Save as template" [ref=e287] [cursor=pointer]:
+                      - img [ref=e288]
+                    - button "Delete task" [ref=e290] [cursor=pointer]:
+                      - img [ref=e291]
+      - generic [ref=e89]:
+        - generic [ref=e90]:
+          - heading "Your Forest" [level=3] [ref=e91]
+          - generic [ref=e92]: 0 trees
+        - paragraph [ref=e93]: Plant your first tree by completing a pomodoro!
+  - generic [ref=e94]:
+    - generic [ref=e96]:
+      - generic [ref=e98]:
+        - generic [ref=e100]: No sound
+        - generic [ref=e101]:
+          - button "Mute" [ref=e102] [cursor=pointer]:
+            - img [ref=e103]
+          - slider "Volume" [ref=e108] [cursor=pointer]: "50"
+          - button "Expand sound panel" [ref=e109] [cursor=pointer]:
+            - img [ref=e110]
+      - generic:
+        - generic:
+          - button "Rain":
+            - img: 🌧️
+            - generic: Rain
+          - button "Forest":
+            - img: 🌲
+            - generic: Forest
+          - button "Coffee Shop":
+            - img: ☕
+            - generic: Coffee Shop
+          - button "White Noise":
+            - img: 📻
+            - generic: White Noise
+          - button "Ocean":
+            - img: 🌊
+            - generic: Ocean
+          - button "Fireplace":
+            - img: 🔥
+            - generic: Fireplace
+    - contentinfo [ref=e112]:
+      - generic [ref=e113]:
+        - button "Mute sound" [ref=e115] [cursor=pointer]:
+          - img [ref=e116]
+        - button "View achievements" [ref=e120] [cursor=pointer]:
+          - img [ref=e121]
+          - generic [ref=e124]: Achievements

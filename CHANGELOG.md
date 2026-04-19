@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.22.0 - More Code Quality Fixes
+**Date:** 2026-04-19
+
+### Fixed
+- **Stats component using wrong hook**: Stats.jsx was calling `useStats()` directly instead of getting stats from `useApp()`. This caused duplicate hook calls since AppContext already uses useStats internally. Fixed by using `useApp()` for stats access.
+- **TaskItem using CSS custom properties that weren't defined**: TaskItem.jsx used `var(--accent-green)`, `var(--bg-secondary)`, etc. but these CSS variables weren't in scope since the component doesn't use CSS modules. Replaced all CSS variables with actual Tailwind color values matching the design system.
+
+### Files Modified
+- `src/components/Stats.jsx` - Use useApp() instead of useStats() for stats access
+- `src/components/TaskItem.jsx` - Replace CSS variables with actual Tailwind color values
+
+### Verification
+- Build: Passed
+- Tests: 99 passed
+
+---
+
 ## v0.21.0 - Code Quality Fixes
 **Date:** 2026-04-19
 
