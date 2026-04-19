@@ -1,5 +1,24 @@
 # Changelog
 
+## v0.18.0 - AmbientSoundPanel Integration
+**Date:** 2026-04-19
+
+### Fixed
+- **AmbientSoundPanel not integrated** - The AmbientSoundPanel component existed but wasn't used anywhere in the app. Only a mute toggle existed in the footer. Integrated AmbientSoundPanel into the footer area with expand/collapse functionality for selecting ambient sounds.
+- **Sound panel hidden content still intercepting clicks** - When AmbientSoundPanel was collapsed, the `max-h-0 opacity-0` CSS didn't prevent the hidden sound buttons from intercepting pointer events. Added `pointer-events-none` class when collapsed to fix click interception.
+
+### Files Modified
+- `src/App.jsx` - Added AmbientSoundPanel import and integration via soundPanel prop to Footer
+- `src/components/Footer.jsx` - Added soundPanel prop support and nested layout with sound panel above footer
+- `src/components/AmbientSoundPanel.jsx` - Added `pointer-events-none` to collapsed state
+
+### Verification
+- Build: Passed
+- Tests: 99 passed
+- Manual testing: Sound panel expands to show 6 sound options (Rain, Forest, Coffee Shop, White Noise, Ocean, Fireplace), clicking a sound selects and plays it, footer shows current sound selection, no console errors
+
+---
+
 ## v0.17.0 - Critical Bug Fixes - Achievements, Timer Skip, Sound Cleanup
 **Date:** 2026-04-19
 
