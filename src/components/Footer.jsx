@@ -148,6 +148,16 @@ const SoundButton = memo(function SoundButton({
                   aria-label="Volume"
                 />
               </div>
+              <button
+                onClick={() => {
+                  setIsExpanded(false);
+                  onOpenAchievements();
+                }}
+                className="mt-3 w-full flex items-center justify-center gap-2 px-3 py-2 text-sm text-[var(--text-secondary)] hover:text-[var(--accent-gold)] hover:bg-[var(--bg-tertiary)] rounded-[var(--radius-sm)] transition-colors"
+              >
+                <span>🏆</span>
+                <span>View Achievements</span>
+              </button>
             </div>
           </div>
         </div>
