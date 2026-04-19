@@ -21,9 +21,72 @@ npm test -- --coverage  # With coverage
 ```
 
 ## Testing Stack
-- Vitest (test runner)
+- Vitest (unit/component tests)
 - React Testing Library (component tests)
 - jsdom (DOM environment)
+- Playwright (E2E tests)
+
+## E2E Testing Commands
+```bash
+npm run test:e2e        # Run all E2E tests
+npm run test:e2e:ui     # Run with Playwright UI
+npm run test:e2e:headed # Run headed (browser visible)
+npm run test:e2e:debug  # Debug mode
+```
+
+## E2E Test Structure
+```
+e2e/
+├── playwright.config.js     # Test runner config
+├── setup.ts                  # Custom fixtures & Page Objects
+├── pages/                    # Page Object Models
+│   ├── TimerPage.ts
+│   ├── TaskPage.ts
+│   ├── SettingsPage.ts
+│   ├── StatsPage.ts
+│   └── GamificationPage.ts
+└── tests/                    # Test suites
+    ├── timer/
+    │   ├── workflow.spec.ts  # Start/pause/resume/complete
+    │   ├── phases.spec.ts     # Phase transitions
+    │   └── keyboard.spec.ts   # Space, R, S shortcuts
+    ├── tasks/
+    │   ├── crud.spec.ts       # Add/edit/delete/complete
+    │   ├── templates.spec.ts  # Template workflows
+    │   └── estimation.spec.ts # Pomodoro tracking
+    ├── settings/
+    │   ├── durations.spec.ts   # Duration customization
+    │   ├── persistence.spec.ts # localStorage persistence
+    │   └── display.spec.ts     # Dark mode, toggles
+    ├── gamification/
+    │   ├── tree-growth.spec.ts
+    │   ├── streaks.spec.ts
+    │   └── achievements.spec.ts
+    ├── responsive/
+    │   └── viewport.spec.ts   # Mobile/tablet/desktop
+    └── accessibility/
+        └── a11y.spec.ts       # ARIA, keyboard, focus
+```
+
+## E2E Test Coverage (445 tests across 5 browsers)
+| Suite | Tests | Coverage |
+|-------|-------|----------|
+| Timer Workflow | 8 | Start/pause/resume/reset |
+| Timer Phases | 6 | Phase transitions, sessions |
+| Timer Keyboard | 5 | Space, R, S shortcuts |
+| Task CRUD | 8 | Add/edit/delete/complete |
+| Task Templates | 5 | Save/create from templates |
+| Task Estimation | 4 | Pomodoro progress |
+| Settings Durations | 4 | Duration customization |
+| Settings Persistence | 4 | localStorage survive reload |
+| Settings Display | 6 | Dark mode, toggles |
+| Tree Growth | 6 | Growth stages, planting |
+| Streaks | 6 | Streak tracking |
+| Achievements | 7 | Unlock, toast, persist |
+| Responsive | 9 | Mobile/tablet/desktop |
+| Accessibility | 11 | ARIA, keyboard, focus |
+
+**Browser Support:** Chromium, Firefox, Safari, Mobile Chrome, Mobile Safari
 
 ## Architecture
 - Single-page React app, no routing

@@ -19,6 +19,7 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
   const sessionsCompletedRef = useRef(sessionsCompleted);
   const statusRef = useRef(status);
   const onCompleteRef = useRef(onComplete);
+  const hasCompletedRef = useRef(false);
 
   phaseRef.current = phase;
   sessionsCompletedRef.current = sessionsCompleted;
@@ -58,6 +59,8 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
   }, []);
 
   const tick = useCallback(() => {
+    if (hasCompletedRef.current) return;
+    
     if (startTimeRef.current) {
       const elapsed = Math.floor((Date.now() - startTimeRef.current) / 1000);
       const total = getPhaseDuration(phaseRef.current);
@@ -65,6 +68,8 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
       setTimeRemaining(remaining);
       
       if (remaining <= 0) {
+        hasCompletedRef.current = true;
+        
         if (intervalRef.current) {
           clearInterval(intervalRef.current);
           intervalRef.current = null;
@@ -163,6 +168,7 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
   const start = useCallback(() => {
     if (status === 'running') return;
     
+    hasCompletedRef.current = false;
     startTimeRef.current = Date.now() - ((getPhaseDuration(phase) - timeRemaining) * 1000);
     
     if (intervalRef.current) {
@@ -188,6 +194,7 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
+    hasCompletedRef.current = false;
     startTimeRef.current = null;
     setTimeRemaining(getPhaseDuration(phase));
     setStatus('idle');

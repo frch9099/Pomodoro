@@ -23,7 +23,9 @@ const Timer = memo(function Timer() {
 
   const handleComplete = useCallback((phase, sessionsCompleted) => {
     clearTimerState();
-    completeSession(phase, sessionsCompleted);
+    setTimeout(() => {
+      completeSession(phase, sessionsCompleted);
+    }, 0);
   }, [completeSession, clearTimerState]);
 
   const { status, phase, timeRemaining, sessionsCompleted, progress, start, pause, reset, skip, setTimeRemaining } = useTimer({
