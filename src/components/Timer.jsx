@@ -175,9 +175,9 @@ const Timer = memo(function Timer() {
                   className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
                     i < (sessionsCompleted % settings.sessionsBeforeLongBreak)
                       ? 'bg-[var(--accent-green)] opacity-100 scale-100'
-                      : i === (sessionsCompleted % settings.sessionsBeforeLongBreak) && sessionsCompleted > 0
-                        ? 'bg-[var(--accent-green)] opacity-100 scale-100 ring-2 ring-[var(--accent-green)] ring-offset-2 ring-offset-[var(--bg-primary)]'
-                        : 'bg-[var(--text-secondary)]/30 opacity-50 scale-90'
+                      : i === (sessionsCompleted % settings.sessionsBeforeLongBreak)
+                        ? 'bg-[var(--accent-green)]/40 ring-2 ring-[var(--accent-green)] ring-offset-2 ring-offset-[var(--bg-primary)] scale-110'
+                        : 'bg-[var(--text-secondary)]/20 opacity-40 scale-90'
                   }`}
                 />
               ))}
