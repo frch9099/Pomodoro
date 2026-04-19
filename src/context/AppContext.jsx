@@ -4,6 +4,7 @@ import { useStats, getStartOfDay } from '../hooks/useStats';
 import { useAchievements } from '../hooks/useAchievements';
 import { useNotifications } from '../hooks/useNotifications';
 import { getTreeTypeForPomodoros } from '../utils/achievements';
+import DataStore from '../db/DataStore';
 
 const AppContext = createContext(null);
 
@@ -24,17 +25,6 @@ const defaultSettings = {
   language: 'en',
 };
 
-const defaultStats = {
-  sessions: [],
-  achievements: [],
-  currentStreak: 0,
-  bestStreak: 0,
-  lastSessionDate: null,
-  totalPomodoros: 0,
-  treeTypesUnlocked: ['oak'],
-  plantedTrees: [],
-};
-
 const defaultTimerState = {
   status: 'idle',
   phase: 'work',
@@ -45,13 +35,15 @@ const defaultTimerState = {
 
 export function AppProvider({ children }) {
   const [settings, setSettings] = useState(() => {
-    const saved = localStorage.getItem('pomodoro_settings');
-    if (!saved) return defaultSettings;
-    try {
-      return { ...defaultSettings, ...JSON.parse(saved) };
-    } catch {
-      return defaultSettings;
+    const localSettings = localStorage.getItem('pomodoro_settings');
+    if (localSettings) {
+      try {
+        return { ...defaultSettings, ...JSON.parse(localSettings) };
+      } catch {
+        return defaultSettings;
+      }
     }
+    return defaultSettings;
   });
 
   const {
@@ -95,8 +87,7 @@ export function AppProvider({ children }) {
   activeTaskIdRef.current = activeTaskId;
   const [notificationPermissionDenied, setNotificationPermissionDenied] = useState(() => {
     try {
-      const saved = localStorage.getItem('pomodoro_notificationPermissionDenied');
-      return saved === 'true';
+      return localStorage.getItem('pomodoro_notificationPermissionDenied') === 'true';
     } catch {
       return false;
     }
@@ -128,11 +119,7 @@ export function AppProvider({ children }) {
   }, [notificationPermissionDenied]);
 
   useEffect(() => {
-    try {
-      localStorage.setItem('pomodoro_settings', JSON.stringify(settings));
-    } catch (error) {
-      console.error('Failed to save settings to localStorage:', error);
-    }
+    DataStore.saveSettings(settings).catch(() => {});
   }, [settings]);
 
   useEffect(() => {
@@ -285,5 +272,16 @@ export function useApp() {
   }
   return context;
 }
+
+const defaultStats = {
+  sessions: [],
+  achievements: [],
+  currentStreak: 0,
+  bestStreak: 0,
+  lastSessionDate: null,
+  totalPomodoros: 0,
+  treeTypesUnlocked: ['oak'],
+  plantedTrees: [],
+};
 
 export { defaultSettings, defaultStats };

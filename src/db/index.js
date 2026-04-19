@@ -16,3 +16,25 @@ export {
   resumeMigration,
   getMigrationProgress
 } from './MigrationManager';
+export { default as DataStore } from './DataStore';
+export {
+  checkNeedsMigration,
+  runMigration,
+  getSettings,
+  saveSettings,
+  getTasks,
+  saveTask,
+  updateTask,
+  deleteTask,
+  getTemplates,
+  saveTemplate,
+  deleteTemplate,
+  getStats,
+  saveStats,
+  getMigrationStatus,
+  markMigrationComplete,
+  cleanupOldLocalStorage,
+  hasDataInIndexedDB,
+  hasDataInLocalStorage,
+  defaultSettings
+} from './DataStore';

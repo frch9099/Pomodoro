@@ -1,57 +1,30 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
-import { db } from '../db/DexieDB';
-
-const TASKS_KEY = 'pomodoro_tasks';
-const TEMPLATES_KEY = 'pomodoro_templates';
+import { useState, useEffect, useCallback } from 'react';
+import DataStore from '../db/DataStore';
 
 const generateId = () => crypto.randomUUID();
 
 export function useTasks() {
-  const [tasks, setTasks] = useState(() => {
-    const saved = localStorage.getItem(TASKS_KEY);
-    if (!saved) return [];
-    try {
-      return JSON.parse(saved);
-    } catch {
-      return [];
-    }
-  });
-
-  const [templates, setTemplates] = useState(() => {
-    const saved = localStorage.getItem(TEMPLATES_KEY);
-    if (!saved) return [];
-    try {
-      return JSON.parse(saved);
-    } catch {
-      return [];
-    }
-  });
+  const [tasks, setTasks] = useState(() => DataStore.getTasksSync());
+  const [templates, setTemplates] = useState(() => DataStore.getTemplatesSync());
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    async function initialSync() {
-      if (!window.indexedDB) return;
+    async function loadData() {
       try {
-        const existingTasks = await db.tasks.count();
-        if (existingTasks === 0 && tasks.length > 0) {
-          await db.tasks.bulkPut(tasks);
-        }
-        const existingTemplates = await db.templates.count();
-        if (existingTemplates === 0 && templates.length > 0) {
-          await db.templates.bulkPut(templates.map(t => ({
-            id: t.id,
-            name: t.title || t.name,
-            estimatedPomodoros: t.estimatedPomodoros,
-            createdAt: t.createdAt
-          })));
-        }
+        const [loadedTasks, loadedTemplates] = await Promise.all([
+          DataStore.getTasks(),
+          DataStore.getTemplates()
+        ]);
+        setTasks(loadedTasks);
+        setTemplates(loadedTemplates);
       } catch (e) {
-        console.warn('Initial IndexedDB sync skipped:', e.message);
+        console.warn('Failed to load tasks/templates:', e);
       }
     }
-    initialSync();
+    loadData();
   }, []);
 
-  const addTask = useCallback((title, estimatedPomodoros = 1) => {
+  const addTask = useCallback(async (title, estimatedPomodoros = 1) => {
     const newTask = {
       id: generateId(),
       title,
@@ -68,17 +41,9 @@ export function useTasks() {
 
     setTasks((prev) => {
       const updated = [newTask, ...prev];
-      try {
-        localStorage.setItem(TASKS_KEY, JSON.stringify(updated));
-      } catch (error) {
-        console.error('Failed to save tasks to localStorage:', error);
-      }
+      DataStore.saveTask(newTask).catch(() => {});
       return updated;
     });
-
-    if (window.indexedDB) {
-      db.tasks.put(newTask).catch(() => {});
-    }
 
     return newTask;
   }, []);
@@ -88,33 +53,17 @@ export function useTasks() {
       const updated = prev.map((task) =>
         task.id === id ? { ...task, ...updates } : task
       );
-      try {
-        localStorage.setItem(TASKS_KEY, JSON.stringify(updated));
-      } catch (error) {
-        console.error('Failed to save tasks to localStorage:', error);
-      }
+      DataStore.updateTask(id, updates).catch(() => {});
       return updated;
     });
-
-    if (window.indexedDB) {
-      db.tasks.update(id, updates).catch(() => {});
-    }
   }, []);
 
   const deleteTask = useCallback((id) => {
     setTasks((prev) => {
       const updated = prev.filter((task) => task.id !== id);
-      try {
-        localStorage.setItem(TASKS_KEY, JSON.stringify(updated));
-      } catch (error) {
-        console.error('Failed to save tasks to localStorage:', error);
-      }
+      DataStore.deleteTask(id).catch(() => {});
       return updated;
     });
-
-    if (window.indexedDB) {
-      db.tasks.delete(id).catch(() => {});
-    }
   }, []);
 
   const completeTask = useCallback((id) => {
@@ -123,17 +72,9 @@ export function useTasks() {
       const updated = prev.map((task) =>
         task.id === id ? { ...task, isCompleted: true, completedAt } : task
       );
-      try {
-        localStorage.setItem(TASKS_KEY, JSON.stringify(updated));
-      } catch (error) {
-        console.error('Failed to save tasks to localStorage:', error);
-      }
+      DataStore.updateTask(id, { isCompleted: true, completedAt }).catch(() => {});
       return updated;
     });
-
-    if (window.indexedDB) {
-      db.tasks.update(id, { isCompleted: true, completedAt }).catch(() => {});
-    }
   }, []);
 
   const uncompleteTask = useCallback((id) => {
@@ -141,17 +82,9 @@ export function useTasks() {
       const updated = prev.map((task) =>
         task.id === id ? { ...task, isCompleted: false, completedAt: undefined } : task
       );
-      try {
-        localStorage.setItem(TASKS_KEY, JSON.stringify(updated));
-      } catch (error) {
-        console.error('Failed to save tasks to localStorage:', error);
-      }
+      DataStore.updateTask(id, { isCompleted: false, completedAt: undefined }).catch(() => {});
       return updated;
     });
-
-    if (window.indexedDB) {
-      db.tasks.update(id, { isCompleted: false, completedAt: undefined }).catch(() => {});
-    }
   }, []);
 
   const toggleComplete = useCallback((id) => {
@@ -166,17 +99,9 @@ export function useTasks() {
       const updated = prev.map((t) =>
         t.id === id ? { ...t, ...updates } : t
       );
-      try {
-        localStorage.setItem(TASKS_KEY, JSON.stringify(updated));
-      } catch (error) {
-        console.error('Failed to save tasks to localStorage:', error);
-      }
+      DataStore.updateTask(id, updates).catch(() => {});
       return updated;
     });
-
-    if (window.indexedDB) {
-      db.tasks.update(id, { isCompleted: updates.isCompleted, completedAt: updates.completedAt }).catch(() => {});
-    }
   }, [tasks]);
 
   const incrementPomodoro = useCallback((id) => {
@@ -198,17 +123,9 @@ export function useTasks() {
       const updated = prev.map((t) =>
         t.id === id ? { ...t, ...updates } : t
       );
-      try {
-        localStorage.setItem(TASKS_KEY, JSON.stringify(updated));
-      } catch (error) {
-        console.error('Failed to save tasks to localStorage:', error);
-      }
+      DataStore.updateTask(id, updates).catch(() => {});
       return updated;
     });
-
-    if (window.indexedDB) {
-      db.tasks.update(id, updates).catch(() => {});
-    }
   }, [tasks]);
 
   const saveAsTemplate = useCallback((task) => {
@@ -222,22 +139,9 @@ export function useTasks() {
 
     setTemplates((prev) => {
       const updated = [...prev, newTemplate];
-      try {
-        localStorage.setItem(TEMPLATES_KEY, JSON.stringify(updated));
-      } catch (error) {
-        console.error('Failed to save templates to localStorage:', error);
-      }
+      DataStore.saveTemplate(newTemplate).catch(() => {});
       return updated;
     });
-
-    if (window.indexedDB) {
-      db.templates.put({
-        id: newTemplate.id,
-        name: task.title,
-        estimatedPomodoros: task.estimatedPomodoros,
-        createdAt: newTemplate.createdAt
-      }).catch(() => {});
-    }
 
     return newTemplate;
   }, []);
@@ -245,17 +149,9 @@ export function useTasks() {
   const deleteTemplate = useCallback((templateId) => {
     setTemplates((prev) => {
       const updated = prev.filter((t) => t.id !== templateId);
-      try {
-        localStorage.setItem(TEMPLATES_KEY, JSON.stringify(updated));
-      } catch (error) {
-        console.error('Failed to save templates to localStorage:', error);
-      }
+      DataStore.deleteTemplate(templateId).catch(() => {});
       return updated;
     });
-
-    if (window.indexedDB) {
-      db.templates.delete(templateId).catch(() => {});
-    }
   }, []);
 
   const createFromTemplate = useCallback((templateId) => {
@@ -278,17 +174,9 @@ export function useTasks() {
 
     setTasks((prev) => {
       const updated = [newTask, ...prev];
-      try {
-        localStorage.setItem(TASKS_KEY, JSON.stringify(updated));
-      } catch (error) {
-        console.error('Failed to save tasks to localStorage:', error);
-      }
+      DataStore.saveTask(newTask).catch(() => {});
       return updated;
     });
-
-    if (window.indexedDB) {
-      db.tasks.put(newTask).catch(() => {});
-    }
 
     return newTask;
   }, [templates]);
@@ -296,6 +184,7 @@ export function useTasks() {
   return {
     tasks,
     templates,
+    isLoading,
     addTask,
     updateTask,
     deleteTask,

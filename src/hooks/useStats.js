@@ -1,7 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
-import { db } from '../db/DexieDB';
-
-const STATS_KEY = 'pomodoro_stats';
+import DataStore from '../db/DataStore';
 
 const defaultStats = {
   sessions: [],
@@ -50,33 +48,23 @@ const getDaysAgo = (days) => {
 
 export function useStats() {
   const [stats, setStats] = useState(() => {
-    const saved = localStorage.getItem(STATS_KEY);
-    if (!saved) return defaultStats;
-    try {
-      return { ...defaultStats, ...JSON.parse(saved) };
-    } catch {
-      return defaultStats;
-    }
+    const syncStats = DataStore.getStatsSync();
+    return syncStats || defaultStats;
   });
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    async function initialSync() {
-      if (!window.indexedDB) return;
+    async function loadStats() {
       try {
-        const existingStats = await db.stats.get('main');
-        if (!existingStats && stats.sessions.length > 0) {
-          await db.stats.put({
-            id: 'main',
-            ...stats,
-            date: new Date().toISOString().split('T')[0],
-            type: 'main'
-          });
+        const loadedStats = await DataStore.getStats();
+        if (loadedStats) {
+          setStats(loadedStats);
         }
       } catch (e) {
-        console.warn('Initial stats sync skipped:', e.message);
+        console.warn('Failed to load stats:', e);
       }
     }
-    initialSync();
+    loadStats();
   }, []);
 
   const recordSession = useCallback((session) => {
@@ -142,33 +130,12 @@ export function useStats() {
         treeTypesUnlocked: newTreeTypesUnlocked,
       };
 
-      try {
-        localStorage.setItem(STATS_KEY, JSON.stringify(updated));
-      } catch (error) {
-        console.error('Failed to save stats to localStorage:', error);
-      }
-
+      DataStore.saveStats(updated).catch(() => {});
       return updated;
     });
 
-    if (window.indexedDB) {
-      db.stats.put({
-        id: 'main',
-        sessions: [...stats.sessions, newSession],
-        achievements: stats.achievements,
-        currentStreak: stats.currentStreak,
-        bestStreak: stats.bestStreak,
-        lastSessionDate: newSession.completedAt,
-        totalPomodoros: stats.totalPomodoros + 1,
-        treeTypesUnlocked: stats.treeTypesUnlocked,
-        plantedTrees: stats.plantedTrees,
-        date: new Date().toISOString().split('T')[0],
-        type: 'main'
-      }).catch(() => {});
-    }
-
     return newSession;
-  }, [stats]);
+  }, []);
 
   const todayStats = useMemo(() => {
     const todayStart = getStartOfDay();
@@ -275,11 +242,7 @@ export function useStats() {
 
       if (daysDiff > 1) {
         const updated = { ...prev, currentStreak: 0 };
-        try {
-          localStorage.setItem(STATS_KEY, JSON.stringify(updated));
-        } catch (error) {
-          console.error('Failed to save stats to localStorage:', error);
-        }
+        DataStore.saveStats(updated).catch(() => {});
         return updated;
       }
 
@@ -301,20 +264,9 @@ export function useStats() {
         ...prev,
         achievements: [...prev.achievements, achievementId],
       };
-      try {
-        localStorage.setItem(STATS_KEY, JSON.stringify(updated));
-      } catch (error) {
-        console.error('Failed to save stats to localStorage:', error);
-      }
+      DataStore.saveStats(updated).catch(() => {});
       return updated;
     });
-
-    if (window.indexedDB) {
-      db.achievements.put({
-        id: achievementId,
-        unlockedAt: Date.now()
-      }).catch(() => {});
-    }
   }, []);
 
   const addPlantedTree = useCallback((tree) => {
@@ -323,17 +275,14 @@ export function useStats() {
         ...prev,
         plantedTrees: [...prev.plantedTrees, { ...tree, plantedAt: Date.now() }],
       };
-      try {
-        localStorage.setItem(STATS_KEY, JSON.stringify(updated));
-      } catch (error) {
-        console.error('Failed to save stats to localStorage:', error);
-      }
+      DataStore.saveStats(updated).catch(() => {});
       return updated;
     });
   }, []);
 
   return {
     stats,
+    isLoading,
     recordSession,
     getTodayStats,
     getWeekStats,
