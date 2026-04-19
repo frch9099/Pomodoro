@@ -49,14 +49,15 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
   }, [settings]);
 
   const getNextPhase = useCallback((currentPhase, completedSessions) => {
+    const sessionsBeforeLongBreak = settings?.sessionsBeforeLongBreak || 4;
     if (currentPhase === 'work') {
-      if (completedSessions % 4 === 0 && completedSessions > 0) {
+      if (completedSessions % sessionsBeforeLongBreak === 0 && completedSessions > 0) {
         return 'longBreak';
       }
       return 'shortBreak';
     }
     return 'work';
-  }, []);
+  }, [settings]);
 
   const tick = useCallback(() => {
     if (hasCompletedRef.current) return;

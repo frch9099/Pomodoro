@@ -20,7 +20,12 @@ export function useSounds() {
 
   const initAudioContext = useCallback(() => {
     if (!audioContextRef.current) {
-      audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+      try {
+        audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+      } catch (error) {
+        console.warn('Failed to create AudioContext:', error);
+        return null;
+      }
     }
     return audioContextRef.current;
   }, []);
@@ -71,6 +76,9 @@ export function useSounds() {
     }
 
     const audioContext = getAudioContext();
+    if (!audioContext) {
+      return;
+    }
 
     if (audioContext.state === 'suspended') {
       audioContext.resume();

@@ -165,7 +165,7 @@ export function AppProvider({ children }) {
         notify('Achievement Unlocked!', `You earned: ${achievement.title}`);
       }
     });
-  }, [stats.sessions.length, stats.currentStreak, stats.totalPomodoros, stats.plantedTrees.length]);
+  }, [checkAchievements, addAchievement, settings.notificationsEnabled, notify, stats.sessions.length, stats.currentStreak, stats.totalPomodoros, stats.plantedTrees.length]);
 
   const updateSettings = (updates) => {
     setSettings((prev) => ({ ...prev, ...updates }));

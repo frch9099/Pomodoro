@@ -173,7 +173,7 @@ export default function SettingsModal({ isOpen, onClose }) {
                     localSettings.soundEnabled
                       ? 'bg-[var(--accent-green)]'
                       : 'bg-[var(--bg-tertiary)]'
-                  }}`}
+                  }`}
                 >
                   <span
                     className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${
@@ -218,7 +218,7 @@ export default function SettingsModal({ isOpen, onClose }) {
                     localSettings.notificationsEnabled
                       ? 'bg-[var(--accent-green)]'
                       : 'bg-[var(--bg-tertiary)]'
-                  }}`}
+                  }`}
                 >
                 <span
                   className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${
@@ -244,7 +244,7 @@ export default function SettingsModal({ isOpen, onClose }) {
                     localSettings.autoStartBreaks
                       ? 'bg-[var(--accent-green)]'
                       : 'bg-[var(--bg-tertiary)]'
-                  }}`}
+                  }`}
                 >
                   <span
                     className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${
@@ -264,7 +264,7 @@ export default function SettingsModal({ isOpen, onClose }) {
                     localSettings.autoStartWork
                       ? 'bg-[var(--accent-green)]'
                       : 'bg-[var(--bg-tertiary)]'
-                  }}`}
+                  }`}
                 >
                   <span
                     className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${
@@ -284,7 +284,7 @@ export default function SettingsModal({ isOpen, onClose }) {
                     localSettings.continueSoundDuringBreak
                       ? 'bg-[var(--accent-green)]'
                       : 'bg-[var(--bg-tertiary)]'
-                  }}`}
+                  }`}
                 >
                   <span
                     className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${

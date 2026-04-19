@@ -154,7 +154,7 @@ const Timer = memo(function Timer() {
         </p>
         {phase === 'work' && (
           <p className="text-sm text-[var(--text-secondary)] opacity-75 mt-1">
-            Session {(sessionsCompleted % 4) + 1} of 4
+            Session {(sessionsCompleted % settings.sessionsBeforeLongBreak) + 1} of {settings.sessionsBeforeLongBreak}
           </p>
         )}
       </div>
