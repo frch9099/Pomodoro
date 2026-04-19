@@ -1,5 +1,69 @@
 # Changelog
 
+## v1.2.0 - Final Production Verification
+
+**Date:** 2026-04-20
+
+### Comprehensive Verification Completed
+
+**Phase 1: IndexedDB Migration (Dexie.js)**
+- Fresh install: Data works correctly
+- Existing user: localStorage migration works
+- Data corruption: Graceful fallback
+
+**Phase 2: PWA**
+- Service worker: Registers successfully
+- Manifest: Loads correctly
+- Icons: 192x192, 512x512, maskable present
+
+**Phase 3: Mobile Polish**
+- Haptic feedback: Working
+- Swipe gestures: Task completion/deletion works
+- Bottom sheets: Modal behavior correct
+
+### Feature Verification
+
+**Timer:** ✅
+- Start/pause/resume: Works
+- Skip: Works
+- 4 sessions → long break: Verified
+- Tab title: Shows 🍅 MM:SS
+
+**Tasks:** ✅
+- Add 5 tasks: Verified
+- Complete (swipe right): Verified
+- Delete (swipe left): Verified
+- Persistence after refresh: Verified
+
+**Settings:** ✅
+- Work duration: Changes persist
+- Break durations: Changes persist
+- Dark mode: Toggle and persistence works
+
+**Stats:** ✅
+- Today tab: Shows correct data
+- Calculations: Accurate
+
+**Achievements:** ✅
+- Modal: Opens with all 12 achievements
+- Toast: Appears on unlock
+
+**Export/Import:** ✅
+- Export data: Button present
+- Import data: Button present
+
+### Code Quality
+- No `console.log` statements (only `console.warn`/`console.error` for errors)
+- No TODO/FIXME comments
+- All 99 tests passing
+- Production build successful
+
+### Git Status
+- All commits pushed to origin
+- Clean working tree
+
+---
+
 ## v1.1.0 - Phase 1 Verification & DataStore Fixes
 
 ### Fixed
