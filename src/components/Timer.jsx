@@ -87,13 +87,16 @@ const Timer = memo(function Timer() {
   }, [reset, updateTimerState, phase, settings]);
 
   const handleSkip = useCallback(() => {
-    skip();
-    updateTimerState({
-      status: 'idle',
-      phase,
-      sessionsCompleted,
-    });
-  }, [skip, updateTimerState, phase, sessionsCompleted]);
+    const result = skip();
+    if (result) {
+      updateTimerState({
+        status: 'idle',
+        phase: result.nextPhase,
+        timeRemaining: result.nextDuration,
+        sessionsCompleted: result.newSessions,
+      });
+    }
+  }, [skip, updateTimerState]);
 
   const minutes = Math.floor(timeRemaining / 60);
   const seconds = timeRemaining % 60;

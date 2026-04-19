@@ -100,26 +100,31 @@ export const ACHIEVEMENTS = [
 export const TREE_TYPES = {
   oak: {
     name: 'Oak',
+    icon: '🌳',
     unlockAt: 0,
     color: '#4CAF50',
   },
   pine: {
     name: 'Pine',
+    icon: '🌲',
     unlockAt: 10,
     color: '#2E7D32',
   },
   cherry: {
     name: 'Cherry',
+    icon: '🌸',
     unlockAt: 25,
     color: '#E91E63',
   },
   maple: {
     name: 'Maple',
+    icon: '🍁',
     unlockAt: 50,
     color: '#FF5722',
   },
   bonsai: {
     name: 'Bonsai',
+    icon: '🎋',
     unlockAt: 100,
     color: '#795548',
   },

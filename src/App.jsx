@@ -7,6 +7,8 @@ import Stats from './components/Stats';
 import GamificationPanel from './components/GamificationPanel';
 import ForestView from './components/ForestView';
 import Footer from './components/Footer';
+import AmbientSoundPanel from './components/AmbientSoundPanel';
+import AchievementsModal from './components/AchievementsModal';
 import { useSounds } from './hooks/useSounds';
 
 const BreakSuggestionModal = lazy(() => import('./components/BreakSuggestionModal'));
@@ -116,7 +118,7 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors pb-16">
+    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors pb-32">
       <Header />
 <main className="pt-20 px-4">        <div className="max-w-5xl mx-auto">
           <div className={currentView === 'timer' ? 'block' : 'hidden'}>
@@ -250,6 +252,16 @@ function AppContent() {
         onStopSound={handleStopSound}
         onToggleSound={handleToggleSound}
         onOpenAchievements={() => setAchievementsOpen(true)}
+        soundPanel={
+          <AmbientSoundPanel
+            currentSound={settings.currentSound}
+            volume={settings.soundVolume}
+            isPlaying={isPlayingState}
+            onPlaySound={handlePlaySound}
+            onStopSound={handleStopSound}
+            onSetVolume={handleSetVolume}
+          />
+        }
       />
 
       <Suspense fallback={null}>
@@ -260,6 +272,12 @@ function AppContent() {
           suggestion={breakSuggestion}
         />
       </Suspense>
+
+      <AchievementsModal
+        isOpen={achievementsOpen}
+        onClose={() => setAchievementsOpen(false)}
+        stats={stats}
+      />
     </div>
   );
 }

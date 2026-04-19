@@ -119,8 +119,8 @@ export default function AmbientSoundPanel({
       </div>
 
       <div
-        className={`transition-all duration-300 overflow-hidden ${
-          isExpanded ? 'max-h-64 opacity-100' : 'max-h-0 opacity-0'
+        className={`transition-all duration-300 ${
+          isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
         }`}
       >
         <div className="p-4 pt-0 grid grid-cols-3 gap-2">

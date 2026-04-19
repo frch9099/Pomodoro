@@ -205,17 +205,21 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
-    
+
     let newSessions = sessionsCompleted;
     if (phase === 'work') {
       newSessions = sessionsCompleted + 1;
     }
-    setSessionsCompleted(newSessions);
-    
+
     const nextPhase = getNextPhase(phase, newSessions);
+    const nextDuration = getPhaseDuration(nextPhase);
+
+    setSessionsCompleted(newSessions);
     setPhase(nextPhase);
-    setTimeRemaining(getPhaseDuration(nextPhase));
+    setTimeRemaining(nextDuration);
     setStatus('idle');
+
+    return { nextPhase, nextDuration, newSessions };
   }, [phase, sessionsCompleted, getPhaseDuration, getNextPhase]);
 
   useEffect(() => {

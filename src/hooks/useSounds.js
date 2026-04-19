@@ -117,14 +117,22 @@ export function useSounds() {
 
   const stopSound = useCallback(() => {
     if (oscillatorRef.current) {
-      if (oscillatorRef.current.stop) {
+      try {
         oscillatorRef.current.stop();
-      }
-      if (lfoRef.current) {
-        lfoRef.current.stop();
-        lfoRef.current = null;
+      } catch (e) {
       }
       oscillatorRef.current = null;
+    }
+    if (lfoRef.current) {
+      try {
+        lfoRef.current.stop();
+      } catch (e) {
+      }
+      lfoRef.current = null;
+    }
+    if (gainNodeRef.current) {
+      gainNodeRef.current.disconnect();
+      gainNodeRef.current = null;
     }
     setCurrentSound(null);
     setIsPlaying(false);
@@ -141,19 +149,21 @@ export function useSounds() {
     return () => {
       if (oscillatorRef.current) {
         try {
-          if (oscillatorRef.current.stop) {
-            try {
-              oscillatorRef.current.stop();
-            } catch (e) {
-            }
-          }
-          if (lfoRef.current) {
-            lfoRef.current.stop();
-            lfoRef.current = null;
-          }
+          oscillatorRef.current.stop();
         } catch (e) {
         }
         oscillatorRef.current = null;
+      }
+      if (lfoRef.current) {
+        try {
+          lfoRef.current.stop();
+        } catch (e) {
+        }
+        lfoRef.current = null;
+      }
+      if (gainNodeRef.current) {
+        gainNodeRef.current.disconnect();
+        gainNodeRef.current = null;
       }
       if (audioContextRef.current) {
         audioContextRef.current.close().catch(() => {});

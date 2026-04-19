@@ -1,0 +1,43 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - generic [ref=e7]: 🍅
+        - heading "Pomodoro" [level=1] [ref=e8]
+      - navigation [ref=e9]:
+        - button "Timer" [ref=e10] [cursor=pointer]
+        - button "Tasks" [ref=e11] [cursor=pointer]
+        - button "Stats" [ref=e12] [cursor=pointer]
+      - generic [ref=e13]:
+        - button "Toggle dark mode" [ref=e14] [cursor=pointer]:
+          - img [ref=e15]
+        - button "Settings" [ref=e17] [cursor=pointer]:
+          - img [ref=e18]
+  - main [ref=e21]:
+    - generic [ref=e112]:
+      - generic [ref=e113]:
+        - heading "Tasks" [level=2] [ref=e114]
+        - generic [ref=e115]:
+          - button "Templates" [ref=e116] [cursor=pointer]:
+            - img [ref=e117]
+          - button "Add task" [ref=e119] [cursor=pointer]:
+            - img [ref=e120]
+      - generic [ref=e124]:
+        - textbox "Task title..." [active] [ref=e125]
+        - generic [ref=e126]:
+          - generic [ref=e127]:
+            - generic [ref=e128]: "Estimated pomodoros:"
+            - button "-" [ref=e129] [cursor=pointer]
+            - generic [ref=e130]: "1"
+            - button "+" [ref=e131] [cursor=pointer]
+          - generic [ref=e132]:
+            - button "Cancel" [ref=e133] [cursor=pointer]
+            - button "Add" [ref=e134] [cursor=pointer]
+      - paragraph [ref=e123]: No tasks yet. Add one to get started!
+  - contentinfo [ref=e94]:
+    - generic [ref=e95]:
+      - button "Mute sound" [ref=e97] [cursor=pointer]:
+        - img [ref=e98]
+      - button "View achievements" [ref=e102] [cursor=pointer]:
+        - img [ref=e103]
+        - generic [ref=e106]: Achievements

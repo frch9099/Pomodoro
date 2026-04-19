@@ -1,0 +1,49 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - generic [ref=e7]: 🍅
+        - heading "Pomodoro" [level=1] [ref=e8]
+      - navigation [ref=e9]:
+        - button "Timer" [ref=e10] [cursor=pointer]
+        - button "Tasks" [ref=e11] [cursor=pointer]
+        - button "Stats" [ref=e12] [cursor=pointer]
+      - generic [ref=e13]:
+        - button "Toggle dark mode" [ref=e14] [cursor=pointer]:
+          - img [ref=e15]
+        - button "Settings" [ref=e17] [cursor=pointer]:
+          - img [ref=e18]
+  - main [ref=e21]:
+    - generic [ref=e152]:
+      - generic [ref=e153]:
+        - button "Today" [ref=e154] [cursor=pointer]: Today
+        - button "Week" [ref=e156] [cursor=pointer]
+        - button "Month" [ref=e157] [cursor=pointer]
+        - button "All Time" [ref=e158] [cursor=pointer]
+      - generic [ref=e160]:
+        - generic [ref=e161]: "0"
+        - generic [ref=e162]: pomodoros today
+        - generic [ref=e163]:
+          - img [ref=e164]
+          - generic [ref=e167]:
+            - generic [ref=e168]: 0%
+            - generic [ref=e169]: of goal
+        - generic [ref=e170]: 8 more to reach your daily goal
+        - generic [ref=e171]:
+          - generic [ref=e172]:
+            - generic [ref=e173]:
+              - img [ref=e174]
+              - generic [ref=e176]: "0"
+            - generic [ref=e177]: current streak
+          - generic [ref=e178]:
+            - generic [ref=e179]:
+              - img [ref=e180]
+              - generic [ref=e182]: "0"
+            - generic [ref=e183]: best streak
+  - contentinfo [ref=e94]:
+    - generic [ref=e95]:
+      - button "Mute sound" [ref=e97] [cursor=pointer]:
+        - img [ref=e98]
+      - button "View achievements" [ref=e102] [cursor=pointer]:
+        - img [ref=e103]
+        - generic [ref=e106]: Achievements

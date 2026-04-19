@@ -9,6 +9,7 @@ export default function Footer({
   onStopSound,
   onToggleSound,
   onOpenAchievements,
+  soundPanel,
 }) {
   const currentSoundInfo = currentSound ? getSoundById(currentSound) : null;
   const isMuted = volume === 0;
@@ -24,38 +25,45 @@ export default function Footer({
   };
 
   return (
-    <footer className="fixed bottom-0 left-0 right-0 z-40 bg-[var(--bg-secondary)] border-t border-[var(--bg-tertiary)]">
-      <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
-        <div className="flex items-center gap-3">
+    <div className="fixed bottom-0 left-0 right-0 z-40">
+      {soundPanel && (
+        <div className="max-w-5xl mx-auto px-4 pb-2">
+          {soundPanel}
+        </div>
+      )}
+      <footer className="bg-[var(--bg-secondary)] border-t border-[var(--bg-tertiary)]">
+        <div className="max-w-5xl mx-auto px-4 h-14 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={handleSoundToggle}
+              className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors"
+              aria-label={isMuted ? 'Unmute' : 'Mute sound'}
+            >
+              {isMuted || !isPlaying ? (
+                <VolumeX className="w-5 h-5 text-[var(--text-secondary)]" />
+              ) : (
+                <Volume2 className="w-5 h-5 text-[var(--text-secondary)]" />
+              )}
+              {currentSoundInfo && (
+                <span className="text-sm text-[var(--text-secondary)] hidden sm:inline">
+                  {currentSoundInfo.icon} {currentSoundInfo.label}
+                </span>
+              )}
+            </button>
+          </div>
+
           <button
-            onClick={handleSoundToggle}
+            onClick={onOpenAchievements}
             className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors"
-            aria-label={isMuted ? 'Unmute' : 'Mute sound'}
+            aria-label="View achievements"
           >
-            {isMuted || !isPlaying ? (
-              <VolumeX className="w-5 h-5 text-[var(--text-secondary)]" />
-            ) : (
-              <Volume2 className="w-5 h-5 text-[var(--text-secondary)]" />
-            )}
-            {currentSoundInfo && (
-              <span className="text-sm text-[var(--text-secondary)] hidden sm:inline">
-                {currentSoundInfo.icon} {currentSoundInfo.label}
-              </span>
-            )}
+            <Award className="w-5 h-5 text-[var(--accent-gold)]" />
+            <span className="text-sm text-[var(--text-secondary)] hidden sm:inline">
+              Achievements
+            </span>
           </button>
         </div>
-
-        <button
-          onClick={onOpenAchievements}
-          className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors"
-          aria-label="View achievements"
-        >
-          <Award className="w-5 h-5 text-[var(--accent-gold)]" />
-          <span className="text-sm text-[var(--text-secondary)] hidden sm:inline">
-            Achievements
-          </span>
-        </button>
-      </div>
-    </footer>
+      </footer>
+    </div>
   );
 }

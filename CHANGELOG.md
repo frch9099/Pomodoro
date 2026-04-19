@@ -1,5 +1,30 @@
 # Changelog
 
+## v0.17.0 - Critical Bug Fixes - Achievements, Timer Skip, Sound Cleanup
+**Date:** 2026-04-19
+
+### Fixed
+- **Achievements button did nothing** - The `achievementsOpen` state in App.jsx was set when clicking the achievements button but nothing was rendered. Created `AchievementsModal.jsx` component showing progress stats, tree collection, and all 12 achievements. Integrated it into App.jsx to render when `achievementsOpen` is true.
+- **Timer skip stale closure bug** - The `handleSkip` callback in Timer.jsx captured `phase` from the closure which became stale after `skip()` updated the timer state. AppContext's timerState was not synced with the new phase/timeRemaining. Fixed by modifying `skip()` in useTimer.js to return `{ nextPhase, nextDuration, newSessions }` and updating `handleSkip` to use these returned values.
+- **useSounds cleanup didn't disconnect audio nodes** - The cleanup function and `stopSound` didn't disconnect `gainNodeRef.current` from the audio context, causing memory leaks. Added `gainNodeRef.current.disconnect()` in both cleanup paths.
+
+### Files Created
+- `src/components/AchievementsModal.jsx` - Modal showing progress stats, tree collection, and all achievements
+
+### Files Modified
+- `src/App.jsx` - Added AchievementsModal rendering when `achievementsOpen` is true
+- `src/hooks/useTimer.js` - `skip()` now returns new phase/duration/sessions for proper sync
+- `src/components/Timer.jsx` - `handleSkip` uses returned values from `skip()` for proper AppContext sync
+- `src/hooks/useSounds.js` - Fixed cleanup to properly disconnect gainNode
+- `src/utils/achievements.js` - Added `icon` property to TREE_TYPES for emoji display
+
+### Verification
+- Build: Passed
+- Tests: 99 passed
+- Manual testing: Achievements modal opens correctly, timer skip transitions to correct phase, no console errors
+
+---
+
 ## v0.16.0 - Critical Bug Fix - Timer Completion
 **Date:** 2026-04-19
 
