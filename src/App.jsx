@@ -106,6 +106,7 @@ function AppContent() {
   }, []);
 
   const handlePlaySound = (soundId) => {
+    if (!settings.soundEnabled) return;
     playSound(soundId);
     updateSettings({ currentSound: soundId, soundEnabled: true });
   };
