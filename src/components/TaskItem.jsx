@@ -77,7 +77,7 @@ export default function TaskItem({
         group flex items-center gap-3 p-3 rounded-[var(--radius-md)]
         bg-[var(--bg-tertiary)] border border-transparent
         hover:border-[var(--bg-secondary)]
-        transition-all duration-200
+        transition-all duration-300
         ${task.isCompleted ? 'opacity-70' : ''}
         ${isCompleting ? 'scale-95 opacity-50' : ''}
         ${isActive ? 'ring-2 ring-[var(--accent-green)]' : ''}
@@ -87,7 +87,7 @@ export default function TaskItem({
         onClick={handleToggleComplete}
         className={`
           flex-shrink-0 w-5 h-5 rounded-[var(--radius-sm)] border-2 flex items-center justify-center
-          transition-all duration-200
+          transition-all duration-300
           ${
             task.isCompleted
               ? 'bg-[var(--accent-green)] border-[var(--accent-green)]'

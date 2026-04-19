@@ -67,7 +67,7 @@ export default function SettingsModal({ isOpen, onClose }) {
           </h2>
           <button
             onClick={onClose}
-            className="p-2 rounded-[var(--radius-sm)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] transition-colors"
+            className="p-2 rounded-[var(--radius-sm)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] transition-colors duration-300"
             aria-label="Close settings"
           >
             <X className="w-5 h-5" />
@@ -169,11 +169,11 @@ export default function SettingsModal({ isOpen, onClose }) {
                 </label>
                 <button
                   onClick={() => handleChange('soundEnabled', !localSettings.soundEnabled)}
-                  className={`relative w-12 h-6 rounded-full transition-colors ${
+                  className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${
                     localSettings.soundEnabled
                       ? 'bg-[var(--accent-green)]'
                       : 'bg-[var(--bg-tertiary)]'
-                  }`}
+                  }}`}
                 >
                   <span
                     className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${
@@ -212,14 +212,14 @@ export default function SettingsModal({ isOpen, onClose }) {
               <label className="text-sm font-medium text-[var(--text-primary)]">
                 Notifications Enabled
               </label>
-              <button
-                onClick={() => handleChange('notificationsEnabled', !localSettings.notificationsEnabled)}
-                className={`relative w-12 h-6 rounded-full transition-colors ${
-                  localSettings.notificationsEnabled
-                    ? 'bg-[var(--accent-green)]'
-                    : 'bg-[var(--bg-tertiary)]'
-                }`}
-              >
+                <button
+                  onClick={() => handleChange('notificationsEnabled', !localSettings.notificationsEnabled)}
+                  className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${
+                    localSettings.notificationsEnabled
+                      ? 'bg-[var(--accent-green)]'
+                      : 'bg-[var(--bg-tertiary)]'
+                  }}`}
+                >
                 <span
                   className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${
                     localSettings.notificationsEnabled ? 'left-7' : 'left-1'
@@ -240,11 +240,11 @@ export default function SettingsModal({ isOpen, onClose }) {
                 </label>
                 <button
                   onClick={() => handleChange('autoStartBreaks', !localSettings.autoStartBreaks)}
-                  className={`relative w-12 h-6 rounded-full transition-colors ${
+                  className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${
                     localSettings.autoStartBreaks
                       ? 'bg-[var(--accent-green)]'
                       : 'bg-[var(--bg-tertiary)]'
-                  }`}
+                  }}`}
                 >
                   <span
                     className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${
@@ -260,11 +260,11 @@ export default function SettingsModal({ isOpen, onClose }) {
                 </label>
                 <button
                   onClick={() => handleChange('autoStartWork', !localSettings.autoStartWork)}
-                  className={`relative w-12 h-6 rounded-full transition-colors ${
+                  className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${
                     localSettings.autoStartWork
                       ? 'bg-[var(--accent-green)]'
                       : 'bg-[var(--bg-tertiary)]'
-                  }`}
+                  }}`}
                 >
                   <span
                     className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${
@@ -280,11 +280,11 @@ export default function SettingsModal({ isOpen, onClose }) {
                 </label>
                 <button
                   onClick={() => handleChange('continueSoundDuringBreak', !localSettings.continueSoundDuringBreak)}
-                  className={`relative w-12 h-6 rounded-full transition-colors ${
+                  className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${
                     localSettings.continueSoundDuringBreak
                       ? 'bg-[var(--accent-green)]'
                       : 'bg-[var(--bg-tertiary)]'
-                  }`}
+                  }}`}
                 >
                   <span
                     className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${
@@ -324,7 +324,7 @@ export default function SettingsModal({ isOpen, onClose }) {
         <div className="sticky bottom-0 bg-[var(--bg-secondary)] border-t border-[var(--bg-tertiary)] px-6 py-4">
           <button
             onClick={handleReset}
-            className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-[var(--radius-md)] bg-[var(--bg-tertiary)] text-[var(--text-secondary)] font-medium hover:opacity-80 transition-colors"
+            className="w-full flex items-center justify-center gap-2 px-4 py-3 rounded-[var(--radius-md)] bg-[var(--bg-tertiary)] text-[var(--text-secondary)] font-medium hover:opacity-80 transition-colors duration-300"
           >
             <RotateCcw className="w-4 h-4" />
             Reset to Defaults

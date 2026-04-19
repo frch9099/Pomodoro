@@ -22,7 +22,7 @@ export default function Header() {
           <nav className="hidden md:flex items-center gap-1">
             <button
               onClick={() => setCurrentView('timer')}
-              className={`px-4 py-2 rounded-[var(--radius-sm)] text-sm font-medium transition-colors ${
+              className={`px-4 py-2 rounded-[var(--radius-sm)] text-sm font-medium transition-colors duration-300 ${
                 currentView === 'timer'
                   ? 'bg-[var(--accent-green)] text-white'
                   : 'text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)]'
@@ -32,7 +32,7 @@ export default function Header() {
             </button>
             <button
               onClick={() => setCurrentView('tasks')}
-              className={`px-4 py-2 rounded-[var(--radius-sm)] text-sm font-medium transition-colors ${
+              className={`px-4 py-2 rounded-[var(--radius-sm)] text-sm font-medium transition-colors duration-300 ${
                 currentView === 'tasks'
                   ? 'bg-[var(--accent-green)] text-white'
                   : 'text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)]'
@@ -42,7 +42,7 @@ export default function Header() {
             </button>
             <button
               onClick={() => setCurrentView('stats')}
-              className={`px-4 py-2 rounded-[var(--radius-sm)] text-sm font-medium transition-colors ${
+              className={`px-4 py-2 rounded-[var(--radius-sm)] text-sm font-medium transition-colors duration-300 ${
                 currentView === 'stats'
                   ? 'bg-[var(--accent-green)] text-white'
                   : 'text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)]'
@@ -55,7 +55,7 @@ export default function Header() {
           <div className="flex items-center gap-2">
             <button
               onClick={toggleDarkMode}
-              className="p-2 rounded-[var(--radius-sm)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] transition-colors"
+              className="p-2 rounded-[var(--radius-sm)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] transition-colors duration-300"
               aria-label="Toggle dark mode"
             >
               {settings.darkMode ? (
@@ -66,7 +66,7 @@ export default function Header() {
             </button>
             <button
               onClick={() => setSettingsOpen(true)}
-              className="p-2 rounded-[var(--radius-sm)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] transition-colors"
+              className="p-2 rounded-[var(--radius-sm)] text-[var(--text-secondary)] hover:bg-[var(--bg-tertiary)] transition-colors duration-300"
               aria-label="Settings"
             >
               <Settings className="w-5 h-5" />

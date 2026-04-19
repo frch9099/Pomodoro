@@ -62,7 +62,7 @@ const TaskList = memo(function TaskList({
           <button
             onClick={() => setShowTemplates(!showTemplates)}
             className={`
-              p-2 rounded-[var(--radius-sm)] transition-colors
+              p-2 rounded-[var(--radius-sm)] transition-colors duration-300
               ${
                 showTemplates
                   ? 'bg-[var(--accent-blue)] text-white'
@@ -75,7 +75,7 @@ const TaskList = memo(function TaskList({
           </button>
           <button
             onClick={handleAddClick}
-            className="p-2 rounded-[var(--radius-sm)] bg-[var(--accent-green)] text-white hover:opacity-90 transition-opacity"
+            className="p-2 rounded-[var(--radius-sm)] bg-[var(--accent-green)] text-white hover:opacity-90 transition-opacity duration-300"
             title="Add task"
           >
             <Plus className="w-4 h-4" />
@@ -89,7 +89,7 @@ const TaskList = memo(function TaskList({
             <h3 className="text-sm font-semibold text-[var(--text-primary)]">Templates</h3>
             <button
               onClick={() => setShowTemplates(false)}
-              className="p-1 rounded-[var(--radius-sm)] hover:bg-[var(--bg-secondary)]"
+              className="p-1 rounded-[var(--radius-sm)] hover:bg-[var(--bg-secondary)] transition-colors duration-300"
             >
               <X className="w-4 h-4 text-[var(--text-secondary)]" />
             </button>
@@ -112,14 +112,14 @@ const TaskList = memo(function TaskList({
                   <div className="flex gap-1">
                     <button
                       onClick={() => onCreateFromTemplate(template.id)}
-                      className="p-1 rounded-[var(--radius-sm)] hover:bg-[var(--accent-green)] hover:text-white text-[var(--text-secondary)]"
+                      className="p-1 rounded-[var(--radius-sm)] hover:bg-[var(--accent-green)] hover:text-white text-[var(--text-secondary)] transition-colors duration-300"
                       title="Use template"
                     >
                       <Plus className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => onDeleteTemplate(template.id)}
-                      className="p-1 rounded-[var(--radius-sm)] hover:bg-[var(--accent-red)] hover:text-white text-[var(--text-secondary)]"
+                      className="p-1 rounded-[var(--radius-sm)] hover:bg-[var(--accent-red)] hover:text-white text-[var(--text-secondary)] transition-colors duration-300"
                       title="Delete template"
                     >
                       <X className="w-4 h-4" />
@@ -149,7 +149,7 @@ const TaskList = memo(function TaskList({
               <button
                 type="button"
                 onClick={handlePomodoroDecrement}
-                className="w-6 h-6 rounded-[var(--radius-sm)] bg-[var(--bg-secondary)] text-[var(--text-primary)] hover:bg-[var(--accent-green)] hover:text-white"
+                className="w-6 h-6 rounded-[var(--radius-sm)] bg-[var(--bg-secondary)] text-[var(--text-primary)] hover:bg-[var(--accent-green)] hover:text-white transition-colors duration-300"
               >
                 -
               </button>
@@ -159,7 +159,7 @@ const TaskList = memo(function TaskList({
               <button
                 type="button"
                 onClick={handlePomodoroIncrement}
-                className="w-6 h-6 rounded-[var(--radius-sm)] bg-[var(--bg-secondary)] text-[var(--text-primary)] hover:bg-[var(--accent-green)] hover:text-white"
+                className="w-6 h-6 rounded-[var(--radius-sm)] bg-[var(--bg-secondary)] text-[var(--text-primary)] hover:bg-[var(--accent-green)] hover:text-white transition-colors duration-300"
               >
                 +
               </button>
@@ -172,13 +172,13 @@ const TaskList = memo(function TaskList({
                   setNewTaskTitle('');
                   setNewTaskPomodoros(1);
                 }}
-                className="px-3 py-1 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                className="px-3 py-1 text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-300"
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-3 py-1 text-sm bg-[var(--accent-green)] text-white rounded-[var(--radius-sm)] hover:opacity-90"
+                className="px-3 py-1 text-sm bg-[var(--accent-green)] text-white rounded-[var(--radius-sm)] hover:opacity-90 transition-opacity duration-300"
               >
                 Add
               </button>

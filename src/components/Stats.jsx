@@ -28,7 +28,7 @@ function CircularProgress({ percentage, size = 120, strokeWidth = 8 }) {
         strokeDasharray={circumference}
         strokeDashoffset={offset}
         strokeLinecap="round"
-        className="text-[var(--accent-green)] transition-all duration-500"
+        className="text-[var(--accent-green)] transition-all duration-300"
       />
     </svg>
   );
@@ -265,13 +265,13 @@ export default function Stats() {
   ];
 
   return (
-    <div className="bg-[var(--bg-secondary)] rounded-[var(--radius-lg)] shadow-[var(--shadow-md)] p-4 mt-8">
+    <div className="bg-[var(--bg-secondary)] rounded-[var(--radius-md)] shadow-[var(--shadow-md)] p-4 mt-8">
       <div className="flex border-b border-[var(--bg-tertiary)]">
         {tabs.map((tab) => (
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex-1 py-3 text-sm font-medium transition-colors relative
+            className={`flex-1 py-3 text-sm font-medium transition-colors duration-300 relative
               ${
                 activeTab === tab.id
                   ? 'text-[var(--accent-green)]'

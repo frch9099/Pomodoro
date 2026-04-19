@@ -43,7 +43,7 @@ class ErrorBoundary extends Component {
             </p>
             <button
               onClick={this.handleReset}
-              className="px-6 py-3 bg-[var(--accent-green)] text-white rounded-lg font-medium hover:opacity-90 transition-opacity"
+              className="px-6 py-3 bg-[var(--accent-green)] text-white rounded-[var(--radius-md)] font-medium hover:opacity-90 transition-opacity duration-300"
             >
               Try Again
             </button>
@@ -118,7 +118,7 @@ function AppContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors pb-32">
+    <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-300 pb-32">
       <Header />
 <main className="pt-20 px-4">        <div className="max-w-5xl mx-auto">
           <div className={currentView === 'timer' ? 'block' : 'hidden'}>
@@ -129,7 +129,7 @@ function AppContent() {
                 <div className="flex border-b border-[var(--bg-tertiary)]">
                   <button
                     onClick={() => setMobileTab('tasks')}
-                    className={`flex-1 py-3 text-sm font-medium text-center transition-colors ${
+                    className={`flex-1 py-3 text-sm font-medium text-center transition-colors duration-300 ${
                       mobileTab === 'tasks'
                         ? 'text-[var(--accent-green)] border-b-2 border-[var(--accent-green)]'
                         : 'text-[var(--text-secondary)]'
@@ -139,7 +139,7 @@ function AppContent() {
                   </button>
                   <button
                     onClick={() => setMobileTab('tree')}
-                    className={`flex-1 py-3 text-sm font-medium text-center transition-colors ${
+                    className={`flex-1 py-3 text-sm font-medium text-center transition-colors duration-300 ${
                       mobileTab === 'tree'
                         ? 'text-[var(--accent-green)] border-b-2 border-[var(--accent-green)]'
                         : 'text-[var(--text-secondary)]'

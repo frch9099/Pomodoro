@@ -58,7 +58,7 @@ export default function AchievementToast({ achievement, onDismiss }) {
           </div>
           <button
             onClick={handleClick}
-            className="p-1 rounded-full hover:bg-[var(--bg-tertiary)]"
+            className="p-1 rounded-full hover:bg-[var(--bg-tertiary)] transition-colors duration-300"
           >
             <X className="w-4 h-4 text-[var(--text-secondary)]" />
           </button>

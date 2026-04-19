@@ -8,7 +8,7 @@ const Controls = memo(function Controls({ status, onStart, onPause, onReset, onS
     <div className="flex items-center gap-3">
       <button
         onClick={onReset}
-        className="p-3 rounded-full bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)] hover:scale-105 active:scale-95 transition-all duration-150"
+        className="p-3 rounded-full bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)] hover:scale-105 active:scale-95 transition-all duration-300"
         aria-label="Reset timer"
       >
         <RotateCcw className="w-6 h-6" />
@@ -16,7 +16,7 @@ const Controls = memo(function Controls({ status, onStart, onPause, onReset, onS
 
       <button
         onClick={isRunning ? onPause : onStart}
-        className="p-5 rounded-full bg-[var(--accent-green)] hover:opacity-90 text-white hover:scale-105 active:scale-95 transition-all duration-150 shadow-lg"
+        className="p-5 rounded-full bg-[var(--accent-green)] hover:opacity-90 text-white hover:scale-105 active:scale-95 transition-all duration-300 shadow-lg"
         aria-label={isRunning ? 'Pause timer' : 'Start timer'}
       >
         {isRunning ? (
@@ -28,7 +28,7 @@ const Controls = memo(function Controls({ status, onStart, onPause, onReset, onS
 
       <button
         onClick={onSkip}
-        className="p-3 rounded-full bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)] hover:scale-105 active:scale-95 transition-all duration-150"
+        className="p-3 rounded-full bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[var(--bg-secondary)] hover:text-[var(--text-primary)] hover:scale-105 active:scale-95 transition-all duration-300"
         aria-label="Skip to next phase"
       >
         <SkipForward className="w-6 h-6" />

@@ -50,7 +50,7 @@ export default function BreakSuggestionModal({ isOpen, onClose, onStartBreak, su
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 p-1 rounded-full hover:bg-[var(--bg-tertiary)] transition-colors"
+          className="absolute top-4 right-4 p-1 rounded-full hover:bg-[var(--bg-tertiary)] transition-colors duration-300"
           aria-label="Close"
         >
           <X className="w-5 h-5 text-[var(--text-secondary)]" />
@@ -81,7 +81,7 @@ export default function BreakSuggestionModal({ isOpen, onClose, onStartBreak, su
             </button>
             <button
               onClick={onClose}
-              className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors"
+              className="text-sm text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-300"
             >
               Skip
             </button>

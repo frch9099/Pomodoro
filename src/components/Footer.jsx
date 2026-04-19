@@ -36,7 +36,7 @@ export default function Footer({
           <div className="flex items-center gap-3">
             <button
               onClick={handleSoundToggle}
-              className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors"
+              className="flex items-center gap-2 px-3 py-2 rounded-[var(--radius-sm)] hover:bg-[var(--bg-tertiary)] transition-colors duration-300"
               aria-label={isMuted ? 'Unmute' : 'Mute sound'}
             >
               {isMuted || !isPlaying ? (
@@ -54,7 +54,7 @@ export default function Footer({
 
           <button
             onClick={onOpenAchievements}
-            className="flex items-center gap-2 px-3 py-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition-colors"
+            className="flex items-center gap-2 px-3 py-2 rounded-[var(--radius-sm)] hover:bg-[var(--bg-tertiary)] transition-colors duration-300"
             aria-label="View achievements"
           >
             <Award className="w-5 h-5 text-[var(--accent-gold)]" />

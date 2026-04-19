@@ -1,5 +1,68 @@
 # Changelog
 
+## v0.26.0 - Transition Timing Consistency Fix
+
+### Fixed
+Standardized all transition durations to `duration-300` for consistent animation feel across the app:
+
+**Controls.jsx:**
+- Reset button: `duration-150` → `duration-300`
+- Play/Pause button: `duration-150` → `duration-300`
+- Skip button: `duration-150` → `duration-300`
+
+**TaskItem.jsx:**
+- Container hover: `duration-200` → `duration-300`
+- Checkbox: `duration-200` → `duration-300`
+
+**Header.jsx:**
+- Navigation buttons: Added `duration-300`
+- Dark mode toggle: Added `duration-300`
+- Settings button: Added `duration-300`
+
+**Footer.jsx:**
+- Sound toggle: Added `duration-300`
+- Achievements button: Added `duration-300`
+
+**SettingsModal.jsx:**
+- Close button: Added `duration-300`
+- Toggle switches (5 toggles): Added `duration-300`
+- Reset button: Added `duration-300`
+
+**AmbientSoundPanel.jsx:**
+- Mute button: Added `duration-300`
+- Expand button: Added `duration-300`
+- Sound selection buttons: `transition-all` → `transition-all duration-300`
+
+**BreakSuggestionModal.jsx:**
+- Close button: Added `duration-300`
+- Skip button: Added `duration-300`
+
+**Stats.jsx:**
+- Tab buttons: Added `duration-300`
+
+**TaskList.jsx:**
+- Templates toggle: Added `duration-300`
+- Add task button: Added `duration-300`
+- Close templates button: Added `duration-300`
+- Template action buttons (use/delete): Added `duration-300`
+- Pomodoro +/- buttons: Added `duration-300`
+- Cancel/Add buttons: Added `duration-300`
+
+**AchievementToast.jsx:**
+- Close button: Added `duration-300`
+
+**App.jsx:**
+- Try Again button: Added `duration-300`
+- App container: Added `duration-300`
+- Mobile tabs (Tasks/Tree): Added `duration-300`
+
+### Verification
+- Tests: 99 passed
+- Build: Passed
+- Manual testing: All views, modals, and dark mode verified working
+
+---
+
 ## v0.25.0 - UI/UX Consistency Overhaul
 
 ### Problem

@@ -69,7 +69,7 @@ export default function AmbientSoundPanel({
           <div className="flex items-center gap-2">
             <button
               onClick={handleMuteToggle}
-              className="p-2 rounded-[var(--radius-sm)] hover:bg-[var(--bg-tertiary)] transition-colors"
+              className="p-2 rounded-[var(--radius-sm)] hover:bg-[var(--bg-tertiary)] transition-colors duration-300"
               aria-label={isMuted ? 'Unmute' : 'Mute'}
             >
               {isMuted || volume === 0 ? (
@@ -93,7 +93,7 @@ export default function AmbientSoundPanel({
 
             <button
               onClick={() => setIsExpanded(!isExpanded)}
-              className="p-2 rounded-[var(--radius-sm)] hover:bg-[var(--bg-tertiary)] transition-colors"
+              className="p-2 rounded-[var(--radius-sm)] hover:bg-[var(--bg-tertiary)] transition-colors duration-300"
               aria-label={isExpanded ? 'Collapse sound panel' : 'Expand sound panel'}
             >
               {isExpanded ? (
@@ -128,7 +128,7 @@ export default function AmbientSoundPanel({
             <button
               key={sound.id}
               onClick={() => handleToggleSound(sound.id)}
-              className={`flex flex-col items-center gap-1 p-3 rounded-[var(--radius-md)] transition-all ${
+              className={`flex flex-col items-center gap-1 p-3 rounded-[var(--radius-md)] transition-all duration-300 ${
                 currentSound === sound.id && isPlaying
                   ? 'bg-[var(--accent-green)]/20 ring-2 ring-[var(--accent-green)]'
                   : 'bg-[var(--bg-tertiary)] hover:ring-2 hover:ring-[var(--accent-green)]/50'
