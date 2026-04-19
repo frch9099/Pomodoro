@@ -94,7 +94,7 @@ export default function TaskItem({
             className={`inline-block w-2 h-2 rounded-full mx-0.5 ${
               i < completed
                 ? 'bg-[var(--accent-green)]'
-                : 'bg-[var(--bg-secondary)]'
+                : 'bg-[var(--text-secondary)]/30'
             }`}
           />
         ))}
