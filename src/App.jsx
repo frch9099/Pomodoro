@@ -9,6 +9,7 @@ import ForestView from './components/ForestView';
 import Footer from './components/Footer';
 import AmbientSoundPanel from './components/AmbientSoundPanel';
 import AchievementsModal from './components/AchievementsModal';
+import { AchievementToastContainer } from './components/AchievementToast';
 import { useSounds } from './hooks/useSounds';
 
 const BreakSuggestionModal = lazy(() => import('./components/BreakSuggestionModal'));
@@ -91,6 +92,7 @@ function AppContent() {
 
   const [mobileTab, setMobileTab] = useState('tasks');
   const [achievementsOpen, setAchievementsOpen] = useState(false);
+  const [achievementToasts, setAchievementToasts] = useState([]);
 
   const handlePlaySound = (soundId) => {
     playSound(soundId);
@@ -277,6 +279,11 @@ function AppContent() {
         isOpen={achievementsOpen}
         onClose={() => setAchievementsOpen(false)}
         stats={stats}
+      />
+
+      <AchievementToastContainer
+        toasts={achievementToasts}
+        onDismiss={(id) => setAchievementToasts(prev => prev.filter(t => t.id !== id))}
       />
     </div>
   );

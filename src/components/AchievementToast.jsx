@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
-import { ACHIEVEMENTS } from '../utils/achievements';
 import { useHaptics } from '../hooks/useHaptics';
 
 export default function AchievementToast({ achievement, onDismiss }) {
