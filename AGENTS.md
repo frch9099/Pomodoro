@@ -24,69 +24,37 @@ npm test -- --coverage  # With coverage
 - Vitest (unit/component tests)
 - React Testing Library (component tests)
 - jsdom (DOM environment)
-- Playwright (E2E tests)
 
-## E2E Testing Commands
-```bash
-npm run test:e2e        # Run all E2E tests
-npm run test:e2e:ui     # Run with Playwright UI
-npm run test:e2e:headed # Run headed (browser visible)
-npm run test:e2e:debug  # Debug mode
-```
+## Testing Methodology
 
-## E2E Test Structure
-```
-e2e/
-├── playwright.config.js     # Test runner config
-├── setup.ts                  # Custom fixtures & Page Objects
-├── pages/                    # Page Object Models
-│   ├── TimerPage.ts
-│   ├── TaskPage.ts
-│   ├── SettingsPage.ts
-│   ├── StatsPage.ts
-│   └── GamificationPage.ts
-└── tests/                    # Test suites
-    ├── timer/
-    │   ├── workflow.spec.ts  # Start/pause/resume/complete
-    │   ├── phases.spec.ts     # Phase transitions
-    │   └── keyboard.spec.ts   # Space, R, S shortcuts
-    ├── tasks/
-    │   ├── crud.spec.ts       # Add/edit/delete/complete
-    │   ├── templates.spec.ts  # Template workflows
-    │   └── estimation.spec.ts # Pomodoro tracking
-    ├── settings/
-    │   ├── durations.spec.ts   # Duration customization
-    │   ├── persistence.spec.ts # localStorage persistence
-    │   └── display.spec.ts     # Dark mode, toggles
-    ├── gamification/
-    │   ├── tree-growth.spec.ts
-    │   ├── streaks.spec.ts
-    │   └── achievements.spec.ts
-    ├── responsive/
-    │   └── viewport.spec.ts   # Mobile/tablet/desktop
-    └── accessibility/
-        └── a11y.spec.ts       # ARIA, keyboard, focus
-```
+### Unit Tests (Vitest + RTL)
+- Run with `npm test`
+- Fast, automated tests for hooks and components
+- Located in `src/hooks/__tests__/` and `src/components/__tests__/`
 
-## E2E Test Coverage (445 tests across 5 browsers)
-| Suite | Tests | Coverage |
-|-------|-------|----------|
-| Timer Workflow | 8 | Start/pause/resume/reset |
-| Timer Phases | 6 | Phase transitions, sessions |
-| Timer Keyboard | 5 | Space, R, S shortcuts |
-| Task CRUD | 8 | Add/edit/delete/complete |
-| Task Templates | 5 | Save/create from templates |
-| Task Estimation | 4 | Pomodoro progress |
-| Settings Durations | 4 | Duration customization |
-| Settings Persistence | 4 | localStorage survive reload |
-| Settings Display | 6 | Dark mode, toggles |
-| Tree Growth | 6 | Growth stages, planting |
-| Streaks | 6 | Streak tracking |
-| Achievements | 7 | Unlock, toast, persist |
-| Responsive | 9 | Mobile/tablet/desktop |
-| Accessibility | 11 | ARIA, keyboard, focus |
+### Exploratory Testing (playwright-cli)
+- Used for finding bugs, debugging issues, and manual verification
+- Commands:
+  ```bash
+  playwright-cli open <url>      # Open browser
+  playwright-cli snapshot         # Get UI snapshot with element refs
+  playwright-cli click <ref>     # Click element
+  playwright-cli fill <ref> <text>  # Type in input
+  playwright-cli console          # Check browser console
+  playwright-cli console error   # Check for errors only
+  playwright-cli reload          # Reload page
+  playwright-cli localstorage-*   # Manipulate localStorage
+  ```
 
-**Browser Support:** Chromium, Firefox, Safari, Mobile Chrome, Mobile Safari
+### Bug Investigation Workflow
+1. Start dev server: `npm run dev`
+2. Open app with playwright-cli: `playwright-cli open http://localhost:5173`
+3. Take snapshot to see UI state
+4. Interact to reproduce the bug
+5. Check console for errors: `playwright-cli console error`
+6. Identify root cause from error messages
+7. Fix the bug
+8. Verify with: `npm test && npm run build`
 
 ## Architecture
 - Single-page React app, no routing
