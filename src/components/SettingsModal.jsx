@@ -13,9 +13,10 @@ export default function SettingsModal({ isOpen, onClose }) {
   }, [updateSettings]);
 
   useEffect(() => {
-    if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
-    setLocalSettings(settings);
-  }, [settings]);
+    if (isOpen) {
+      setLocalSettings(settings);
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     return () => {

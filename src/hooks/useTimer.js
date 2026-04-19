@@ -15,7 +15,6 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
   const intervalRef = useRef(null);
   const startTimeRef = useRef(null);
   const pausedTimeRef = useRef(null);
-  const lastMinuteRef = useRef(null);
   const phaseRef = useRef(phase);
   const sessionsCompletedRef = useRef(sessionsCompleted);
   const statusRef = useRef(status);
@@ -77,18 +76,14 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
           if (onCompleteRef.current) onCompleteRef.current(phaseRef.current, newSessions);
 
           const next = getNextPhase(phaseRef.current, newSessions);
-          setTimeout(() => {
-            setPhase(next);
-            setTimeRemaining(getPhaseDuration(next));
-            setStatus('idle');
-          }, 0);
+          setPhase(next);
+          setTimeRemaining(getPhaseDuration(next));
+          setStatus('idle');
         } else {
           const next = getNextPhase(phaseRef.current, sessionsCompletedRef.current);
-          setTimeout(() => {
-            setPhase(next);
-            setTimeRemaining(getPhaseDuration(next));
-            setStatus('idle');
-          }, 0);
+          setPhase(next);
+          setTimeRemaining(getPhaseDuration(next));
+          setStatus('idle');
         }
       }
     }
@@ -123,6 +118,23 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
       setSessionsCompleted(externalSessionsCompleted);
     }
   }, [externalSessionsCompleted]);
+
+  useEffect(() => {
+    if (status === 'idle' && settings) {
+      const newDuration = getPhaseDuration(phase);
+      setTimeRemaining(newDuration);
+    }
+  }, [settings?.workDuration, settings?.shortBreakDuration, settings?.longBreakDuration, status, phase, getPhaseDuration]);
+
+  useEffect(() => {
+    if (status === 'running' && settings) {
+      const newDuration = getPhaseDuration(phase);
+      const elapsed = Math.floor((Date.now() - startTimeRef.current) / 1000);
+      const remaining = Math.max(0, newDuration - elapsed);
+      setTimeRemaining(remaining);
+      startTimeRef.current = Date.now() - ((newDuration - remaining) * 1000);
+    }
+  }, [settings?.workDuration, settings?.shortBreakDuration, settings?.longBreakDuration, status, phase, getPhaseDuration]);
 
   useEffect(() => {
     if (onStatusChange && status !== externalStatus) {
@@ -201,16 +213,11 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
 
   useEffect(() => {
     if (status === 'running') {
-      const currentMinute = Math.floor(timeRemaining / 60);
-      if (lastMinuteRef.current !== currentMinute) {
-        lastMinuteRef.current = currentMinute;
-        document.title = `🍅 ${Math.floor(timeRemaining / 60).toString().padStart(2, '0')}:${(timeRemaining % 60).toString().padStart(2, '0')}`;
-      }
+      document.title = `🍅 ${Math.floor(timeRemaining / 60).toString().padStart(2, '0')}:${(timeRemaining % 60).toString().padStart(2, '0')}`;
     } else {
-      lastMinuteRef.current = null;
       document.title = 'Pomodoro Timer';
     }
-  }, [status, timeRemaining, phase]);
+  }, [status, timeRemaining]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -218,7 +225,7 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
       
       if (e.code === 'Space') {
         e.preventDefault();
-        if (status === 'running') {
+        if (statusRef.current === 'running') {
           pause();
         } else {
           start();
@@ -234,7 +241,7 @@ export function useTimer({ onComplete, settings, externalStatus, externalPhase, 
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [status, start, pause, reset, skip]);
+  }, [start, pause, reset, skip]);
 
   useEffect(() => {
     return () => {
