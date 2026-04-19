@@ -34,15 +34,15 @@ const SoundButton = memo(function SoundButton({
     if (timerPhase === 'shortBreak' || timerPhase === 'longBreak') {
       if (!continueSoundDuringBreak && isPlaying) {
         wasPlayingBeforeBreak.current = true;
-        stopSound();
+        onStopSound();
       }
     } else {
       if (wasPlayingBeforeBreak.current && currentSound) {
         wasPlayingBeforeBreak.current = false;
-        playSound(currentSound);
+        onPlaySound(currentSound);
       }
     }
-  }, [timerPhase, continueSoundDuringBreak, isPlaying, currentSound, stopSound, playSound]);
+  }, [timerPhase, continueSoundDuringBreak, isPlaying, currentSound, onStopSound, onPlaySound]);
 
   useEffect(() => {
     const handleClickOutside = (e) => {

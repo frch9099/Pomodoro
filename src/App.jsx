@@ -86,8 +86,6 @@ function AppContent() {
     playSound,
     stopSound,
     setVolume,
-    pauseSound,
-    resumeSound,
     currentSound,
     volume,
     isPlayingState,

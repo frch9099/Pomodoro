@@ -31,10 +31,19 @@ export default function SettingsModal({ isOpen, onClose }) {
   }, [isOpen]);
 
   useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+    }
     return () => {
       if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);
+      document.removeEventListener('keydown', handleEscape);
     };
-  }, []);
+  }, [isOpen, onClose]);
 
   const debouncedSave = useCallback((updates) => {
     if (debounceTimerRef.current) clearTimeout(debounceTimerRef.current);

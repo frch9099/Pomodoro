@@ -7,13 +7,22 @@ export default function BreakSuggestionModal({ isOpen, onClose, onStartBreak, su
   const [randomSuggestion] = useState(() => getRandomSuggestion());
 
   useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
     if (isOpen) {
       setIsVisible(true);
+      document.addEventListener('keydown', handleEscape);
     } else {
       const timer = setTimeout(() => setIsVisible(false), 300);
       return () => clearTimeout(timer);
     }
-  }, [isOpen]);
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [isOpen, onClose]);
 
   if (!isOpen && !isVisible) return null;
   const displaySuggestion = suggestion || randomSuggestion;

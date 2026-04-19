@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useEffect } from 'react';
 import { X, Award, Flame, TreeDeciduous, Clock, Target } from 'lucide-react';
 import { ACHIEVEMENTS, TREE_TYPES } from '../utils/achievements';
 
@@ -57,6 +57,20 @@ const AchievementCard = memo(function AchievementCard({ achievement, earned }) {
 });
 
 const AchievementsModal = memo(function AchievementsModal({ isOpen, onClose, stats }) {
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === 'Escape') {
+        onClose();
+      }
+    };
+    if (isOpen) {
+      document.addEventListener('keydown', handleEscape);
+    }
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   const earnedIds = stats.achievements || [];
