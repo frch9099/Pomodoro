@@ -8,7 +8,7 @@ const CATEGORY_ICONS = {
   special: Award,
 };
 
-const AchievementCard = memo(function AchievementCard({ achievement, earned, earnedAt }) {
+const AchievementCard = memo(function AchievementCard({ achievement, earned }) {
   const IconComponent = CATEGORY_ICONS[achievement.type] || Award;
   const isUnlocked = earned;
 
@@ -45,11 +45,6 @@ const AchievementCard = memo(function AchievementCard({ achievement, earned, ear
           >
             {achievement.description}
           </p>
-          {isUnlocked && earnedAt && (
-            <p className="text-xs text-[#9CA89F] mt-1">
-              Earned: {new Date(earnedAt).toLocaleDateString()}
-            </p>
-          )}
           {!isUnlocked && (
             <p className="text-xs text-[#9CA89F] mt-1">
               {achievement.requirement} {achievement.type === 'streak' ? 'day streak' : 'pomodoros'}
@@ -185,7 +180,6 @@ const AchievementsModal = memo(function AchievementsModal({ isOpen, onClose, sta
                     key={achievement.id}
                     achievement={achievement}
                     earned={earned}
-                    earnedAt={stats.achievements?.find((a) => a === achievement.id) ? new Date().toISOString() : null}
                   />
                 );
               })}
