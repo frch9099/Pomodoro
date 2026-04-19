@@ -224,8 +224,13 @@ export function AppProvider({ children }) {
       } else {
         setShowBreakSuggestion(true);
       }
-    } else if (phase !== 'work' && settings.notificationsEnabled) {
+    } else if (phase !== 'work') {
       notify("Break's Over!", 'Ready to focus?');
+      
+      if (settings.autoStartWork) {
+        const nextDuration = settings.workDuration * 60;
+        triggerStartBreak('work', nextDuration);
+      }
     }
     setSessionStartTime(null);
   }, [sessionStartTime, settings, stats, recordSession, addPlantedTree, activeTaskId, incrementPomodoro, notify, triggerStartBreak]);

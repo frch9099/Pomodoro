@@ -1,0 +1,74 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]:
+        - generic [ref=e7]: 🍅
+        - heading "Pomodoro" [level=1] [ref=e8]
+      - navigation [ref=e9]:
+        - button "Timer" [ref=e10] [cursor=pointer]
+        - button "Tasks" [active] [ref=e11] [cursor=pointer]
+        - button "Stats" [ref=e12] [cursor=pointer]
+      - generic [ref=e13]:
+        - button "Toggle dark mode" [ref=e14] [cursor=pointer]:
+          - img [ref=e15]
+        - button "Settings" [ref=e21] [cursor=pointer]:
+          - img [ref=e22]
+  - main [ref=e25]:
+    - generic [ref=e110]:
+      - generic [ref=e111]:
+        - heading "Tasks" [level=2] [ref=e112]
+        - generic [ref=e113]:
+          - button "Templates" [ref=e114] [cursor=pointer]:
+            - img [ref=e115]
+          - button "Add task" [ref=e117] [cursor=pointer]:
+            - img [ref=e118]
+      - generic [ref=e120]:
+        - button "Completed (1)" [ref=e121] [cursor=pointer]:
+          - img [ref=e122]
+          - text: Completed (1)
+        - generic [ref=e128]:
+          - button [ref=e129] [cursor=pointer]:
+            - img [ref=e130]
+          - generic [ref=e132]:
+            - generic [ref=e133] [cursor=pointer]: Test Task
+            - button "Add notes" [ref=e137] [cursor=pointer]
+          - generic [ref=e138]:
+            - button "Save as template" [ref=e139] [cursor=pointer]:
+              - img [ref=e140]
+            - button "Delete task" [ref=e142] [cursor=pointer]:
+              - img [ref=e143]
+  - generic [ref=e103]:
+    - generic:
+      - generic:
+        - generic:
+          - generic: Ambient Sounds
+          - button "✕"
+        - generic:
+          - button "🌧️ Rain":
+            - generic: 🌧️
+            - generic: Rain
+          - button "🌲 Forest":
+            - generic: 🌲
+            - generic: Forest
+          - button "☕ Coffee Shop":
+            - generic: ☕
+            - generic: Coffee Shop
+          - button "📻 White Noise":
+            - generic: 📻
+            - generic: White Noise
+          - button "🌊 Ocean":
+            - generic: 🌊
+            - generic: Ocean
+          - button "🔥 Fireplace":
+            - generic: 🔥
+            - generic: Fireplace
+        - generic:
+          - generic:
+            - button "Mute":
+              - img
+            - slider "Volume": "50"
+          - button "🏆 View Achievements":
+            - generic: 🏆
+            - generic: View Achievements
+    - button "Sound controls" [ref=e104] [cursor=pointer]:
+      - img [ref=e105]
