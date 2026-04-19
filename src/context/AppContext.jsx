@@ -49,8 +49,7 @@ export function AppProvider({ children }) {
     if (!saved) return defaultSettings;
     try {
       return { ...defaultSettings, ...JSON.parse(saved) };
-    } catch (error) {
-      console.error('Failed to parse settings from localStorage:', error);
+    } catch {
       return defaultSettings;
     }
   });
