@@ -1,5 +1,22 @@
 # Changelog
 
+## v0.16.0 - Critical Bug Fix - Timer Completion
+**Date:** 2026-04-19
+
+### Fixed
+- **BreakSuggestionModal hooks violation** - The component had a conditional early return (`if (!isOpen && !isVisible) return null`) BEFORE the `useState(randomSuggestion)` call on line 19. This violated React's Rules of Hooks (hooks must always be called in the same order), causing "Rendered more hooks than during the previous render" errors when the timer completed.
+- Moved `const [randomSuggestion] = useState(() => getRandomSuggestion())` BEFORE the early return statement to ensure hooks are called consistently on every render.
+
+### Files Modified
+- `src/components/BreakSuggestionModal.jsx` - Moved useState hook before conditional return
+
+### Verification
+- Build: Passed
+- Tests: 99 passed
+- Manual testing: Timer completes successfully, tree is planted, streak updates, break suggestion modal appears correctly
+
+---
+
 ## v0.15.0 - Design System Compliance
 **Date:** 2026-04-18
 

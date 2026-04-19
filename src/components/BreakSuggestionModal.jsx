@@ -4,6 +4,7 @@ import { getRandomSuggestion } from '../utils/breakSuggestions';
 
 export default function BreakSuggestionModal({ isOpen, onClose, onStartBreak, suggestion }) {
   const [isVisible, setIsVisible] = useState(false);
+  const [randomSuggestion] = useState(() => getRandomSuggestion());
 
   useEffect(() => {
     if (isOpen) {
@@ -15,8 +16,6 @@ export default function BreakSuggestionModal({ isOpen, onClose, onStartBreak, su
   }, [isOpen]);
 
   if (!isOpen && !isVisible) return null;
-
-  const [randomSuggestion] = useState(() => getRandomSuggestion());
   const displaySuggestion = suggestion || randomSuggestion;
 
   const formatDuration = (seconds) => {
