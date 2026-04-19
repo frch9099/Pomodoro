@@ -1,5 +1,26 @@
 # Changelog
 
+## v0.21.0 - Code Quality Fixes
+**Date:** 2026-04-19
+
+### Fixed
+- **Unused dependencies in AppContext**: Removed `tasks` and `templates` from useMemo dependency array since they were not used in the callback, preventing unnecessary re-renders
+- **SettingsModal debounce cleanup**: Added clearing of debounce timer when modal closes to prevent pending saves after modal is dismissed
+- **AchievementToast duplicate icon**: Removed duplicate 'Award' icon mapping that caused the wrong emoji (⭐ instead of 🏆) to display for the 'pom-50' achievement
+- **AchievementModal misleading earnedAt**: Removed display of "Earned:" date since achievements only store IDs, not timestamps, and the previous code always showed the current date
+
+### Files Modified
+- `src/context/AppContext.jsx` - Removed unused useMemo dependencies
+- `src/components/SettingsModal.jsx` - Clear debounce on modal close
+- `src/components/AchievementToast.jsx` - Removed duplicate Award icon
+- `src/components/AchievementsModal.jsx` - Removed misleading earnedAt display
+
+### Verification
+- Build: Passed
+- Tests: 99 passed
+
+---
+
 ## v0.20.0 - Final Polish Pass
 **Date:** 2026-04-19
 
