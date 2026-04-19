@@ -1,6 +1,6 @@
 # Changelog
 
-## v0.26.0 - Transition Timing Consistency Fix
+## v1.0.0 - Final Release
 
 ### Fixed
 Standardized all transition durations to `duration-300` for consistent animation feel across the app:
