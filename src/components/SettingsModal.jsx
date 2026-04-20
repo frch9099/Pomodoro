@@ -360,23 +360,45 @@ export default function SettingsModal({ isOpen, onClose }) {
             <h3 className="text-sm font-semibold text-[var(--text-secondary)] uppercase tracking-wide mb-4">
               Display
             </h3>
-            <div>
-              <div className="flex justify-between items-center mb-2">
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
                 <label className="text-sm font-medium text-[var(--text-primary)]">
-                  Daily Goal (pomodoros)
+                  Dark Mode
                 </label>
-                <span className="text-sm font-mono text-[var(--accent-gold)]">
-                  {localSettings.dailyGoal}
-                </span>
+                <button
+                  onClick={() => handleChange('darkMode', !localSettings.darkMode)}
+                  className={`relative w-12 h-6 rounded-full transition-colors duration-300 ${
+                    localSettings.darkMode
+                      ? 'bg-[var(--accent-green)]'
+                      : 'bg-[var(--bg-tertiary)]'
+                  }`}
+                >
+                  <span
+                    className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${
+                      localSettings.darkMode ? 'left-7' : 'left-1'
+                    }`}
+                  />
+                </button>
               </div>
-              <input
-                type="number"
-                min="1"
-                max="20"
-                value={localSettings.dailyGoal}
-                onChange={(e) => handleChange('dailyGoal', parseInt(e.target.value) || 1)}
-                className="w-full px-4 py-2 rounded-[var(--radius-sm)] bg-[var(--bg-tertiary)] border-0 text-[var(--text-primary)] font-mono focus:ring-2 focus:ring-[var(--accent-green)]"
-              />
+
+              <div>
+                <div className="flex justify-between items-center mb-2">
+                  <label className="text-sm font-medium text-[var(--text-primary)]">
+                    Daily Goal (pomodoros)
+                  </label>
+                  <span className="text-sm font-mono text-[var(--accent-gold)]">
+                    {localSettings.dailyGoal}
+                  </span>
+                </div>
+                <input
+                  type="number"
+                  min="1"
+                  max="20"
+                  value={localSettings.dailyGoal}
+                  onChange={(e) => handleChange('dailyGoal', parseInt(e.target.value) || 1)}
+                  className="w-full px-4 py-2 rounded-[var(--radius-sm)] bg-[var(--bg-tertiary)] border-0 text-[var(--text-primary)] font-mono focus:ring-2 focus:ring-[var(--accent-green)]"
+                />
+              </div>
             </div>
           </section>
         </div>
