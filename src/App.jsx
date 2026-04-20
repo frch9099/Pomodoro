@@ -144,7 +144,7 @@ function AppContent() {
 
   return (
     <div className="min-h-screen bg-[var(--bg-primary)] text-[var(--text-primary)] transition-colors duration-300">
-      <Header />
+      <Header closeSoundPanelRef={closeSoundPanelRef} />
 <main className="pt-20 px-4">        <div className="max-w-5xl mx-auto">
           <div className={currentView === 'timer' ? 'block' : 'hidden'}>
             <Timer />

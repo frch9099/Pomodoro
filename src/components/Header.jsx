@@ -1,12 +1,18 @@
-import { useState, lazy, Suspense } from 'react';
+import { useState, useEffect, lazy, Suspense } from 'react';
 import { Sun, Moon, Settings } from 'lucide-react';
 import { useApp } from '../context/AppContext';
 
 const SettingsModal = lazy(() => import('./SettingsModal'));
 
-export default function Header() {
+export default function Header({ closeSoundPanelRef }) {
   const { settings, toggleDarkMode, currentView, setCurrentView } = useApp();
   const [settingsOpen, setSettingsOpen] = useState(false);
+
+  useEffect(() => {
+    if (settingsOpen && closeSoundPanelRef?.current) {
+      closeSoundPanelRef.current();
+    }
+  }, [settingsOpen, closeSoundPanelRef]);
 
   return (
     <>
