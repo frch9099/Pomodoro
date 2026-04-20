@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy, Suspense, Component, useRef } from 'react';
+import { useState, useEffect, lazy, Suspense, Component, useRef, useCallback } from 'react';
 import { AppProvider, useApp } from './context/AppContext';
 import Header from './components/Header';
 import Timer from './components/Timer';
@@ -95,6 +95,7 @@ function AppContent() {
   const [achievementsOpen, setAchievementsOpen] = useState(false);
   const [achievementToasts, setAchievementToasts] = useState([]);
   const showToastRef = useRef(null);
+  const closeSoundPanelRef = useRef(null);
 
   useEffect(() => {
     showToastRef.current = (achievement) => {
@@ -102,6 +103,18 @@ function AppContent() {
       setAchievementToasts(prev => [...prev, { id, achievement }]);
     };
   }, []);
+
+  useEffect(() => {
+    if (achievementsOpen && closeSoundPanelRef.current) {
+      closeSoundPanelRef.current();
+    }
+  }, [achievementsOpen]);
+
+  useEffect(() => {
+    if (showBreakSuggestion && closeSoundPanelRef.current) {
+      closeSoundPanelRef.current();
+    }
+  }, [showBreakSuggestion]);
 
   const handlePlaySound = (soundId) => {
     if (!settings.soundEnabled) return;
@@ -266,6 +279,7 @@ function AppContent() {
         onOpenAchievements={() => setAchievementsOpen(true)}
         continueSoundDuringBreak={settings.continueSoundDuringBreak}
         timerPhase={timerState.phase}
+        closeSoundPanelRef={closeSoundPanelRef}
       />
 
       <Suspense fallback={null}>

@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect, memo } from 'react';
+import { useState, useRef, useEffect, memo, useCallback } from 'react';
 import { Volume2, VolumeX } from 'lucide-react';
 import { SOUNDS, getSoundById } from '../utils/sounds';
 import { useHaptics } from '../hooks/useHaptics';
@@ -13,6 +13,7 @@ const SoundButton = memo(function SoundButton({
   onOpenAchievements,
   continueSoundDuringBreak,
   timerPhase,
+  closeSoundPanelRef,
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -56,6 +57,12 @@ const SoundButton = memo(function SoundButton({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isExpanded]);
 
+  useEffect(() => {
+    if (closeSoundPanelRef) {
+      closeSoundPanelRef.current = () => setIsExpanded(false);
+    }
+  }, [closeSoundPanelRef]);
+
   const handleMuteToggle = () => {
     haptics.buttonTap();
     if (isCurrentlyMuted) {
@@ -76,6 +83,12 @@ const SoundButton = memo(function SoundButton({
       onPlaySound(soundId);
     }
     setIsExpanded(false);
+  };
+
+  const handleOpenAchievements = () => {
+    haptics.buttonTap();
+    setIsExpanded(false);
+    onOpenAchievements();
   };
 
   const handleMouseDown = () => {
@@ -167,10 +180,7 @@ const SoundButton = memo(function SoundButton({
                 />
               </div>
               <button
-                onClick={() => {
-                  setIsExpanded(false);
-                  onOpenAchievements();
-                }}
+                onClick={handleOpenAchievements}
                 className="mt-3 w-full flex items-center justify-center gap-2 px-3 py-2 text-sm text-[var(--text-secondary)] hover:text-[var(--accent-gold)] hover:bg-[var(--bg-tertiary)] rounded-[var(--radius-sm)] transition-colors"
               >
                 <span>🏆</span>
